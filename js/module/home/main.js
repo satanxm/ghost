@@ -12,7 +12,7 @@ var wsUrl = 'ws://ws.ghost.com:8001';
 
 //var wsUrl = 'ws://127.0.0.1:8001'; 
 var wsFlag=0;//服务器连接状态,0:未连接 1:正常连接 2:已断开 3:超时(掉线)
-var wordsDict={};//词库
+var wordsDict={}, wordPageIndex = 0, WORDGETCOUNT = 15, PAGEWORDNUM = 5 ;//词库
 
 
 //var words={"human":"","ghost":""};
@@ -31,14 +31,14 @@ var userInfo={
     seatPos:0,      //座位位置
     seatOffset:0,   //座位偏移位置
     endline:0
-}
+};
 
 //桌子信息
 var deskInfo={
     deskId:0,
     userLimit:0,
     endline:0
-}
+};
 //鬼的数量
 var ghostNum=0;
 
@@ -59,12 +59,12 @@ var roleAllot={
     "12":3,
     "13":3,
     "14":3
-}
+};
 var stageList=[];
 
 function init(){
     if( location.hash!="" && location.hash!="#page_index" && wsFlag!=1){
-         window.location.href="index.htm"
+         window.location.href="index.htm";
     }
     //userMoveInit()
     userInit();
@@ -74,16 +74,16 @@ function init(){
 
 /*页面初始化 start ***************************************************************************/
 function userInit(){
-    $("#nick").val(localStorage.nick)
+    $("#nick").val(localStorage.nick);
     $("#nick").blur(function(){
             localStorage.nick=$("#nick").val();
     });
-    var avatarId=localStorage.avatarId
+    var avatarId=localStorage.avatarId;
     if(!avatarId){
-        avatarId=Math.ceil(Math.random()*59)
-        localStorage.avatarId=avatarId
+        avatarId=Math.ceil(Math.random()*59);
+        localStorage.avatarId=avatarId;
     }
-    $("#avatarId i").attr("class","avatar_item avatar_"+avatarId)
+    $("#avatarId i").attr("class","avatar_item avatar_"+avatarId);
     $("#avatarId").click(function(){
         window.location="#page_avatar"
     });
@@ -885,32 +885,64 @@ function userOptionInit(userList){
 
 //更新词库
 function updateDict(){
-    $.ajax({
-        url: 'dict.txt',type: 'POST',dataType: 'json', timeout: 60000,error: function(){},
-        success:function(feedback){
-            wordsDict=feedback
-            loadDictType()
-        }
-    });
+    var data ={'action':'getWords','callback':'handleDictCallback', 'reqNum': 15};
+	sendWsReq(data);
+}
+
+/**
+*  拉取随机词库处理
+*/
+function handleDictCallback(content) {
+	if (content.ret === 0) {
+		wordsDict = content.list;
+		loadDictType();
+	} else {
+		popMessage(content.msg);
+	}
+}
+
+function popMessage(msg) {
+	$( "#popupMessage_index .message_text" ).text(msg);
+	$( "#popupMessage_index" ).popup('open');
+}
+
+
+/**
+ * sendWsReq 
+ * 
+ * @param {object}  data 发送数据 json
+ * @access public 
+ * @return 
+ */
+function sendWsReq(data) {
+    var wsParmEncode = $.toJSON(data);
+    ws.send( wsParmEncode ); 
 }
 
 //加载词库
 function loadDictType(){
-    $.each(wordsDict,function(key,dictItem){
-        //console.log(dictItem.name);
-        $('#dict_type_'+key+ " a").text(dictItem.name);
-        $('#dict_type_'+key+ " a").unbind('click').click(function(){
-            loadDict(key)
-        });
-    })
-    loadDict(0)
+	$('#dict_random').unbind('click').bind('click', function() {
+		// todo
+		var index = Math.ceil(Math.random() * 5);
+		loadDict(index);
+	});
+
+	var pagenum =  wordsDict.length / PAGEWORDNUM, words;
+	wordPageIndex ++;
+	if (wordPageIndex >= pagenum) {
+		wordPageIndex = -1;
+		return;
+	}
+	words = wordsDict.slice(PAGEWORDNUM * (wordPageIndex), PAGEWORDNUM);
+    loadDict(words)
 }
 
-function loadDict(index){
+function loadDict(words){
     var html="";
-    $.each(wordsDict[index].data,function(key,dictItem){
-        var dict_arr=dictItem.split("#");
-        html+="<li><a onclick=\"dictSet('"+dictItem+"')\"><span class=\"dict_item\">"+dict_arr[0]+"</span> <span class=\"dict_item\" >"+dict_arr[1]+"</span></a></li>"
+    $.each(words,function(key,dictItem){
+
+		var  a = dictItem.wordA, b =  dictItem.wordB , str = a + '#' + b;
+        html+="<li><a onclick=\"dictSet('"+dictItem+"')\"><span class=\"dict_item\">"+ a +"</span> <span class=\"dict_item\" >"+b +"</span></a></li>"
 
     })
     $('#dict_list').html(html);
