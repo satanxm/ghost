@@ -19,7 +19,7 @@ Order allow,deny
 Allow from all
 
 #Î±¾²Ì¬
-RewriteEngine on
-RewriteBase /server/
-RewriteRule ^(.+)-(.+)$ index.php
-RewriteRule ^preview\/(.+)$ image.php
+#RewriteEngine on
+#RewriteBase /server/
+#RewriteRule ^(.+)-(.+)$ index.php
+#RewriteRule ^preview\/(.+)$ image.php

@@ -210,6 +210,8 @@ url :   url
 get:
 mod : desk
 act : wordlist
+
+post:
 count : 30   可以传个数字， 也可以默认
 
 返回：
