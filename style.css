@@ -196,7 +196,9 @@ a:visited{color:#fff;}
 .popupGuess{width: 92.5%;margin: 10% auto 15px auto;z-index:10;}
 .popupGuess .btn{margin:0 20px;}
 .popupGuess .btn a{width:120px;}
-.desk_center_tip{position:absolute;left:50%;top:120px;width:100px;text-align:center;margin:-50px;border-radius:16px;}
+.desk_center_tip{position:absolute;left:50%;top:130px;width:100px;text-align:center;margin:-50px;border-radius:16px;padding:0;}
+.desk_center_tip .ui-body{padding:0;}
+.desk_center_tip p{margin:0;line-height:40px;}
 
 
 
