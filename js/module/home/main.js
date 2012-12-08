@@ -41,6 +41,7 @@ var ghostNum=0;
 
 //角色分配，鬼的默认数量
 var roleAllot={
+	"0": 0,
 	"1": 1,
 	"2": 1,
 	"3": 1,
@@ -396,11 +397,18 @@ function gameStart(){
         $( "#popupMessage_desk" ).popup('open');
     }
     else{
-
-        ghostNum=roleAllot[userList.length]
-        var wsParm ={'action':'startGame','callback':'handleStartGame','wordHuman':words.human,'wordGuest':words.ghost,'ghostNum':ghostNum}
+		
+        ghostNum = roleAllot[userList.length];
+		
+        var wsParm = {
+            'action': 'startGame',
+            'callback': 'handleStartGame',
+            'wordHuman': words.human,
+            'wordGuest': words.ghost,
+            'ghostNum': ghostNum
+        };
         var wsParmEncode = $.toJSON(wsParm);
-        ws.send( wsParmEncode ); 
+        ws.send(wsParmEncode);
     }
 }
 
