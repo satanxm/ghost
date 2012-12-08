@@ -8,12 +8,8 @@
  	<link rel="stylesheet" href="http://css.ghost.com/ghost/jquery.mobile-1.2.0.min.css" />
 	<link rel="stylesheet" href="http://css.ghost.com/ghost/style.css" />
 	<title>抓鬼</title>
-
 </head>
-
-
 <body class="ui-mobile-viewport">
-
 
 <div data-role="page"  id="page_index" class="type-interior" style="width:320px;">
 	<div data-role="header" data-position="inline" data-theme="a" role="banner">
@@ -87,12 +83,13 @@
 					<a id="link_change_seat" data-role="button" data-theme="a" data-icon="grid" data-iconpos="notext">换座位</a>
 					<a id="link_info" data-role="button" data-theme="a" data-icon="info" data-iconpos="notext">规则</a>
 				</div>
-
-				<div id="desk_center_tip" class="desk_center_tip ui-body ui-body-e" style="display:none">
-				   <p>投票</p>
+				<div class="desk_center_tip_wrap">
+					<div id="desk_center_tip" class="desk_center_tip ui-body ui-body-e" style="display:none">
+					   <p>四个汉字被投死</p>
+					</div>
 				</div>
 			</div>
-			<div class="word_area ui-body ui-body-b" id="word_area" style="display:none;">
+			<div class="word_area ui-body ui-body-b" id="word_area">
 				<p>人：<span id="word_human"></span></p>
 				<p>鬼：<span id="word_ghost"></span></p>
 			</div>
