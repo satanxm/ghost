@@ -1,0 +1,33 @@
+/*
+ * Copy Right: Tencent ISUX
+ * Project:开放平台 应用中心
+ * Comments:全局定义样式
+ * Export to:应用中心-appstore/视频中心等
+ * @author jeanne
+ */
+a{color:#333333;}
+a:hover{color:#D78888;text-decoration:none;}
+.txt_auxiliary{color:#A2A2A2;}/*辅助字体颜色*/
+/*-- 清浮动 开始 --*/
+.clear {*zoom:1;}
+.clear:before,
+.clear:after {content:""; display:table;}
+.clear:after {clear:both;}
+/*-- 清浮动 结束 --*/
+/*-- 可访问性的文字隐藏 开始 --*/
+.visually_hidden {
+  position: absolute !important;
+  clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
+  clip: rect(1px, 1px, 1px, 1px);
+  padding:0 !important;
+  border:0 !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden;
+}
+body:hover .visually_hidden a,
+body:hover .visually_hidden input,
+body:hover .visually_hidden button {
+  display: none !important;
+}
+/*-- 可访问性的文字隐藏 结束 --*/

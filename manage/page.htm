@@ -1,0 +1,133 @@
+<!doctype html>
+<html class="os_win7"><!--os_winXp,os_mac,os_vista,os_win7-->
+<head>
+	<meta charset="utf-8" />
+	<title>QAMS</title>
+	<link href="css/project.css" rel="stylesheet" media="screen" />
+</head>
+<body>
+	<div class="body">
+		<div id="qam_notify_area" class="sys_notify_pane pane_w" style="display:none"><div class="sys_notify_pane_inner"></div></div>
+
+			<!-- 添加页面 开始 -->
+			<div class="mod_module_add">
+				<div class="hd">
+					<h2><i class="ico ico_project_add"></i><span id="page_title">添加</span></h2>
+				</div>
+				<div class="bd">
+					<!-- 添加页面表单 开始 -->
+					<div class="form_project_add">
+						<form action="">
+							<div class="panel">
+								<span class="panel_tit"><i class="required">*</i>名称：</span>
+								<div class="panel_main">
+									<input type="text" class="inputstyle" id="name" />
+								</div>
+								<!-- 表单提示-错误提示 开始 -->
+									<div class="fhint fhint_error" id="fhint_area_name" style="display:none">
+										<i class="ico ico_error"  id="fhint_ico"></i> <span id="fhint_text">错误提示...</span>
+										<i class="ico ico_arrow"></i>
+									</div>
+								<!-- 表单提示-错误提示 结束 -->
+							</div>
+							<div class="panel">
+								<span class="panel_tit">描述：</span>
+								<div class="panel_main">
+									<input type="text" class="inputstyle" style="width:432px;" id="info"  />
+								</div>
+							</div>
+							<div class="panel">
+								<span class="panel_tit">demo：</span>
+								<div class="panel_main">
+									<input type="text" class="inputstyle" style="width:432px;" id="demo"  />
+								</div>
+							</div>
+							<div class="panel none">
+								<span class="panel_tit"><i class="required">*</i>所属分类：</span>
+								<div class="panel_main">
+									<!-- 多选框 开始 -->
+									<div class="type_select">
+										<div class="like_select"><input type="hidden" id="category_id" value="" /><p id="category_id_show">选择分类...</p><span class="icon_down"></span></div>
+										<div class="select_drop_down" id="category_id_list" style="display:none">
+										</div>
+									</div>
+									<!-- 多选框 结束 -->
+
+								</div>
+							</div>
+							<div class="panel">
+								<span class="panel_tit">标签：</span>
+								<div class="panel_main">
+									<input id="tag" type="text" class="inputstyle" placeholder="多个标签多英文逗号隔开" />
+								</div>
+							</div>
+							<div class="panel">
+								<span class="panel_tit">页面内容：</span>
+								<div class="panel_main">
+									<textarea id="content" class="textarea_style"></textarea>
+								</div>
+							</div>
+							<div class="panel ">
+								<span class="panel_tit">图片</span>
+								<div class="panel_main upload_file select_file_area" id="src_present_area">
+									<p class="upload_file_watermark">拖动文件到这里...</p>
+									<div id="img_preview" class="img_preview"></div>
+									<input id="src_present"  type="hidden" class="inputstyle" />
+								</div>
+							</div>
+						</form>
+					</div>
+					<!-- 添加页面表单 结束 -->
+				</div>
+				<div class="ft">
+					<div class="btns">
+						<a href="javascript:void(0)" class="btn btn_ok" id="btn_save"><span>保存</span></a> 
+						<a href="javascript:void(0)" class="btn btn_ok" id="btn_praise" style="display:none"><span>赞<i id="praise_num"></i></span></a>
+						<a href="javascript:void(0)" id="btn_cancel">取消</a>
+					</div>
+				</div>
+			</div>
+			<!-- 添加页面 结束 -->
+
+			<!-- 评论 开始 -->
+			<div class="mod_comment" style="display:none;">
+				<div class="inner">
+					<h3>评论</h3>
+						
+					<div class="comment_list" id="comment_list"></div>
+					<div class="comment_form">
+						<div id="comment_user" class="user"></div>
+						<div><textarea id="comment_ct" class="textarea_style"></textarea></div>
+						<div class="btns">
+							<a href="javascript:void(0)" class="btn btn_ok" id="btn_comment_save"><span>提交</span></a> 
+						</div>	
+					</div>
+				</div>
+			</div>
+
+
+
+			<!-- 评论 结束 -->
+
+
+	</div>
+
+<div id="message_div"></div>
+
+<script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="js/public.js" type="text/javascript"></script>
+<script src="js/functions.js" type="text/javascript"></script>
+<script src="js/page.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        page.loadCategory();
+    });
+
+
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+.qam_clear{clear:both;}
+.qam_visually_hidden{text-indent:-999em}
+.qam_textoverflow:display:inline-block;white-space:nowrap;word-wrap:normal;word-break:break-all;overflow:hidden;text-overflow:ellipsis;max-width:100%;_width:100%
+.qam_ico{vertical-align:middle;display:-moz-inline-stack; display:inline-block;*font-size:0;background-repeat:no-repeat;}
+.qam_relative{position:relative;}
+.qam_absolute{position:absolute;}
+.qam_fixed{position:fixed;}

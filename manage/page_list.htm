@@ -1,0 +1,101 @@
+<!doctype html>
+<html class="os_win7"><!--os_winXp,os_mac,os_vista,os_win7-->
+<head>
+	<meta charset="utf-8" />
+	<title>QAMS</title>
+	<link href="css/project.css" rel="stylesheet" media="screen" />
+</head>
+<body>
+	
+	<div class="body">
+			<!-- 管理项目 开始 -->
+			<div id="qam_notify_area" class="sys_notify_pane pane_w" style="display:none"><div class="sys_notify_pane_inner"></div></div>	
+			<div class="mod_module_list">
+				<div class="hd">
+					<h2><i class="ico ico_manage"></i><span id="page_title">管理页面</span></h2>
+					<div class="hd_extra">
+						<div class="search_box">
+							<div class="search_box_inner">
+								<input type="text" class="search_style" id="search_text"> <a href="javascript:void(0)" class="ico ico_search" id="search_btn"><span>搜索</span></a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="bd">
+					<div class="table_toolbar">
+						<div class="table_toolbar_l">
+							<a href="javascript:void(0)" class="btn btn_normal" id="btn_add"><span>添加</span></a>
+						</div>
+						<div class="table_toolbar_r">
+							<div class="pagenav">
+								 <a href="javascript:void(0)" class="ico ico_page_left_n" id="page_up">上一页</a> <span id="page_nums"></span> <a href="javascript:void(0)" class="ico ico_page_right"  id="page_down">下一页</a>
+							</div>
+						</div>
+					</div>
+					<div class="table_wrap">
+						<table class="table_style table_module_list">
+						<caption>页面管理</caption>
+						<colgroup>
+								<col class="col_users_checkbox" />
+								<col class="col_thumbnails" />
+								<col class="col_tag" />
+								<col class="col_author" />
+								<col class="col_users_checkbox" />
+								<col class="col_users_checkbox" />
+								<col class="col_date"/>
+								<col class="col_op" />
+						</colgroup>
+						<thead>
+						<tr>
+							<th></th>
+							<th class="td_thumbnails"><a href="javascript:void(0)" id="th_name">名称</a></th>
+							<th><a href="javascript:void(0)" id="th_project_id">标签</a></th>
+							<th><a href="javascript:void(0)" id="th_author">作者</a></th>
+							<th><a href="javascript:void(0)" id="th_author">评论</a></th>
+							<th><a href="javascript:void(0)" id="th_author">赞</a></th>
+							<th><a href="javascript:void(0)" id="th_adjust_time">最后修改时间</a></th>
+							<th></th>
+						</tr>
+						</thead>
+						<tbody id="page_list">
+						
+						</tbody>
+					</table>
+					</div>
+					
+					<div class="tag_area">
+						<h3>标签列表</h3>
+						<div id="tag_list" class="tag_list"></div>
+					</div>
+					<div class="tag_area">
+						<h3>用户列表</h3>
+						<div id="user_list" class="tag_list"></div>
+					</div>
+
+				</div>
+			</div>
+			<!-- 管理项目 结束 -->
+	</div>
+	
+	<div id="shade_layer">
+		<div class="shade_layer_transparent"></div>
+		<iframe src="" id="shade_frame"></iframe>
+	</div>
+	
+	<div id="message_div"></div>
+
+<script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="js/public.js" type="text/javascript"></script>
+<script src="js/functions.js" type="text/javascript"></script>
+<script src="js/page.js" type="text/javascript"></script>
+<script type="text/javascript">
+	
+    $(document).ready(function () {
+		page.init();
+        page.showlist();
+    });
+</script>
+
+
+</body>
+</html>

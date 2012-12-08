@@ -1,0 +1,326 @@
+﻿/*
+ * Copy Right: Tencent ISUX
+ * Project: QAMS
+ * Comments: 自定义页面
+ * @author: Jeanne
+ * @modify Tyson
+*/
+
+/*@import url("reset.import.css");   抽出到下面的局部reset了，以防样式继承到配置页面中     */
+/*@import url("global.import.css");             抽出到下面的局部global了，以防样式继承到配置页面中      */
+@import url("popup.import.css");
+
+/* 局部reset 开始 */
+*{margin:0;padding:0}
+html {font-size: 62.5%;font-family: Tahoma;} /* Font sizing with rem http://snook.ca/archives/html_and_css/font-size-with-rem */
+body,.qam_reset,.qam_reset div,.qam_reset dl,.qam_reset dt,.qam_reset dd,.qam_reset ul,.qam_reset ol,.qam_reset li,.qam_reset h1,.qam_reset h2,.qam_reset h3,.qam_reset h4,.qam_reset h5,.qam_reset h6,.qam_reset pre,.qam_reset code,.qam_reset form,.qam_reset fieldset,.qam_reset legend,.qam_reset input,.qam_reset button,.qam_reset textarea,.qam_reset p,.qam_reset blockquote,.qam_reset th,.qam_reset td,.qam_reset hr {margin: 0;padding: 0;}
+.qam_reset{line-height:1.333;font-size:12px;font-size:1.2rem;}/*1.333 http://www.99css.com/archives/830 | */
+.qam_reset h1,.qam_reset h2,.qam_reset h3,.qam_reset h4,.qam_reset h5,.qam_reset h6{font-size:100%}/*统一各浏览器默认大小*/
+.qam_reset input,.qam_reset textarea,.qam_reset select,.qam_reset button{font-size: 12px;font-weight: normal;}
+.qam_reset input[type="button"],.qam_reset input[type="submit"],.qam_reset select,.qam_reset button{cursor:pointer;}
+.qam_reset li {list-style: none;}
+.qam_reset fieldset,.qam_reset img,.qam_reseta img,.qam_reset iframe {border-width:0;border-style:none;}/*a img for IE6*/
+.qam_reset textarea{overflow-y:auto;}
+.qam_reset legend {color: #000;}
+.qam_reset a:link,.qam_reset a:visited {text-decoration: none;}
+.qam_reset a{ cursor:pointer;}
+.qam_reset label{cursor:pointer}/*必须用显示for=id写法 http://www.topcss.org/?p=349*/
+
+.qam_popup{left:550px;top:135px;margin:0}   /* for弹框拖动 */
+.qam_popup{line-height:1.333;font-size:12px;font-size:1.2rem;}/*1.333 http://www.99css.com/archives/830 | */
+.qam_popup h1,.qam_popup h2,.qam_popup h3,.qam_popup h4,.qam_popup h5,.qam_popup h6{font-size:100%}/*统一各浏览器默认大小*/
+.qam_popup input,.qam_popup textarea,.qam_popup select,.qam_popup button{font-size: 12px;font-weight: normal;}
+.qam_popup input[type="button"],.qam_popup input[type="submit"],.qam_popup select,.qam_popup button{cursor:pointer;}
+.qam_popup li {list-style: none;}
+.qam_popup fieldset,.qam_popup img,.qam_popupa img,.qam_popup iframe {border-width:0;border-style:none;}/*a img for IE6*/
+.qam_popup textarea{overflow-y:auto;}
+.qam_popup legend {color: #000;}
+.qam_popup a:link,.qam_popup a:visited {text-decoration: none;}
+.qam_popup a{ cursor:pointer;}
+.qam_popup label{cursor:pointer}/*必须用显示for=id写法 http://www.topcss.org/?p=349*/
+.qam_popup .qam_popup_hd{cursor:move}
+/* 局部reset 结束 */
+
+
+/* 局部global 开始 */
+.qam_bottomfix_bar a{color:#333333;}
+.qam_bottomfix_bar a:hover{text-decoration:none;-moz-transition: all .3s linear;-webkit-transition: all .3s linear;transition: all .3s linear;}
+/*-- 公用icon 开始 --*/
+.qam_topfix_bar .qam_ico,.qam_custom_side .qam_ico,.qam_bottomfix_bar .qam_ico{vertical-align:middle;display:-moz-inline-stack; display:inline-block;*font-size:0;background-repeat:no-repeat;}
+/*-- 公用icon 结束 --*/
+/*按钮*/
+.qam_topfix_bar .btn{vertical-align:middle;display:-moz-inline-stack;display:inline-block;}
+.qam_topfix_bar .btn_ok{border:1px solid #005AB1;border-radius:20px;}
+.qam_topfix_bar .btn_ok span{border-top:1px solid #93B8DA;vertical-align:middle;display:-moz-inline-stack;display:inline-block;width:113px;height:30px;line-height:27px;border-radius:20px;text-align:center;color:#fff;font-size:14px;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#7EABD2), to(#4F7CA3));
+	background: -moz-linear-gradient(top, #7EABD2, #4F7CA3);
+	background: -o-linear-gradient(top, #7EABD2, #4F7CA3);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorStr = '#7EABD2', EndColorStr = '#4F7CA3');
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#7EABD2', EndColorStr='#4F7CA3')";
+}
+.qam_topfix_bar .btn_normal{background-color:#242A30;border-radius:18px;height:24px;line-height:24px;border:1px solid #20252B; color:#ACB2BF;font-size:12px;text-align:center;box-shadow:1px 1px 2px rgba(0, 0, 0, 0.5);}
+.qam_topfix_bar .btn_normal span{border-bottom:1px solid #5E5E5E;border-radius:18px;vertical-align:middle;display:-moz-inline-stack;display:inline-block;padding:0 20px;}
+.qam_topfix_bar .btn_normal:hover{color:#ACB2BF;}
+
+/*-- 顶部固定栏 开始 --*/
+.qam_topfix_bar{background:url(img/header_bg.jpg) repeat-x;height:37px;}
+.qam_topfix_bar .qam_topfix_bar_inner{width:1000px;margin:0 auto;height:37px;}
+.qam_topfix_bar h1 a{background-image:url(slice/prj_h1.png);background-repeat:no-repeat;width:65px;height:35px;text-indent:-999em;overflow:hidden;float:left;margin-right:20px;}
+.qam_topfix_bar .mainmenu{float:left;}
+.qam_topfix_bar .mainmenu li{float:left;position:relative;}
+.qam_topfix_bar .mainmenu li.current{background-color:#000;background:rgba(0, 0, 0, 0.5);}
+.qam_topfix_bar .mainmenu li a{color:#EDEDED;font-size:16px;display:block;width:90px;text-align:center;line-height:35px;text-shadow:1px 1px 1px rgba(0, 0, 0, 0.7)}
+.qam_topfix_bar .submenu{background:url(img/pic_light.jpg) no-repeat center 3px;width:90px;position:absolute;left:0;top:33px;border-radius:6px 6px 0 0;display:none;z-index:99;}
+.qam_topfix_bar .mainmenu li ul{padding:10px 0 2px;width:90px;border-radius:6px 6px 3px 3px;background:rgba(0, 0, 0, 0.5);filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#8c000000', EndColorStr='#8c000000');}
+:root .qam_topfix_bar .mainmenu li ul{filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#8c000000', EndColorStr='#8c000000');}
+:root .qam_topfix_bar .mainmenu li ul{filter:none;}
+.qam_topfix_bar .mainmenu li ul li{float:none;}
+.qam_topfix_bar .mainmenu li ul li a{height:28px;line-height:26px;color:#EDEDED;display:block;font-size:14px;}
+.qam_topfix_bar .mainmenu li ul li a:hover{background:rgba(0, 0, 0, 0.5);filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#8c000000', EndColorStr='#8c000000');}
+:root .qam_topfix_bar .mainmenu li ul li a:hover{filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#8c000000', EndColorStr='#8c000000');}
+:root .qam_topfix_bar .mainmenu li ul li a:hover{filter:none;}
+.qam_topfix_bar .sys_welcome{float:right;color:#ddd;line-height:36px;}
+.qam_topfix_bar .sys_welcome a{color:#A6AEBA;margin-left:8px;}
+.qam_topfix_bar .sys_welcome a:hover{color:#fff;}
+/*-- 顶部固定栏 结束 --*/
+
+/* 局部global 结束 */
+
+
+
+body{background-color:#E9E9E9}
+
+.custom_canvas_page {border:0 none;margin:0;padding:0}
+.custom_canvas_page .qam_ico_inspect{width:16px;height:15px;background-image:url(slice/ico_inspect.png);}
+.custom_canvas_page .qam_ico_big{width:14px;height:14px;background-image:url(slice/ico_big.png);}
+.custom_canvas_page .qam_ico_insert_after{background-image:url(slice/ico_insert_after.png);width:18px;height:15px;}
+.custom_canvas_page .qam_ico_append{background-image:url(slice/ico_insert.png);width:17px;height:15px}
+
+.custom_canvas_page .qam_topfix_bar .topfix_op{float:right;}
+.custom_canvas_page .qam_topfix_bar .topfix_op ul{padding-top:7px;padding-left:200px;}
+.custom_canvas_page .qam_topfix_bar .topfix_op li{float:left;margin-right:15px;height:20px}
+.custom_canvas_page .qam_topfix_bar .topfix_op li.separator{color:#ccc;text-shadow:1px 0 2px #aaa;line-height:19px}
+.custom_canvas_page .qam_topfix_bar .topfix_op li a{padding:1px 5px 6px;border-radius:3px;color:#999;text-shadow:1px 1px 1px
+rgba(0,0,0,.8);font-size:12px;}
+.custom_canvas_page .qam_topfix_bar .topfix_op li a:hover{border:1px solid #444;padding:0px 4px 5px;box-shadow:0 0 2px rgba(0,0,0,.5);color:#ccc;background-color:#333;}
+.custom_canvas_page .qam_topfix_bar .topfix_op li span{display:inline-block;vertical-align:middle;cursor:pointer}
+.custom_canvas_page .qam_topfix_bar .topfix_op li .qam_ico{background-image:url(img/ico_custom.png);background-repeat:no-repeat;
+margin-right:3px;}
+.custom_canvas_page .qam_topfix_bar .topfix_op li .qam_ico_add_layout{width:12px;height:12px;background-image:url(slice/ico_add_layout.png);}
+.custom_canvas_page .qam_topfix_bar .topfix_op li .qam_ico_css_list{width:12px;height:12px;background-image:url(slice/ico_css_list.png)}
+.custom_canvas_page .qam_topfix_bar .topfix_op .qam_ico_open_auxiliary{width:12px;height:12px;background-position:0 -133px;}
+.custom_canvas_page .qam_topfix_bar .topfix_op .qam_ico_undo{width:12px;height:12px;background-position:-16px 0;}
+.custom_canvas_page .qam_topfix_bar .topfix_op .qam_ico_save{width:12px;height:10px;background-position:-1px -76px;}
+.custom_canvas_page .qam_topfix_bar .topfix_op .qam_ico_redo{width:12px;height:12px;background-position:-16px -57px;}
+.custom_canvas_page .qam_topfix_bar .topfix_op .qam_ico_preview{width:12px;height:10px;background-position:0 -38px;}
+
+.custom_canvas_page .qam_topfix_bar{position:fixed;top:0;left:0;width:100%;z-index:99}
+.custom_canvas_page .qam_topfix_bar .recycle_bin{position:absolute;width:460px;height:35px;top:-40px;left:50%;margin-left:-230px;background:#bbb url(slice/ico_trash_32.png) no-repeat center center;box-shadow: 0 0 10px #999;border-bottom: 1px #999 solid;-webkit-transition: all .5s ease-in-out;}
+.custom_canvas_page .qam_topfix_bar .recycle_bin_show{top:0}
+.custom_canvas_page .qam_topfix_bar .recycle_bin_hover{background-color:#f22e2e}
+.custom_canvas_page .qam_topfix_bar .qam_topfix_bar_inner{width:100%;}
+.custom_canvas_page .qam_topfix_bar .qam_topfix_bar_inner h1{margin-left:15px;}
+.custom_canvas_page .qam_bottomfix_bar{position:fixed;bottom:0;color:#666;width:100%;border-top:1px solid #CCCCCC;padding:0 10px;z-index:99;
+	background: rgb(254,254,254);
+	background: -moz-linear-gradient(top,  rgba(254,254,254,1) 0%, rgba(245,245,245,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(254,254,254,1)), color-stop(100%,rgba(245,245,245,1)));
+	background: -webkit-linear-gradient(top,  rgba(254,254,254,1) 0%,rgba(245,245,245,1) 100%);
+	background: -o-linear-gradient(top,  rgba(254,254,254,1) 0%,rgba(245,245,245,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(254,254,254,1) 0%,rgba(245,245,245,1) 100%);
+	background: linear-gradient(top,  rgba(254,254,254,1) 0%,rgba(245,245,245,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#f5f5f5',GradientType=0 );
+}
+
+.custom_canvas_page .qam_bottomfix_bar .inspect {border-right:1px solid #ccc;width:30px;margin:5px 0;float:left;}
+.custom_canvas_page .qam_bottomfix_bar .inspect a{padding:3px 4px;border:1px solid #FEFEFE}
+.custom_canvas_page .qam_bottomfix_bar .inspect a:hover,
+.custom_canvas_page .qam_bottomfix_bar .inspect a.clicked{border-color:#999;border-radius:3px;}
+.custom_canvas_page .qam_bottomfix_bar .inspect_cont{margin-left:40px;padding:2px 0;}
+.custom_canvas_page .qam_bottomfix_bar .inspect_cont .guild{line-height:20px;}
+/*.custom_canvas_page .qam_bottomfix_bar .inspect_cont .guild strong{padding:2px 3px;}*/
+.custom_canvas_page .qam_bottomfix_bar .inspect_cont .guild>a{padding:1px 3px 2px;border:1px #FEFEFE solid;border-radius:3px;position:relative;}
+.custom_canvas_page .qam_bottomfix_bar .inspect_cont .guild>a:hover,
+.custom_canvas_page .qam_bottomfix_bar .inspect_cont .guild>a.current{border-color:#999;color:#D78888}
+
+.custom_canvas_page .qam_custom_side{background-color:#333;position:fixed;top:36px;left:0;width:224px;}
+.custom_canvas_page .qam_custom_side_nav{border-bottom:1px solid #555;height:25px;margin-top:10px;padding-left:5px;}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+.custom_canvas_page .qam_custom_side_nav{height:24px;}
+}
+.custom_canvas_page .qam_custom_side_nav li{float:left;margin-left:5px;}
+.custom_canvas_page .qam_custom_side_nav li a{display:block;padding:3px 10px;font-size:14px;color:#eee;}
+.custom_canvas_page .qam_custom_side_nav li.current a{background-color:#555;padding:2px 9px;border:1px solid #555;border-radius:2px 2px 0 0;color:#ccc;}
+
+.custom_canvas_page .qam_custom_side_tag{padding:10px 0 0 15px;display:none}
+.custom_canvas_page .qam_custom_side_tag a{background-color: #333;border-radius: 5px;padding: 5px 8px;color: #AAA;display:inline-block;margin-right:8px;-webkit-transition: all .3s linear;transition: all .3s linear}
+.custom_canvas_page .qam_custom_side_tag a:hover,.custom_canvas_page .qam_custom_side_tag a.current{background-color: #222;color: #CCC;}
+
+.custom_canvas_page .qam_custom_side .qam_custom_side_filter {padding:10px;zoom:1;}
+.custom_canvas_page .qam_custom_side .qam_custom_side_filter:after {display: block;content: ".";height: 0;width: 0;font-size: 0;clear: both;
+overflow: hidden;}
+.custom_canvas_page .qam_custom_side .qam_custom_side_filter .type_select{float:left;margin-right:5px;margin-top:3px;position:relative;}
+.custom_canvas_page .qam_custom_side .qam_custom_side_filter .select_drop_down{display:none;}
+.custom_canvas_page .qam_custom_side .qam_custom_side_filter #select_child_project li{display:none;}
+.custom_canvas_page .qam_custom_side .qam_custom_side_filter #select_child_project li.show{display:block;}
+
+.custom_canvas_page .qam_custom_side .like_select{background-color:#242A30;border-radius:4px;height:25px;line-height:24px;border:1px solid #20252B; border-bottom:1px solid #666;color:#ACB2BF;font-size:12px;width:95px;position:relative;cursor:pointer;text-align:left;}
+.custom_canvas_page .qam_custom_side .like_select p{margin-left:10px;}
+.custom_canvas_page .qam_custom_side .qam_icon_down{ position: absolute;right:8px;top: 10px; border-style: solid;border-width: 6px;color: transparent;display: block;font-size: 0;height: 0;line-height: 0;overflow: hidden;width: 0;border-color: #0F6789 transparent transparent;}
+.custom_canvas_page .qam_custom_side .select_drop_down{position:absolute;left:0;top:28px;padding:2px 0 2px;width:97px;border-radius:2px;background:rgb(36, 42, 48);z-index:99}
+.custom_canvas_page .qam_custom_side .select_drop_down li a{color:#ACB2BF;display:block;text-shadow:1px 1px 1px rgba(0, 0, 0, 0.7);height:28px;line-height:26px;display:block;font-size:12px;margin-left:0;text-indent:10px;text-align:left;}
+.custom_canvas_page .qam_custom_side .select_drop_down li a:hover{background:rgba(0, 0, 0, 0.5);}
+.custom_canvas_page .qam_custom_side .qam_custom_side_list {overflow-y:auto;}
+.custom_canvas_page .qam_custom_side .loading{background:url(img/loading_16.gif) center center no-repeat}
+.qam_custom_side_list::-webkit-scrollbar{width:9px;height:9px}
+.qam_custom_side_list::-webkit-scrollbar-thumb:vertical{height:auto;background-color:#444;-webkit-border-radius:8px}
+.qam_custom_side_list::-webkit-scrollbar-track-piece{background-color:#222;-webkit-border-radius:8px}
+
+.custom_canvas_page .qam_custom_side_list .img_wrap {position:relative;border:1px solid #555;width:150px;height:90px;padding:1px;border-radius:2px;float:left;}
+.custom_canvas_page .qam_custom_side_list .img_wrap:hover,
+.custom_canvas_page .qam_custom_side_list li.current .img_wrap{border:1px solid #666;}
+.custom_canvas_page .qam_custom_side_list .img_wrap a{background-color:#444;width:150px;height:90px;display: table-cell;vertical-align:middle;text-align:center;*display: block;*font-size: 132px;background-position:center center;background-repeat:no-repeat;}
+.custom_canvas_page .qam_custom_side_list .img_wrap code{display:none;}
+/*.custom_canvas_page .qam_custom_side_list .img_wrap img{vertical-align:middle;width:150px}*/
+.custom_canvas_page .qam_custom_side_list .module_name{position:absolute;bottom:0;left:1px;width:150px;text-align:center;background-color:#333;line-height:20px;height:20px;color:#ccc;}
+.custom_canvas_page .qam_custom_side_list li{padding:10px;zoom:1;margin-left:20px;}
+.custom_canvas_page .qam_custom_side_list li:after{display: block;content: ".";height: 0;width: 0;font-size: 0;clear: both;overflow: hidden;}
+.custom_canvas_page .qam_custom_side_list .img_op{float:left;display:none;}
+.custom_canvas_page .qam_custom_side_list li.current .img_op{display:block;}
+.custom_canvas_page .qam_custom_side_list .img_op_inner{margin-top:48px;margin-left:-1px;}
+.custom_canvas_page .qam_custom_side_list .img_op a{display:block;border:1px solid #555;padding:1px;border-radius:2px;margin-bottom:2px;text-align:center;}
+
+.custom_canvas_page .qam_custom_side_list .side_list_tag{display:none}
+.custom_canvas_page .qam_custom_side_list  li:hover .img_op{display:block;}
+
+.custom_canvas_page .custom_canvas_area{margin:56px 20px 49px 244px;padding:0;min-height:500px;position:relative;z-index:1}
+
+
+
+/*-- 系统提示 开始 --*/
+.qam_msgbox_layer,
+.qam_msgbox_layer .gtl_ico_succ,
+.qam_msgbox_layer .gtl_ico_fail,
+.qam_msgbox_layer .gtl_ico_hits,
+.qam_msgbox_layer .gtl_ico_clear,
+.qam_msgbox_layer .gtl_end{display:inline-block;height:54px;line-height:54px;font-weight:bold;font-size:14px;color:#606060;background-repeat:no-repeat;background-image:url(img/qz_msgbox_layer.png);}
+.qam_msgbox_layer_wrap{width:100%;position:fixed;_position:absolute;top:46%;left:0;text-align:center;z-index:65533;}
+.qam_msgbox_layer{background-position:0 -161px;background-repeat:repeat-x;padding:0 18px 0 9px;margin:0 auto;position:relative;text-shadow:0 1px #FCFCFC}
+.qam_msgbox_layer .gtl_ico_succ{background-position:-6px 0;left:-45px;top:0;width:45px;position:absolute;}
+.qam_msgbox_layer .gtl_end{background-position:0 0;position:absolute;right:-6px;top:0;width:6px;}
+.qam_msgbox_layer .gtl_ico_fail{background-position:-6px -108px;position:absolute;left:-45px;top:0;width:45px;}
+.qam_msgbox_layer .gtl_ico_hits{background-position:-6px -54px;position:absolute;left:-45px;top:0;width:45px;}
+.qam_msgbox_layer .gtl_ico_clear{background-position:-6px 0;left:-5px;width:5px;position:absolute;top:0;}
+/*-- 系统提示 结束 --*/
+/*-- 系统提示层 开始 --*/
+.sys_notify_pane{position:fixed;width:500px;top:5px;text-align:left;font-family:'tahoma';z-index:199;left:250px;display:none;}
+.sys_notify_pane_inner{position:relative;display:inline-block;*display:inline;zoom:1;padding:5px 8px;border-radius:3px;box-shadow:0 0 3px rgba(0,0,0,.5);}
+.pane_w .sys_notify_pane_inner{background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top,  #ffffff 0%, #e5e5e5 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #ffffff 0%,#e5e5e5 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #ffffff 0%,#e5e5e5 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #ffffff 0%,#e5e5e5 100%); /* IE10+ */
+background: linear-gradient(top,  #ffffff 0%,#e5e5e5 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+}
+.pane_r .sys_notify_pane_inner{color:#fff; background: #cc0000; /* Old browsers */
+background: -moz-linear-gradient(top,  #cc0000 0%, #cc0000 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cc0000), color-stop(100%,#cc0000)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #cc0000 0%,#cc0000 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #cc0000 0%,#cc0000 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #cc0000 0%,#cc0000 100%); /* IE10+ */
+background: linear-gradient(top,  #cc0000 0%,#cc0000 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cc0000', endColorstr='#cc0000',GradientType=0 ); /* IE6-9 */
+
+}
+.pane_y .sys_notify_pane_inner{
+	background: #fefcea; /* Old browsers */
+	background: -moz-linear-gradient(top,  #fefcea 0%, #f1da36 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fefcea), color-stop(100%,#f1da36)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #fefcea 0%,#f1da36 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #fefcea 0%,#f1da36 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #fefcea 0%,#f1da36 100%); /* IE10+ */
+	background: linear-gradient(top,  #fefcea 0%,#f1da36 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#f1da36',GradientType=0 ); /* IE6-9 */
+
+
+}
+.pane_w img{vertical-align:middle;margin-right:5px;}
+/*-- 系统提示层 结束 --*/
+
+/* 键盘快捷键 */
+.qam_key_list{position:absolute;z-index:999;background-color: rgba(0, 0, 0, .7);box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07);top:80px;right:150px;border-radius:5px;font-family: sans-serif;font-size:16px;line-height:1.7em;padding:10px;color:#fff;display:none}
+.qam_key_list h3{font-size:22px;text-align:center;border-bottom:1px solid #FFF;margin-bottom:10px;padding-bottom:5px}
+.qam_key_list .key_list_container{overflow:hidden;}
+.qam_key_list ul{float:left;margin-right:35px}
+.qam_key_list ul h5{text-align:center;color:yellow;padding-bottom:5px}
+.qam_key_list ul li{}
+.qam_key_list ul li span.key{display:inline-block;width:135px;text-align:right;font-weight:bold;}
+.qam_key_list p.links{text-align:center;margin-top:15px}
+.qam_key_list p.links a{color:yellow;text-decoration:underline;cursor:pointer}
+
+/* 拖拽的样式 */
+*[draggable=true] {
+  -moz-user-select:none;
+  -khtml-user-drag: element;
+  cursor: move;
+}
+
+/* 审查元素时加的半透明浮层 */
+.inspect_element_cover{
+    position:absolute;
+    pointer-events:none;
+    background-color:rgba(68,164,219,.5);
+    border:1px #163445 solid;
+    display:none;
+    z-index:9;
+}
+.inspect_element_cover2{background-color:transparent;box-shadow:0 0 10px #ebeb2c;border-color:#4799ff}
+
+.inspect_element_cover .info{
+    background-color:rgb(255,255,194);
+    position:absolute;;
+    bottom:-25px;
+    left:0;
+    padding:3px;
+    border:#808080 1px solid;
+    color:#333
+}
+
+/* 节点的操作面板 */
+.qam_action_panel{position:fixed;color:#555;bottom:35px;right:-250px;padding:15px;width:250px;border-radius:10px;border:1px #999 solid;background-color:#eee;-webkit-transition:all .5s ease-in-out;box-shadow:0 0 10px #999;z-index:99}
+/*.qam_action_panel:hover{right:0}*/
+.qam_action_panel_hover{right:0}
+.qam_action_panel h3.title{padding-bottom:10px;font-size:14px;border-bottom:1px #666 dotted;}
+.qam_action_panel h3.title span{color:#56BDF4}
+.qam_action_panel .actions{}
+.qam_action_panel .actions p{padding:5px 0 0 35px;vertical-align:middle;}
+.qam_action_panel .actions p:first-child{padding:5px 0 5px 0;}
+.qam_action_panel .actions p span{padding-left:10px;vertical-align:-3px}
+.qam_action_panel .actions p a{width:120px;text-align:center;margin-left:20px}
+.qam_action_panel .actions p a.disabled{cursor:default;border:1px solid #8c8c8c;background: #a5a5a5;background: -moz-linear-gradient(top, #a5a5a5 0%, #a5a5a5 100%);background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a5a5a5), color-stop(100%,#a5a5a5));background: -webkit-linear-gradient(top, #a5a5a5 0%,#a5a5a5 100%);background: -o-linear-gradient(top, #a5a5a5 0%,#a5a5a5 100%);background: -ms-linear-gradient(top, #a5a5a5 0%,#a5a5a5 100%);filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a5a5a5', endColorstr='#a5a5a5',GradientType=0 );background: linear-gradient(top, #a5a5a5 0%,#a5a5a5 100%)}
+.qam_action_panel .arrow{position:absolute;display:block;width:20px;text-align:center;padding:35px 0;left:10px;top:130px;border:#bbb 1px dotted}
+.qam_action_panel .arrow:hover{background-color:#56BDF4}
+.qam_action_panel a:hover{text-decoration:none}
+
+/* 样式列表管理 */
+.qam_topfix_bar .dropdown_css_list_container{position:fixed;z-index:99;top:37px;right:380px;padding:0 20px 5px 20px;background-color:#eee;border: 1px #999 solid;box-shadow: 0 0 3px #999;color: #555;line-height:1.8em;display:none;}
+.qam_topfix_bar .dropdown_css_list_container ul{margin:5px 0;border-bottom:1px #999 dotted;padding-bottom:3px}
+.qam_topfix_bar .dropdown_css_list_container ul li span{display:inline-block;width:180px}
+.qam_topfix_bar .dropdown_css_list_container ul li input{vertical-align:top;}
+.qam_topfix_bar .dropdown_css_list_container .bt_tip_hit{margin:3px 0 3px 0}
+
+/* 修改占位图尺寸的浮层 */
+.placeholder_size{position:absolute;padding:7px 12px 7px 0;left:0;top:0;z-index:99; background-color:rgba(255,255,255,.6);border:1px solid #999;line-height:25px;display:none}
+.placeholder_size span.attr{margin:0 10px;font-weight:bold;}
+.placeholder_size span.unit{margin:0 10px 0 5px;}
+.placeholder_size input{width:60px}
+.placeholder_size a{cursor:pointer}
+
+/* 拖曳hover时的效果 */
+.custom_canvas_page .custom_canvas_area .drag_hover{background-color:#53cc35!important;}
+
+/* 可拖动的绝对定位元素 */
+.qam_absolute_element{background-color:rgba(155,170,28,.7);cursor:move}
+.qam_absolute_element i.qam_change_size{position:absolute;right:0;bottom:0;display:block;width:10px;height:10px;background-color:#fff;cursor:pointer}

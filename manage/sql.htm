@@ -1,0 +1,116 @@
+<!doctype html>
+<html class="os_win7"><!--os_winXp,os_mac,os_vista,os_win7-->
+<head>
+	<meta charset="utf-8" />
+	<title>QAMS</title>
+	<link href="css/project.css" rel="stylesheet" media="screen" />
+</head>
+<body>
+<div class="body">
+		<div id="qam_notify_area" class="sys_notify_pane pane_w" style="display:none"><div class="sys_notify_pane_inner"></div></div>
+			<!-- 管理项目 开始 -->
+			<div class="mod_manage_main_proj">
+				<div class="hd">
+					<h2><i class="ico ico_manage"></i>数据库备份与还原</h2>
+				</div>
+				<div class="bd">
+					<table class="table_manage">
+						<caption>管理主项目</caption>
+						<colgroup>
+								<col class="col_proj_name" />
+								<col class="col_proj_manager">
+								<col class="col_proj_op">
+							</colgroup>
+						<thead>
+						<tr>
+							<th style="width:90%">名称</th>
+							<th></th>
+						</tr>
+						</thead>
+						<tbody id="list_area">
+						<!--<tr>
+							<td>Qzone_v6</td>
+							<td>damao , qileiwei</td>
+							<td class="col_proj_svn" title="https://tc-svn.tencent.com/isd/isd_webrebuild_rep/qzone_v6_platform_proj/trunk">https://tc-svn.tencent.com/isd/isd_webrebuild_rep/qzone_v6_platform_proj/trunk</td>
+							<td><a href="#"><i class="ico ico_settings"></i>管理子项目</a> <a href="#"><i class="ico ico_edit"></i>编辑</a> <a href="#"><i class="ico ico_del"></i>删除</a></td>
+						</tr>
+						<tr>
+							<td>open_proj</td>
+							<td>jeannewoo , shenfeili</td>
+							<td class="col_proj_svn">https://tc-svn.tencent.com/isd/isd_webrebuild_rep/open_proj/trunk</td>
+							<td><a href="#"><i class="ico ico_settings"></i>管理子项目</a> <a href="#"><i class="ico ico_edit"></i>编辑</a> <a href="#"><i class="ico ico_del"></i>删除</a></td>
+						</tr>
+						<tr>
+							<td>py_proj</td>
+							<td>ytzong , karrewu</td>
+							<td class="col_proj_svn">https://tc-svn.tencent.com/isd/isd_webrebuild_rep/open_proj/trunk</td>
+							<td><a href="#"><i class="ico ico_settings"></i>管理子项目</a> <a href="#"><i class="ico ico_edit"></i>编辑</a> <a href="#"><i class="ico ico_del"></i>删除</a></td>
+						</tr>
+						<tr>
+							<td>Qzone_v5</td>
+							<td>
+								<div class="inputstyle" contenteditable="true">
+									ytzong , karrewu
+								</div>
+							</td>
+							<td class="col_proj_svn">
+								&lt;!&ndash;<input type="text" class="inputstyle" value="http://tc-svn/isd/isd_webrebuild_rep/qzonev5_proj/trunk" /> &ndash;&gt;
+								<div class="inputstyle" contenteditable="true">
+									http://tc-svn/isd/isd_webrebuild_rep/qzonev5_proj/trunk
+								</div>
+							</td>
+							<td><a href="#"><i class="ico ico_settings"></i>管理子项目</a> <a href="#"><i class="ico ico_save"></i>保存</a> <a href="#"><i class="ico ico_del"></i>删除</a></td>
+						</tr>
+						<tr>
+							<td>
+								<div class="inputstyle" contenteditable="true">
+									项目名称...
+								</div>
+							</td>
+							<td>
+								<div class="inputstyle" contenteditable="true">
+									管理员
+								</div>
+							</td>
+							<td class="col_proj_svn">
+								&lt;!&ndash;<input type="text" class="inputstyle" value="http://tc-svn/isd/isd_webrebuild_rep/qzonev5_proj/trunk" /> &ndash;&gt;
+								<div class="inputstyle" contenteditable="true">
+									svn路径...
+								</div>
+							</td>
+							<td class="add_tr_op"><a href="#"><i class="ico ico_save"></i>保存</a> <a href="#"><i class="ico ico_del"></i>删除</a>
+							</td>
+						</tr>-->
+						</tbody>
+					</table>
+                    <div class="add_row">
+                        <a href="javascript:void(0)" class="op_add" id="btn_add"><i class="ico ico_add"></i> 备份</a>
+                    </div>
+				</div>
+				<!--
+				<div class="ft">
+					<div class="btns">
+						<a href="#" class="btn btn_ok"><span>确定</span></a> <a href="#">取消</a>
+					</div>
+				</div>
+				-->
+			</div>
+			<!-- 管理项目 结束 -->
+
+
+</div>
+
+<div id="message_div"></div>
+
+<script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="js/public.js" type="text/javascript"></script>
+<script src="js/functions.js" type="text/javascript"></script>
+<script src="js/sql.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+		sql.init();
+        sql.showlist();
+    });
+</script>
+</body>
+</html>

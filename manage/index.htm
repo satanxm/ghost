@@ -1,0 +1,126 @@
+<!doctype html>
+<html class="os_win7"><!--os_winXp,os_mac,os_vista,os_win7-->
+<head>
+	<meta charset="utf-8" />
+	<meta HTTP-EQUIV="expires" CONTENT="-1">
+	<title>SPARK</title>
+	<link href="css/project.css" rel="stylesheet" media="screen" />
+</head>
+
+
+
+<body>
+<div class="wrapper" id="wrapper">
+	<!-- 顶部固定栏 开始 -->
+	<div class="topfix_bar">
+		<div class="topfix_bar_inner">
+			<h1><a href="page_list.htm" target="win">SPARK</a></h1>
+			<div class="mainmenu">
+				<ul>
+					<li id="nav7"><a href="page_list.htm" target="win">页面</a>
+						<div class="submenu">
+							<ul>
+								<li><a href="page.htm?action=add" target="win">新建页面</a></li>
+								<li><a href="page_list.htm" target="win">管理页面</a></li>
+							</ul>
+						</div>
+					</li>
+					<li id="nav1">
+						<a href="category_manage.htm"  target="win">分类</a>
+						<div class="submenu">
+							<ul>
+								<li><a href="category.htm?action=add" target="win">新建分类</a></li>
+								<li><a href="category_manage.htm"  target="win">管理分类</a></li>
+							</ul>
+						</div>
+					</li>
+					
+					<li id="nav2"><a href="resource_list.htm" target="win" id="nav_res">资源池</a>
+						<div class="submenu">
+							<ul>
+								<li><a href="resource_list.htm" target="win">资源池</a></li>
+								<li><a href="resource.htm" target="win">添加资源</a></li>
+							</ul>
+						</div>
+					</li>
+
+					<li id="nav8"><a href="user_manage.htm" target="win" id="nav_user" style="display:none">用户</a>
+						<div class="submenu">
+							<ul>
+								<li><a href="user_manage.htm" target="win">用户管理</a></li>
+								<li><a href="usergroup_permission_1.htm" target="win">新建用户组</a></li>
+								<li><a href="usergroup_permission_2.htm" target="win">权限预览</a></li>
+								<li><a href="usergroup_permission_3.htm" target="win">权限管理</a></li>
+							</ul>
+						</div>
+					</li>
+					
+					<li id="nav9"><a href="setting.htm" target="win" id="nav_setting" style="display:none">设置</a>
+						<div class="submenu">
+							<ul>
+								<li><a href="setting.htm" target="win">全局设置</a></li>
+								<li><a href="link.htm" target="win">链接管理</a></li>
+								<li><a href="sql.htm" target="win">数据库备份</a></li>
+							</ul>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="sys_welcome">
+				<span id="user_id"></span> <a id="login_status" href="javascript:void(0);"></a><!--<a href="javascript:void(0)" onclick="">设置</a>-->
+			</div>
+		</div>
+	</div>
+	<!-- 顶部固定栏 结束 -->
+	<div class="">
+		<div class="body_inner">
+			<iframe id="win" name="win" width="100%" border="0" frameborder="0" style="overflow:auto" src="page_list.htm"></iframe>
+		</div>
+	</div>
+
+</div>
+
+<div id="message_div"></div>
+
+
+<script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="js/public.js" type="text/javascript"></script>
+<script src="js/functions.js" type="text/javascript"></script>
+<script src="js/login.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+iframe_flag=false;
+$(document).ready(function () {
+	mainmenu();
+	login.getUserCookie();
+
+	var win_href=cookie.get("win_href");
+	
+	if(win_href!="" && win_href!=undefined)
+		document.getElementById("win").src=win_href;
+	//else
+		//document.getElementById("win").src="main.htm";
+		
+});
+
+
+var iframeHeight = function() {
+	var height=document.documentElement.clientHeight-42;
+    document.getElementById("win").height =   height;
+    setTimeout(iframeHeight,200);
+};
+
+iframeHeight();
+
+var nav_set=function(t){
+	$(".mainmenu").find("li").removeClass("current");
+	$("#nav"+t).addClass("current");
+}
+
+
+</script>
+
+
+
+</body>
+</html>

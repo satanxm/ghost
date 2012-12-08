@@ -1,0 +1,108 @@
+<!doctype html>
+<html class="os_win7"><!--os_winXp,os_mac,os_vista,os_win7-->
+<head>
+	<meta charset="utf-8" />
+	<title>QAMS</title>
+	<link href="css/project.css" rel="stylesheet" media="screen" />
+</head>
+<body>
+	<div class="body">
+		<div id="qam_notify_area" class="sys_notify_pane pane_w" style="display:none"><div class="sys_notify_pane_inner"></div></div>
+			<!-- 管理项目 开始 -->
+			<div class="mod_setting">
+				<div class="hd">
+					<h2><i class="ico ico_manage"></i>系统设置</h2>
+				</div>
+				<div class="bd setting_block">
+						<h3 class="setting_title"><a name="a"></a>全局设置</h3>
+						<div class="form_project_add">
+												<div class="panel">
+													<span class="panel_tit">系统名称</span>
+													<div class="panel_main">
+														<input type="text" class="inputstyle" id="system_name" />
+													</div>
+												</div>
+												<div class="panel">
+													<span class="panel_tit">系统地址</span>
+													<div class="panel_main">
+														<input type="text" class="inputstyle"  id="system_url" />
+													</div>
+												</div>
+												<div class="panel">
+													<span class="panel_tit">后台地址</span>
+													<div class="panel_main">
+														<input type="text" class="inputstyle"  id="system_server_url" />
+													</div>
+												</div>
+											</div>
+				</div>
+				
+				
+				
+				<div class="bd setting_block">
+					<h3 class="setting_title"><a name="g"></a>活跃度计算</h3>
+					<div class="form_project_add">
+						<div class="panel">
+							<span class="panel_tit">资源奖励</span>
+							<div class="panel_main">
+								<input type="text" class="inputstyle" id="active_resource" />
+							</div>
+						</div>
+						<div class="panel">
+							<span class="panel_tit">文章奖励</span>
+							<div class="panel_main">
+								<input type="text" class="inputstyle" id="active_page" />
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="bd setting_block">
+					<h3 class="setting_title"><a name="g"></a>其它</h3>
+					<div class="form_project_add">
+						<div class="panel">
+							<span class="panel_tit">权限类别</span>
+							<div class="panel_main">
+								<input type="text" class="inputstyle input_svn" id="power_sort" />
+							</div>
+						</div>
+						
+					</div>
+				</div>
+
+				<div class="ft">
+					<div class="btns">
+						<a href="javascript:void(0)" class="btn btn_ok" id="btn_ok" ><span>保存</span></a> <a href="javascript:history.go(0)">取消</a>
+					</div>
+				</div>
+				<!-- 跳转菜单 开始 -->
+				<div class="mod_jump_menu" style="display:none;">
+					<ul>
+						<li><a href="#a" title="跳转到...">全局设置</a></li>
+						<li><a href="#g" title="跳转到...">其它</a></li>
+						<li class="li_save"><a style="color:#6C99C0" href="javascript:void(0)"  id="btn_ok2" >保存</a></li>
+					</ul>
+				</div>  
+				<!-- 跳转菜单 结束 -->
+			</div>
+			<!-- 管理项目 结束 -->
+	</div>
+
+
+
+<div id="message_div"></div>
+
+<script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="js/public.js" type="text/javascript"></script>
+<script src="js/functions.js" type="text/javascript"></script>
+<script src="js/setting.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+		setting.init();
+        setting.getinfo();
+    });
+</script>
+
+</body>
+</html>

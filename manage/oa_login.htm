@@ -1,0 +1,47 @@
+<!doctype html>
+<html class="os_winXp"><!--os_winXp,os_mac,os_vista,os_win7-->
+<head>
+</head>
+<body>
+
+<!--
+1、尝试oa登陆页并返回到本页面，里面为json，如果请求正常，会拿到json中的ret
+2、如果成功拿到ret，继续跳转oa登陆页，并返回本页面，此时type=1，用来处理ticket，拿到ticket就交给parent的函数处理
+3、如果没有拿到ret，就通知parent，把我干掉
+-->
+
+<script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="js/public.js" type="text/javascript"></script>
+<script src="js/functions.js" type="text/javascript"></script>
+<script>
+
+iframe_flag=false;
+var type=functions.getRequest("type");
+
+function oa_try_login(){
+		jQuery.getScript(oa_login+spark_path+"oa_ret.htm", function(){
+		   if(typeof(ret)!="undefined" && ret.status==1){
+				window.location.href=oa_login+spark_path+"oa_login.htm?type=1";
+			}else{
+				parent.login.oaLoginFail();
+			}
+		});   
+}
+
+function oa_login_ticket(){
+		var ticket=functions.getRequest("ticket")
+		if(ticket!=undefined && ticket!="")parent.login.oaLogin(ticket);
+}
+
+
+	
+$(document).ready(function () {
+	if(type!=1)
+		oa_try_login();
+	else
+		oa_login_ticket();
+});	
+</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+﻿/*
+ * Copy Right: Tencent ISUX
+ * Project: QAM
+ * @author: Kundy
+*/
+
+@import url("reset.import.css");
+@import url("global.import.css");
+
+body{font-size:12px;font-family:微软雅黑}
+#listbox a{margin-right:10px;color:#008080;text-decoration:none}
+#pick_listbox a{margin-right:10px;color:#008080;text-decoration:none}
+#image_listbox a{margin-right:10px;color:#008080;text-decoration:none}
+a:hover{color:#FF2B2B;text-decoration:under-line}
+table{border-collapse:collapse;font-size:12px;}
+thead td{font-weight:bold;background:#D2E1F6;color:#333;height:26px;line-height:26px;}
+td{border:#999 solid 1px;padding-left:10px;padding-right:10px;height:22px;line-height:22px;}
+input[type="button"]{height:20px;border:#333 solid 1px;border-radius:4px;background:#52A9D5;line-height:16px;text-align:center;display:inline-block;padding-left:15px;padding-right:15px;color:#FFF;margin-right:10px;}
+
+
+
+.myform{line-height:26px;}
+.myform label span{display:inline-block;width:120px;text-align:left;}
+.myform label textarea{display:inline-block;}
+
+#message{height:20px;line-height:22px;background:#FFF2D5;border:#FAC555 solid 1px;color:#828685;padding-left:20px;margin-bottom:20px}
+#parent_box{display:inline}
+#ident{margin-left:20px;color:#F00;margin-right:5px;}
+
+.selector{color:#FF00FF}
+.property{color:#000066}
+.value{color:#0000FF}
+.annotation{color:#999}
+.import{color:#0080FF}
+.pick{background:#ECE231}
+.loop{color:#1E50A2}
+.var{color:#00897C}
+.image{color:#3BAAC4}
+
+.html{width:800px;height:250px;}
+.css{width:800px;height:100px;}
+.js{width:800px;height:100px;}
+.html,.css,.js{border:#ABADB3 solid 1px;background:#fff;display:inline-block;overflow:auto;margin-top:10px;}
+.css a{display:inline-block;border-bottom:#5D5D5E dotted 1px;line-height:13px;cursor:pointer}
+.html a{display:inline-block;border-bottom:#5D5D5E dotted 1px;line-height:13px;cursor:pointer;color:#F00;}
+
+
+
+
+
+
+
+
+
+
+
+

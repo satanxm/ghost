@@ -1,0 +1,79 @@
+﻿/*
+ * Copy Right: Tencent ISUX
+ * Project: QAMS
+ * Comments: 自定义页面
+ * @author: Jeanne
+*/
+@import url("reset.import.css");
+@import url("global.import.css");
+@import url("popup.import.css");
+
+
+a{color:#71A7E3}
+.index_page{display:-webkit-box;display:-moz-box;display:box;width:100%;color:#CCCCCC;}
+.index_page .aside{width:230px;margin-left:30px;}
+.index_page .main{-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;height:500px;}
+
+/*-- 快捷操作区 开始 --*/
+.mod_quick_operation{display:-webkit-box;display:-moz-box;display:box;width:100%;}
+.avatar{width:100px;margin-right:15px;}
+.avatar img{border-radius:8px;box-shadow:0 0 1px rgba(0,0,0,.5)}
+.mod_quick_operation .avatar img{width:100px;height:100px;}
+.mod_quick_operation_main{background-color:#323232;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;border-radius:10px;box-shadow:0 0 1px rgba(0,0,0,.5);}
+.quick_list{}
+.quick_list li{border-bottom:1px solid #4C4C4C;border-right:1px solid #4C4C4C;text-align:center;width:207px;float:left;padding:35px 0 20px;position:relative;cursor:pointer}
+.quick_list li .disc{cursor:default; background-color:rgba(35,35,35,.9);width:100%;height:100%;position:absolute;left:0;top:0;filter:alpha(opacity=0);-moz-opacity:0;opacity:0;}
+.quick_list li:hover .disc{filter:alpha(opacity=1);-moz-opacity:1;opacity:1;-moz-transition: all .3s linear;-webkit-transition: all .3s linear;transition: all .3s linear;}
+.quick_list li h3{font-size:32px;margin-bottom:5px;text-shadow:1px 1px 3px rgba(0,0,0,.5);font-weight:normal;text-indent:-999em;display:block;overflow:hidden;text-decoration:none;background-repeat:no-repeat;width:122px;height:70px;margin:0 auto}
+.quick_list li h4{color:#BBBBBB;font-size:16px;font-weight:normal;text-indent:-999em;display:block;overflow:hidden;text-decoration:none;}
+.quick_list_1 h3{color:#A9C7E4;background-image:url(slice/quick_list1.png);}
+.quick_list_2 h3{color:#FFFFC1;background-image:url(slice/quick_list2.png);}
+.quick_list_3 h3{color:#9AD6A2;background-image:url(slice/quick_list3.png);}
+.quick_list_4 h3{color:#F9BB71;background-image:url(slice/quick_list4.png);}
+.quick_list_5 h3{color:#FF99CC;background-image:url(slice/quick_list5.png);}
+.quick_list_6 h3{color:#B0B0FF;background-image:url(slice/quick_list6.png);}
+.quick_list .quick_list_3,
+.quick_list .quick_list_6{border-right:0 none;width:208px;}
+.quick_list .quick_list_4,
+.quick_list .quick_list_5,
+.quick_list .quick_list_6{border-bottom:0 none;}
+.quick_list li.quick_list_1 .disc{border-radius:10px 0 0 0;}
+.quick_list li.quick_list_3 .disc{border-radius:0 10px 0 0;}
+.quick_list li.quick_list_4 .disc{border-radius:0 0 0 10px;}
+.quick_list li.quick_list_6 .disc{border-radius:0 0 10px 0;}
+.ico_index_add{width:17px;height:17px;background-image:url(slice/ico_index_add.png);}
+.ico_index_manage{width:16px;height:16px;background-image:url(slice/ico_index_manage.png);}
+.ico_index_list{width:19px;height:14px;background-image:url(slice/ico_index_list.png);}
+.quick_list li .disc p{text-align:center;margin-top:120px;height:20px;padding:3px 0;}
+.quick_list li .disc p a{padding:0 2px 0 4px;border-radius:3px;margin-right:3px;cursor:pointer;}
+/*-- 快捷操作区 结束 --*/
+/*-- feed 开始 --*/
+.feed{margin-top:50px;padding-bottom:30px;}
+.feed_list li{display:-webkit-box;display:-moz-box;display:box;width:100%;margin-bottom:15px;}
+.feed_list .avatar{width:50px;margin-right:20px;}
+.feed_list .avatar img{width:50px;height:50px;}
+.feed_list .feed_main{background-color:#323232;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;border-radius:5px;box-shadow:0 0 1px rgba(0,0,0,.5);padding:15px;color:#CCCCCC;position:relative;font-size:14px;}
+.feed_main .arrow_l{width:0;height:0;overflow:hidden;font-size:0;display:inline-block;border-width:9px;border-color:transparent #323232 transparent transparent;border-style:dashed solid dashed dashed;position:absolute;left:-18px;top:16px;}
+.feed_list .feed_main .time{position:absolute;right:15px;top:15px;color:#787878;font-size:12px;}
+.feed_list .feed_main .feed_hd{padding-right:120px}
+.feed_list .feed_main .feed_hd a{margin:0 5px;}
+.feed_list .feed_main .feed_bd{margin-top:15px;}
+.feed_list .feed_main .feed_bd .imgbox a img{border:1px solid #666;padding:2px;border-radius:2px;}
+.feed_list .feed_main .feed_hd .name{color:#E3749D;margin:0 5px;}
+/*-- feed 结束 --*/
+/*-- 边栏 开始 --*/
+.mod_side{margin-bottom:20px;}
+.mod_side .hd{border-bottom:1px solid #333333;padding-bottom:8px;}
+.mod_side .hd h3{font-size:16px;text-shadow:1px 1px 0 rgba(0, 0, 0, 0.8);}
+.mod_side .bd{border-top:1px solid #666666;padding-top:18px;}
+.tags a{background-color:#333;border-radius:5px;padding:3px 5px;float:left;margin-right:5px;margin-bottom:5px;color:#aaa;text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);}
+.tags a:hover{background-color:#222;-webkit-transition: all .3s linear;transition: all .3s linear;color:#ccc;}
+.link_list li{margin-bottom:5px;font-size:14px;}
+.link_list li a{width:230px;white-space: nowrap;text-overflow: ellipsis;-o-text-overflow: ellipsis;	overflow: hidden;
+display: block;}
+.btn_add_new{width:213px;height:38px;background:url(img/btn_add_new.png) no-repeat;text-indent:-999em;overflow:hidden;}
+
+/*-- 边栏 结束 --*/
+.gotop{position:fixed;z-index:5000;visibility:visible;opacity:1;left:1340px;}
+.gotop a{display:block;width:31px;height:35px;background: url(img/sprite_icon.png) no-repeat -184px 0;text-indent:-999em;overflow:hidden;}
+.gotop a:hover{background-position:-184px -36px}

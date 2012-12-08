@@ -1,0 +1,166 @@
+<!doctype html>
+<html class="os_win7" style="overflow-y:scroll;"><!--os_winXp,os_mac,os_vista,os_win7-->
+<head>
+	<meta charset="utf-8" />
+	<title>QAMS</title>
+	<link href="css/project.css" rel="stylesheet" media="screen" />
+</head>
+<body>
+<div class="wrapper">
+	
+	<div class="body">
+		<!-- 管理项目 开始 -->
+		<div id="qam_notify_area" class="sys_notify_pane pane_w" style="display:none"><div class="sys_notify_pane_inner"></div></div>	
+		<div class="mod_user_manage">
+			<div class="hd">
+				<h2><i class="ico ico_users"></i>用户组与权限管理</h2>
+				<div class="hd_extra">
+					<div class="search_box">
+						<div class="search_box_inner">
+							<input type="text" class="search_style"> <a href="#" class="ico ico_search"><span>搜索</span></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="bd">
+				<!-- tab 开始 -->
+				<div class="tab">
+					<a href="usergroup_permission_1.htm">添加用户组</a> <a href="usergroup_permission_2.htm" class="current">权限预览</a> <a href="usergroup_permission_3.htm">权限管理</a>
+				</div>
+				<!-- tab 结束 -->
+				<div class="table_wrap">
+					<table class="table_style table_permission_preview">
+					<caption>管理主项目</caption>
+					<colgroup>
+							<col class="col_users_permission_name" />
+							<col />
+							<col />
+							<col />
+							<col />
+							<col />
+							<col />
+							<col />
+					</colgroup>
+					<thead id="group_title">
+					<!--
+					<tr>
+						<th></th>
+						<th>超级管理员</th>
+						<th>项目管理员</th>
+						<th>前端开发</th>
+						<th>前台开发</th>
+						<th>产品运营</th>
+						<th>视觉设计</th>
+						<th>交互设计</th>
+					</tr>
+					-->
+					</thead>
+					<tbody id="group_list">
+					<!--
+					<tr>
+						<td>系统设置</td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+					</tr>
+					<tr>
+						<td>用户管理</td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+					</tr>
+					<tr>
+						<td>用户组管理</td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+					</tr>
+					<tr>
+						<td>权限管理</td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+					</tr>
+					<tr>
+						<td>主项目添加</td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+					</tr>
+					<tr>
+						<td>框架修改</td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+					</tr>
+					<tr>
+						<td>项目删除</td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+					</tr>
+					<tr>
+						<td>组件添加</td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_support"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+						<td><i class="ico ico_unsupport"></i></td>
+					</tr>
+					-->
+					</tbody>
+				</table>
+				</div>
+
+			</div>
+		</div>
+		<!-- 管理项目 结束 -->
+	</div>
+
+</div>
+
+<div id="message_div"></div>
+
+<script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="js/public.js" type="text/javascript"></script>
+<script src="js/functions.js" type="text/javascript"></script>
+<script src="js/user.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+		group.loadPowerList();
+        //power.showlist();
+    });
+</script>	
+	
+</body>
+</html>

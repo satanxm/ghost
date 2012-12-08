@@ -1,0 +1,146 @@
+<!doctype html>
+<html class="os_win7" style="overflow-y:scroll;"><!--os_winXp,os_mac,os_vista,os_win7-->
+<head>
+	<meta charset="utf-8" />
+	<title>QAMS</title>
+	<link href="css/project.css" rel="stylesheet" media="screen" />
+</head>
+<body>
+<div class="wrapper">
+	
+	<div class="body">
+		<div id="qam_notify_area" class="sys_notify_pane pane_w" style="display:none"><div class="sys_notify_pane_inner"></div></div>
+		<!-- 管理项目 开始 -->
+		<div class="mod_user_manage">
+			<div class="hd">
+				<h2><i class="ico ico_users"></i>用户组与权限管理</h2>
+				<div class="hd_extra">
+					<div class="search_box">
+						<div class="search_box_inner">
+							<input type="text" id="search_text" class="search_style"> <a href="javascript:void(0)" id="search_btn" class="ico ico_search"><span>搜索</span></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="bd">
+				<!-- tab 开始 -->
+				<div class="tab">
+					<a href="usergroup_permission_1.htm">添加用户组</a> <a href="usergroup_permission_2.htm">权限预览</a> <a href="usergroup_permission_3.htm" class="current">权限管理</a>
+					
+				</div>
+				<div class="table_toolbar">
+					<div class="table_toolbar_l">
+						<span id="filter_data"></span>
+					</div>
+					<div class="table_toolbar_r">
+						<div class="pagenav">
+							 <a href="javascript:void(0)" class="ico ico_page_left_n" id="page_up">上一页</a> <span id="page_nums">10/20</span> <a href="javascript:void(0)" class="ico ico_page_right"  id="page_down">下一页</a>
+						</div>
+					</div>
+				</div>
+				<!-- tab 结束 -->
+				<div class="table_wrap">
+					<table class="table_style">
+					<caption>管理主项目</caption>
+					<colgroup>
+							<col class="col_users_permission_name" />
+							<col class="col_users_permission_name" />
+							<col class="col_users_permission_tag">
+							<col class="col_users_permission_intro">
+							<col class="col_users_op">
+						</colgroup>
+					<thead>
+					<tr>
+						<th>权限名称</th>
+						<th>组</th>
+						<th>权限控制器</th>
+						<th>说明</th>
+						<th></th>
+					</tr>
+					</thead>
+					<tbody id="power_list">
+					<!--
+					<tr>
+						<td>系统设置</td>
+						<td>setting-operate</td>
+						<td class="col_users_permission_intro">系统设置包含用户管理、用户组与权限管理、主项目增删改等...</td>
+						<td><a href="#"><i class="ico ico_edit"></i>修改</a> <a href="#"><i class="ico ico_del"></i>删除</a></td>
+					</tr>
+					<tr>
+						<td>框架删除</td>
+						<td>frame-del</td>
+						<td class="col_users_permission_intro">系统设置包含用户管理、用户组与权限管理、主项目增删改等...</td>
+						<td><a href="#"><i class="ico ico_edit"></i>修改</a> <a href="#"><i class="ico ico_del"></i>删除</a></td>
+					</tr>
+					<tr>
+						<td>框架修改</td>
+						<td>frame-update</td>
+						<td class="col_users_permission_intro">系统设置包含用户管理、用户组与权限管理、主项目增删改等...</td>
+						<td><a href="#"><i class="ico ico_edit"></i>修改</a> <a href="#"><i class="ico ico_del"></i>删除</a></td>
+					</tr>
+					<tr>
+						<td>框架添加</td>
+						<td>frame-add</td>
+						<td class="col_users_permission_intro">系统设置包含用户管理、用户组与权限管理、主项目增删改等...</td>
+						<td><a href="#"><i class="ico ico_edit"></i>修改</a> <a href="#"><i class="ico ico_del"></i>删除</a></td>
+					</tr>
+					<tr>
+						<td>项目删除</td>
+						<td>project_del</td>
+						<td class="col_users_permission_intro">系统设置包含用户管理、用户组与权限管理、主项目增删改等...</td>
+						<td><a href="#"><i class="ico ico_edit"></i>修改</a> <a href="#"><i class="ico ico_del"></i>删除</a></td>
+					</tr>
+					<tr>
+						<td>
+							<div class="inputstyle" contenteditable="true">
+								权限名称...
+							</div>
+						</td>
+						<td>
+							<div class="inputstyle" contenteditable="true">
+								权限控制器
+							</div>
+						</td>
+						<td>
+							<div class="inputstyle" contenteditable="true">
+								说明
+							</div>
+						</td>
+						<td class="add_tr_op"><a href="#"><i class="ico ico_save"></i>保存</a> <a href="#"><i class="ico ico_del"></i>删除</a>
+						</td>
+					</tr>
+					-->
+					</tbody>
+					<tfoot>
+					<tr>
+						<td colspan="4"><a href="javascript:void(0)" id="btn_add"  class="op_add"><i class="ico ico_add"></i> 添加权限</a></td>
+					</tr>
+					</tfoot>
+				</table>
+				</div>
+
+			</div>
+		</div>
+		<!-- 管理项目 结束 -->
+	</div>
+
+</div>
+
+<div id="message_div"></div>
+
+<script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="js/public.js" type="text/javascript"></script>
+<script src="js/functions.js" type="text/javascript"></script>
+<script src="js/user.js" type="text/javascript"></script>
+<script type="text/javascript">
+	
+    $(document).ready(function () {
+		power.init();
+		power.showGroup();
+        power.showlist();
+    });
+</script>
+
+
+</body>
+</html>

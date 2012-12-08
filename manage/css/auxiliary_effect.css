@@ -1,0 +1,38 @@
+/*
+ * Copy Right: Tencent ISUX
+ * Project: QAM（Qzone模块化页面搭建平台）
+ * Description: 配置页面辅助效果样式集合
+ * Author: Tysonpan
+ * date: 2011-01-17
+ */
+
+
+/* data_container辅助效果 */
+.custom_canvas_area div.qam_auxiliary_effect0{padding-bottom:50px;margin-bottom:10px;min-height:50px;background-color:#cfcfcf;}
+.custom_canvas_area div.qam_auxiliary_effect1{padding-bottom:50px;margin-bottom:10px;min-height:50px;background-color:#c8c8c8;}
+.custom_canvas_area div.qam_auxiliary_effect2{padding-bottom:50px;margin-bottom:10px;min-height:50px;background-color:#c1c1c1;}
+.custom_canvas_area div.qam_auxiliary_effect3{padding-bottom:50px;margin-bottom:10px;min-height:50px;background-color:#b9b9b9;}
+.custom_canvas_area div.qam_auxiliary_effect4{padding-bottom:50px;margin-bottom:10px;min-height:50px;background-color:#b5b5b5;}
+.custom_canvas_area div.qam_auxiliary_effect5{padding-bottom:50px;margin-bottom:10px;min-height:50px;background-color:#b0b0b0;}
+.custom_canvas_area div.qam_auxiliary_effect6{padding-bottom:50px;margin-bottom:10px;min-height:50px;background-color:#adadad;}
+.custom_canvas_area div.qam_auxiliary_effect7{padding-bottom:50px;margin-bottom:10px;min-height:50px;background-color:#aaaaaa;}
+.custom_canvas_area div.qam_auxiliary_effect8{padding-bottom:50px;margin-bottom:10px;min-height:50px;background-color:#a8a8a8;}
+.custom_canvas_area div.qam_auxiliary_effect9{padding-bottom:50px;margin-bottom:10px;min-height:50px;background-color:#a5a5a5;}
+
+.custom_canvas_area p.qam_auxiliary_effect0,.custom_canvas_area li.qam_auxiliary_effect0{min-height:20px;background-color:#cfcfcf;}
+.custom_canvas_area p.qam_auxiliary_effect1,.custom_canvas_area li.qam_auxiliary_effect1{min-height:20px;background-color:#c8c8c8;}
+.custom_canvas_area p.qam_auxiliary_effect2,.custom_canvas_area li.qam_auxiliary_effect2{min-height:20px;background-color:#c1c1c1;}
+.custom_canvas_area p.qam_auxiliary_effect3,.custom_canvas_area li.qam_auxiliary_effect3{min-height:20px;background-color:#b9b9b9;}
+.custom_canvas_area p.qam_auxiliary_effect4,.custom_canvas_area li.qam_auxiliary_effect4{min-height:20px;background-color:#b5b5b5;}
+.custom_canvas_area p.qam_auxiliary_effect5,.custom_canvas_area li.qam_auxiliary_effect5{min-height:20px;background-color:#b0b0b0;}
+.custom_canvas_area p.qam_auxiliary_effect6,.custom_canvas_area li.qam_auxiliary_effect6{min-height:20px;background-color:#adadad;}
+.custom_canvas_area p.qam_auxiliary_effect7,.custom_canvas_area li.qam_auxiliary_effect7{min-height:20px;background-color:#aaaaaa;}
+.custom_canvas_area p.qam_auxiliary_effect8,.custom_canvas_area li.qam_auxiliary_effect8{min-height:20px;background-color:#a8a8a8;}
+.custom_canvas_area p.qam_auxiliary_effect9,.custom_canvas_area li.qam_auxiliary_effect9{min-height:20px;background-color:#a5a5a5;}
+
+/* table辅助效果 */
+.custom_canvas_area table{width:100%}
+.custom_canvas_area table tr td{min-height:30px;border:#3d3d3d 1px solid}
+
+/* 编辑区域边框 */
+.custom_canvas_page .custom_canvas_area{border:1px #CCC solid}

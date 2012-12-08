@@ -1,0 +1,58 @@
+<!doctype html>
+<html class="os_winXp"><!--os_winXp,os_mac,os_vista,os_win7-->
+<head>
+	<meta charset="utf-8" />
+	<title>SPARK</title>
+	<link href="css/login.css" rel="stylesheet" media="screen" />
+	<link href="css/animate.css" rel="stylesheet" media="screen" />
+</head>
+<body>
+<div class="wrapper">
+	<div class="head">
+		<h1>SPARK.</h1>
+	</div>
+	<div class="body" style="height:300px;">
+		<!--<div class="login_pic_box" style="height:300px;">-->
+			<!--<img src="../sample/pic2.jpg" alt="" width="584">-->
+		<!--</div>-->
+		<!-- 登录框 开始 -->
+		<div class="login_form">
+			<form action="#" method="post" id="login_form">
+				<div id="id_wrap" class="input_wrap">
+					<!--<label for="id">Name</label>-->
+					<input type="text" id="id" name="id" class="inputstyle" value="Name" />
+				</div>
+				<div id="password_wrap" class="input_wrap">
+					<!--<label for="password">Password</label>-->
+					<input type="password" id="password" name="password" class="inputstyle" value="Password" />
+				</div>
+				<a href="javascript:void(0)" class="btn btn_login" id="btn_login"><span>Login</span></a>
+				<a href="javascript:void(0)" class="btn btn_login_oa" id="btn_login_oa"><span>OA登录</span></a>
+			</form>
+		</div>
+		<!-- 登录框 结束 -->
+		<!-- 其它 开始 -->
+		<!--<div class="login_extra">-->
+			<!--<p>没有账号，<a href="#">OA登录</a></p>-->
+		<!--</div>-->
+		<!-- 其它 结束 -->
+	</div>
+</div>
+
+<div id="message_div"></div>
+
+<script src="js/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="js/public.js" type="text/javascript"></script>
+<script src="js/functions.js" type="text/javascript"></script>
+<script src="js/md5.js" type="text/javascript"></script>
+<script src="js/login.js" type="text/javascript"></script>
+<script type="text/javascript">
+iframe_flag=false;
+$(document).ready(function(){
+	//window.location.href="http://passport.oa.com/modules/passport/signin.ashx?url=http://qam.oa.com";
+	login.getUserCookie();
+	login.init();
+});
+</script>
+</body>
+</html>
