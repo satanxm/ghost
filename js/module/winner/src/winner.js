@@ -1,5 +1,7 @@
 define(function(require,exports,module){
 
+	var tmpl = require('./tmpl');
+
 	return {
 		
 		//胜利者 1:人 2:鬼
@@ -35,9 +37,31 @@ define(function(require,exports,module){
 		
 		displayWinner: function(){
 			
+			var tips = $('#desk_center_tip');
+			
+			tips.hide();
+			tips.removeClass('bounceIn');
+			
+			tips.html(tmpl.winner());
+			
+			tips.show();
+			tips.addClass('bounceIn');
+			
+			
 		},
 		
 		displayLoser: function(){
+			
+			var tips = $('#desk_center_tip');
+			
+			tips.hide();
+			tips.removeClass('bounceIn');
+			
+			tips.html(tmpl.loser());
+			
+			tips.show();
+			tips.addClass('bounceIn');
+			
 			
 		}
 		

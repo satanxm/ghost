@@ -41,7 +41,9 @@ define.pack = function(){
 
 
 
-define.pack("./winner",[],function(require,exports,module){
+define.pack("./winner",["./tmpl"],function(require,exports,module){
+
+	var tmpl = require('./tmpl');
 
 	return {
 		
@@ -78,9 +80,31 @@ define.pack("./winner",[],function(require,exports,module){
 		
 		displayWinner: function(){
 			
+			var tips = $('#desk_center_tip');
+			
+			tips.hide();
+			tips.removeClass('bounceIn');
+			
+			tips.html(tmpl.winner());
+			
+			tips.show();
+			tips.addClass('bounceIn');
+			
+			
 		},
 		
 		displayLoser: function(){
+			
+			var tips = $('#desk_center_tip');
+			
+			tips.hide();
+			tips.removeClass('bounceIn');
+			
+			tips.html(tmpl.loser());
+			
+			tips.show();
+			tips.addClass('bounceIn');
+			
 			
 		}
 		
@@ -99,6 +123,21 @@ define.pack("./winner",[],function(require,exports,module){
 
 define.pack("./tmpl",[],function(require, exports, module){
 var tmpl = { 
+'winner': function(data){
+
+var __p=[],_p=function(s){__p.push(s)};
+__p.push('<p>胜利！</p>');
+
+return __p.join("");
+},
+
+'loser': function(data){
+
+var __p=[],_p=function(s){__p.push(s)};
+__p.push('<p>失败！</p>');
+
+return __p.join("");
+}
 };
 return tmpl;
 });
