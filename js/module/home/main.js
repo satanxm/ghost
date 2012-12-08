@@ -309,7 +309,7 @@ function createGame(){
 
 function handleCreate(content){
     if(content.ret==0){
-        userInfo.uid=content.uid
+        userInfo.uid=content.uid;
         userInfoSave(content.userlist);
         deskInfoSave(content.deskInfo);
         userSit(content.userlist);
@@ -333,7 +333,7 @@ function handleReconnectionGame(content){
     if(content.ret==0){
         userInfo.uid=content.uid
         userInfoSave(content.userlist);
-        deskInfoSave(content.deskInfo)
+        deskInfoSave(content.deskInfo);
         userSit(content.userlist);
         showDesk(content.deskInfo);
         if(content.deskInfo.status==1){//游戏已开始
@@ -370,9 +370,9 @@ function joinGame(){
 
 function handleJoinGame(content){
     if(content.ret==0){
-        userInfo.uid=content.uid
+        userInfo.uid=content.uid;
         userInfoSave(content.userlist);
-        deskInfoSave(content.deskInfo)
+        deskInfoSave(content.deskInfo);
         userSit(content.userlist);
         showDesk(content.deskInfo);
         showUserMessage(content.msg);
@@ -388,11 +388,11 @@ function handleJoinGame(content){
 function gameRestart(content){
      if(content.ret==0){
         userInfoSave(content.userlist);
-        deskInfoSave(content.deskInfo)
+        deskInfoSave(content.deskInfo);
         userSit(content.userlist);
         showDesk(content.deskInfo);
         showUserMessage(content.msg);
-		$('.user_item').removeClass('user_item_disabled');
+		$('.user_item').removeClass('user_item_disabled user_item_ghost');
     }
 }
 
@@ -494,7 +494,7 @@ function handleGameStage(content){
             $(".link_stage_insert").remove();
             $('#game_stage').css({'left':'121px'});
             $.each(stageList,function(key,value){
-                gameStageMove( value,1 ) 
+                gameStageMove( value,1);
             });
         }
 
