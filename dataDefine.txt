@@ -197,6 +197,8 @@ act :  binarycode
 
 post:
 url :   url
+size :  6   1 - 10 之间的数字  图片大小, 默认是6 
+level : 1  1-4 之间的数字  二维码的复杂度， 默认是3
 
 返回：
  	图片内容
@@ -210,6 +212,8 @@ url :   url
 get:
 mod : desk
 act : wordlist
+
+post:
 count : 30   可以传个数字， 也可以默认
 
 返回：
