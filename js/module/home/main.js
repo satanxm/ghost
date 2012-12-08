@@ -404,7 +404,7 @@ function gameStart(){
             'action': 'startGame',
             'callback': 'handleStartGame',
             'wordHuman': words.human,
-            'wordGuest': words.ghost,
+            'wordGhost': words.ghost,
             'ghostNum': ghostNum
         };
         var wsParmEncode = $.toJSON(wsParm);
