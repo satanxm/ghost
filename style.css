@@ -140,7 +140,7 @@ _width: 100%;
 .button_area{padding-left:47px;}
 a:visited{color:#fff;}
 .ico_id_ghost{}
-.mask_offline{background-image:url(slice/offline.png);width:20px;height:20px;position:absolute;top:0px;left:0px;display:none;}
+.mask_offline{background-image:url(slice/offline.png);width:20px;height:20px;position:absolute;top:25px;left:0px;display:none;}
 .user_item_offline .avatar_item{opacity:0.2;}
 .user_item_offline .user_name{opacity:0.5;}
 .user_item_offline .mask_offline{display:block;}
@@ -166,8 +166,9 @@ a:visited{color:#fff;}
 #popupStage .ui-content {padding: 15px !important;text-align: center;}
 #popupStage .ui-content a{width:70px;}
 
-.word_area{position:absolute;bottom:50px;left:230px;opacity:0.8;line-height:16px;text-shadow:none;font-size:12px;width:75px;}
+.word_area{position:absolute;bottom:-5px;cursor:pointer;right:-55px;opacity:0.8;line-height:16px;text-shadow:none;font-size:12px;padding:0 5px;border-radius:6px;}
 .word_area p{margin:0;}
+.word_area p span{color:#e30;}
 
 .game_message{margin-left:10px;line-height: 24px;font-size: 12px;font-weight: 100;text-shadow: none;}
 .user_message{height:26px;line-height:26px;padding:0 10px;position:absolute;top:43px;left:0;font-size:13px;opacity:.8;
@@ -186,13 +187,30 @@ a:visited{color:#fff;}
 
 .voteNum{background-color: #FE6600;color: white;padding: 1px 3px;font-style: normal;font-family: Tahoma;font-size: 11px;line-height: 12px;height: 12px;display: inline-block;-webkit-text-size-adjust: none;border-radius:4px;top:0px;right:0px;position: absolute;text-shadow:none;display:none;}
 .voteNum_voted{background-color: #0AA515;}
-.mod_desk_vote_judge .user_item_set .voteNum{display:block;}
 
+.mod_desk_vote_judge .user_item_set .voteNum{display:block;}
+.mod_desk_vote_judge .user_item_judge .voteNum{display:none;}
+.mod_desk_vote_judge .user_item_dead .voteNum{display:none;}
+
+.mod_desk_vote .user_item_set .voteNum{display:block;}
+.mod_desk_vote .user_item_self .voteNum{display:none;}
+.mod_desk_vote .user_item_judge .voteNum{display:none;}
+
+.mod_desk_guess .user_item_set .voteNum{display:block;}
+.mod_desk_guess .user_item_judge .voteNum{display:none;}
+
+.mod_desk_vote .user_item_disabled .voteNum{display:none;}
+.mod_desk_guess .user_item_disabled .voteNum{display:none;}
 
 .mod_desk_vote .user_item{opacity:1;cursor:pointer;}
 .mod_desk_vote .user_item_self{opacity:0.1;cursor:default;}
 .mod_desk_vote .user_item_judge{opacity:0.1;cursor:default;}
 .mod_desk_vote .user_item_dead{opacity:1;cursor:default;}
+
+
+
+.user_item .user_item_disabled{opacity:0.1;cursor:default;}
+
 .mod_desk_vote .user_item_vote{opacity:1;cursor:default;}
 .popupGuess{width: 92.5%;margin: 10% auto 15px auto;z-index:10;}
 .popupGuess .btn{margin:0 20px;}
