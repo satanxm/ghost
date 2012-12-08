@@ -209,15 +209,16 @@ a:visited{color:#fff;}
 
 
 
-.user_item .user_item_disabled{opacity:0.1;cursor:default;}
+.mod_desk .user_item.user_item_disabled{opacity:0.1;cursor:default;}
 
 .mod_desk_vote .user_item_vote{opacity:1;cursor:default;}
 .popupGuess{width: 92.5%;margin: 10% auto 15px auto;z-index:10;}
 .popupGuess .btn{margin:0 20px;}
 .popupGuess .btn a{width:120px;}
-.desk_center_tip{position:absolute;left:50%;top:125px;width:100px;text-align:center;margin:-50px;border-radius:16px;padding:0;font-weight:bold;font-size:18px;}
+.desk_center_tip_wrap{position:absolute;left:0;top:80px;width:100%;text-align: center;margin:0;padding:0;}
+.desk_center_tip{display:inline-block;text-align:center;border-radius:16px;padding:0 10px;font-weight:bold;font-size:18px;}
 .desk_center_tip .ui-body{padding:0;}
-.desk_center_tip p{margin:0;line-height:40px;}
+.desk_center_tip p{margin:0;line-height:36px;}
 
 
 

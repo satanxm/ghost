@@ -200,6 +200,7 @@ def gameRestart(deskId):
     deskList[deskId]['extend']['wordGhost']=''
     deskList[deskId]['stage']['step']=[]
     deskList[deskId]['stage']['type']=-1
+    deskList[deskId]['extend']['tempUserList']=[]
     #还原用户信息
     for userIndex in userList:
         if userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']!=11:
@@ -387,26 +388,34 @@ def gameStageNext(self,decodeData):
     deskId=userList[self]['deskId']
     
     if len(deskList[deskId]['extend']['tempUserList'])>0:
-        voteUserList=deskList[deskId]['extend']['tempUserList']
+        activeUserList=deskList[deskId]['extend']['tempUserList']
     else:
-        voteUserList=getAliveUserByDesk(deskId)
+        activeUserList=getAliveUserByDesk(deskId)
+    
+    print 'desk stage type'
+    print deskList[deskId]['stage']['type']
 
     if deskList[deskId]['stage']['type']==-1:
         stepType=0
         message='陈述阶段:请从法官左手开始，顺时针陈述。'
-        sendData['content']['activeUserList']=voteUserList
+        sendData['content']['activeUserList']=activeUserList
     elif deskList[deskId]['stage']['type']==0:
         voteReset(deskId)
         stepType=1
         message='投票阶段:请选择一位玩家。'
         #获取还未死的玩家列表
-        sendData['content']['activeUserList']=voteUserList
+        sendData['content']['activeUserList']=activeUserList
+
     elif deskList[deskId]['stage']['type']==1:
         stepType=2
+        sendData['content']['activeUserList']=activeUserList
         message=dealVoteData(deskId)
+
+
     elif deskList[deskId]['stage']['type']==2:
         stepType=0
-        message='猜词阶段:请死者猜词。'
+        message='陈述阶段:请从法官左手开始，顺时针陈述。'
+        sendData['content']['activeUserList']=activeUserList
     elif deskList[deskId]['stage']['type']==3:
         stepType=4
         message='公布身份和选词。'
@@ -414,8 +423,30 @@ def gameStageNext(self,decodeData):
         gameRestart(deskId)
         return
 
+    finishFlag=False
+    if deskList[deskId]['stage']['type']<3:
+        #判断是否胜
+        if len(getAliveGhostByDesk(deskId))==0:
+            userIdentityUpdate(deskId)
+            stepType=3
+            message='鬼死完了，人胜利了'
+            sendData['content']['winner']=1
+            gameFinish(deskId,1,message)
+            finishFlag=True
+        elif len(getAliveUserByDesk(deskId))<=2:
+            userIdentityUpdate(deskId)
+            stepType=3
+            message='只剩下2个玩家，鬼胜利了'
+            sendData['content']['winner']=2
+            gameFinish(deskId,2,message)
+            finishFlag=True
+
     deskList[deskId]['stage']['type']=stepType
     deskList[deskId]['stage']['step'].append(stepType)
+
+    if finishFlag:
+        return
+
     sendData['callback']='handleGameStage'
     sendData['content']['ret']=0
     sendData['content']['msg']=message
@@ -445,6 +476,8 @@ def dealVoteData(deskId):
         elif voteUserItem['voteNum']==voteNumMax and voteUserItem['voteNum']>0:
             voteNumMaxList.append(voteUserItem['uid'])
 
+    print 'voteNumMaxList'
+    print voteNumMaxList
     #票最多的玩家只有一个时，用户可以死了
     if len(voteNumMaxList)==1:
         userDeadIndex=getUserByUid(voteNumMaxList[0])
@@ -465,9 +498,12 @@ def dealVoteData(deskId):
 
     elif len(voteNumMaxList)>1:
         deskList[deskId]['extend']['tempUserList']=voteNumMaxList
+
         sendData['content']['deadIdentity']=0
         sendData['content']['ret']=0
         message='未产生最高票'
+
+
 
 
     
@@ -535,30 +571,18 @@ def guessWordCorrect(self,decodeData):
         deskList[deskId]['stage']['step'].append(3)
 
         userIdentityUpdate(deskId)
-        sendData['callback']='handleGameFinish'
-        sendData['content']['ret']=0
-        sendData['content']['msg']='鬼猜词正确，游戏结束!'
-        sendData['content']['winner']=2
-        sendData['content']['deskStage']=deskList[deskId]['stage']
+        gameFinish(deskId,2,'鬼猜词正确，游戏结束!')
+
+
+def gameFinish(deskId,t,message):
+    sendData=copy.deepcopy(sendDataDefault)
+    sendData['callback']='handleGameFinish'
+    sendData['content']['ret']=0
+    sendData['content']['msg']=message
+    sendData['content']['winner']=t
 
 
     sendDataByDesk(deskId,0,sendData)
-
-
-def gameFinish(t):
-    if t == 1:
-        sendData['callback']='handleGameFinish'
-        sendData['content']['ret']=0
-        sendData['content']['msg']='鬼猜词正确，游戏结束!'
-        sendData['content']['winner']=2
-        sendData['content']['deskStage']=deskList[deskId]['stage']
-
-
-        #人胜
-        pass
-    elif t == 2:
-        #鬼胜
-        pass
 
 
 ##用户换位置
@@ -622,10 +646,19 @@ def getUserByUid(uid):
 def getAliveUserByDesk(deskId):
     userListByDesk=[]
     for userIndex in userList:
-        if userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']!=11 and userList[userIndex]['online']==1 and userList[userIndex]['alive']==1:
+        if userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']!=11 and userList[userIndex]['alive']==1:
             userListByDesk.append(  userList[userIndex]['uid']  )
 
     return userListByDesk
+
+def getAliveGhostByDesk(deskId):
+    userListByDesk=[]
+    for userIndex in userList:
+        if userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']==2 and userList[userIndex]['alive']==1:
+            userListByDesk.append(  userList[userIndex]['uid']  )
+
+    return userListByDesk
+
 
 #根据桌号获取所有玩家列表，不包括ident
 def getUserByDeskNoIdent(deskId):
