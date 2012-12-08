@@ -514,6 +514,30 @@ def gameFinish(t):
         pass
 
 
+##用户换位置
+#ddef changePos(self,decodeData):
+#    sendData=copy.deepcopy(sendDataDefault)
+#    deskId=userList[self]['deskId']
+#
+#    voteUid=int(decodeData['voteUid'])
+#    voteUserInfo=userList[getUserByUid(voteUid)]
+#    if voteUserInfo!=0:
+#        #游戏已开始 and 游戏在投票阶段 and 投的玩家不是法官 and 投的玩家没死 and 投的不是自己
+#        if deskList[deskId]['info']['status']==1 and deskList[deskId]['stage']['type']==1 and voteUserInfo['identity']!=11 and voteUserInfo['alive']==1 and voteUid!=userList[self]['uid']:
+#            #如果是投的原来的用户，不做任何处理
+#            if userList[self]['voteUid']!=voteUid:
+#                userList[self]['voteUid']=voteUid
+#                message=userList[self]['nick']+' 投票给 '+ voteUserInfo['nick']
+#
+#                sendData['callback']='voteStatus'
+#                sendData['content']['ret']=0
+#                sendData['content']['msg']=message
+#                sendData['content']['voteUserStatus']=voteStatus(deskId)
+#
+#                judgeSocketId=getJudgeSocketByDesk(deskId)
+#                if judgeSocketId!=0 and userList[judgeSocketId]['online']==1:
+#                    judgeSocketId.send_data( json.dumps( sendData ) )
+
 #桌子信息更新，一般用于玩家更新
 def userUpdate(deskId,message):
     sendData=copy.deepcopy(sendDataDefault)
