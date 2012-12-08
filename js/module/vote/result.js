@@ -20,11 +20,8 @@ define(function(require,exports,module){
 		            voteNumNode.addClass('voteNum_voted')
 		        else{
 		            voteNumNode.removeClass('voteNum_voted')
-		            noVoteNum++;
 		        }
 		    });
-			
-			console.log(content);
 			
 		}
 		

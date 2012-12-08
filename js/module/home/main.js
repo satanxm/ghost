@@ -513,6 +513,10 @@ function voteStart(voteUserList){
 	}else{
 		voteNumNode.text('?');
 	}
+	
+	seajs.use('ghost.v1/api/centerTips',function(centerTips){
+		centerTips.displayMsg('请投票');
+	});
 }
 
 function voteUser(uid){

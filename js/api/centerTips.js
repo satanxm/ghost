@@ -7,11 +7,11 @@ define(function(require,exports,module){
 
 	return {
 		
-		disaplyMsg : function(msg){
+		displayMsg : function(msg){
 			this.display('<p>' + msg + '</p>');
 		},
 		
-		disaply: function(html){
+		display: function(html){
 			
 			var tips = $('#desk_center_tip');
 			
