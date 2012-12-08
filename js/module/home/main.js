@@ -436,6 +436,15 @@ function gameStageNext(){
 }
 
 
+/**
+ * 显示投票结果
+ */
+function handleVoteResult(content){
+	
+	
+	
+}
+
 
 //游戏过程更新
 function handleGameStage(content){
@@ -491,6 +500,16 @@ function voteStart(voteUserList){
     else{
         $(".mod_desk").addClass('mod_desk_vote_judge');
     }
+	
+	var voteNumNode=$('.user_item .voteNum');
+	
+	voteNumNode.removeClass('voteNum_voted');
+		
+	if (userInfo.identity === 11) {
+		voteNumNode.text('0');
+	}else{
+		voteNumNode.text('?');
+	}
 }
 
 function voteUser(uid){
@@ -522,7 +541,7 @@ function voteStatus(content){
 	    });
 		
 		 if(noVoteNum>0){
-	      	  $("#game_message").text("还有 "+noVoteNum+" 位用户未股票");
+	      	  $("#game_message").text("还有 "+noVoteNum+" 位用户未投票");
 		 	
 		 }else{
 	        $("#game_message").text("所有玩家已投票，请确认进入下一阶段");			
@@ -542,7 +561,9 @@ function voteStatus(content){
 	    });
 		
 		 if(noVoteNum>0){
-	        $("#game_message").text("还有 "+noVoteNum+" 位用户未股票");
+	        $("#game_message").text("还有 "+noVoteNum+" 位用户未投票");
+		 }else{
+	        $("#game_message").text("所有玩家已投票");			
 		 }
 		
 	}
