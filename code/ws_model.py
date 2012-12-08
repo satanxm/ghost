@@ -373,13 +373,15 @@ def gameStageNext(self,decodeData):
     if deskList[deskId]['stage']['type']==-1:
         stepType=0
         message='陈述阶段:请从法官左手开始，顺时针陈述。'
+        voteUserList=getAliveUserByDesk(deskId)
+        sendData['content']['activeUserList']=voteUserList
     elif deskList[deskId]['stage']['type']==0:
         voteReset(deskId)
         stepType=1
         message='投票阶段:请选择一位玩家。'
         #获取还未死的玩家列表
         voteUserList=getAliveUserByDesk(deskId)
-        sendData['content']['voteUserList']=voteUserList
+        sendData['content']['activeUserList']=voteUserList
     elif deskList[deskId]['stage']['type']==1:
         stepType=2
         message=dealVoteData(deskId)
@@ -467,10 +469,7 @@ def voteUser(self,decodeData):
                 sendData['content']['msg']=message
                 sendData['content']['voteUserStatus']=voteStatus(deskId)
 
-                judgeSocketId=getJudgeSocketByDesk(deskId)
-                if judgeSocketId!=0 and userList[judgeSocketId]['online']==1:
-                    judgeSocketId.send_data( json.dumps( sendData ) )
-
+                sendDataByDesk(deskId,0,sendData)
 
 #统计投票情况
 def voteStatus(deskId):
