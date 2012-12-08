@@ -487,7 +487,6 @@ function handleGameStage(content){
 			}
 			
         }else{
-			
 			//掉包、重连等因素，要重置显示所有的步骤
             stageList=content.deskStage.step;
             
@@ -668,7 +667,7 @@ function guessWordCorrect(){
 function handleGameFinish(content){
 	
 	if(content.ret!==0) return;
-
+	
     gameStageMove(3,500);
 		
 	seajs.use('ghost.v1/module/winner/index',function(winner){
