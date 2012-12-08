@@ -103,7 +103,7 @@ var __p=[],_p=function(s){__p.push(s)};
 	var words = data.words;
 	
 	
-	if(words.human === words.ghost){
+	if(words.human !== words.ghost){
 	__p.push('		<p>人：<span>');
 _p(words.human);
 __p.push('</span></p>\r\n\

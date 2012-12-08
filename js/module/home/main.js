@@ -506,20 +506,49 @@ function handleVoteUser(content){
 //显示投票状态
 function voteStatus(content){
     var noVoteNum=0
-    $.each(content.voteUserStatus,function(key,userItem){
-        var voteNumNode=$('.user_item[uid='+userItem.uid+'] .voteNum');
-        voteNumNode.text(userItem.voteNum)
-        if(userItem.voteUid!=0)
-            voteNumNode.addClass('voteNum_voted')
-        else{
-            voteNumNode.removeClass('voteNum_voted')
-            noVoteNum++;
-        }
-    })
-    if(noVoteNum>0)
-        $("#game_message").text("还有 "+noVoteNum+" 位用户未股票");
-    else
-        $("#game_message").text("所有玩家已投票，请确认进入下一阶段");
+	
+	if(userInfo.identity === 11){
+		
+		//法官
+		 $.each(content.voteUserStatus,function(key,userItem){
+	        var voteNumNode=$('.user_item[uid='+userItem.uid+'] .voteNum');
+	        voteNumNode.text(userItem.voteNum)
+	        if(userItem.voteUid!=0)
+	            voteNumNode.addClass('voteNum_voted')
+	        else{
+	            voteNumNode.removeClass('voteNum_voted')
+	            noVoteNum++;
+	        }
+	    });
+		
+		 if(noVoteNum>0){
+	      	  $("#game_message").text("还有 "+noVoteNum+" 位用户未股票");
+		 	
+		 }else{
+	        $("#game_message").text("所有玩家已投票，请确认进入下一阶段");			
+		 }
+	}else{
+		
+		 $.each(content.voteUserStatus,function(key,userItem){
+	        var voteNumNode=$('.user_item[uid='+userItem.uid+'] .voteNum');
+	        if(userItem.voteUid!=0){
+		        voteNumNode.text('√');
+	            voteNumNode.addClass('voteNum_voted');
+			}else{
+				voteNumNode.text('?');
+	            voteNumNode.removeClass('voteNum_voted');
+	            noVoteNum++;
+	        }
+	    });
+		
+		 if(noVoteNum>0){
+	        $("#game_message").text("还有 "+noVoteNum+" 位用户未股票");
+		 }
+		
+	}
+	
+   
+   
 }
 
 //任务进度条 填充数据并向左平移
@@ -638,13 +667,14 @@ function showStage(){
             $( "#popupStage" ).popup('open');
         });
 
-      	seajs.use('ghost.v1/module/userIdentity/index',function(index){
-			index.get('./userIdentityUpdate').show(words);
-		});
      }else{
         $("#word_area").hide();
         $("#game_stage_area").show();
     }
+	
+	seajs.use('ghost.v1/module/userIdentity/index',function(index){
+		index.get('./userIdentityUpdate').show(words);
+	});
 }
 
 //显示消息
