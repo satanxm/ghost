@@ -6,7 +6,7 @@
  * $Dtime:2011-9-4
 ***********************************************************************************/
 
-require('include/conn.php');
+//require('include/conn.php');
 //$runtime= new runtime;
 //$runtime->start();
 
@@ -15,13 +15,11 @@ $request_url=$_SERVER["REQUEST_URI"];
 $request_url=str_replace("index.php?","",$request_url);
 $htdoc_root="api";
 
-
-
 $parm=str_replace("/".$htdoc_root."/","",$request_url); 
-$parm_arr=explode("-",$parm);
+
+$parm_arr=explode("_",$parm);
 $module=$parm_arr[0];
 $method=$parm_arr[1];
-
 
 $post=$_POST;
 foreach($post as $key=>$val) {
@@ -29,13 +27,13 @@ foreach($post as $key=>$val) {
 }
 
 
-require_once('module/user.php');
+/*require_once('module/user.php');
 $module_str="\$simulation=new userMod;";
 $method_str="\$simulation->cookie_query();";
-eval($module_str.$method_str);
+eval($module_str.$method_str);*/
 
 
-
+// 模块入口
 require_once('module/'.$module.'.php');
 $module_str="\$simulation=new ".$module."Mod;";
 $method_str="\$simulation->".$method."(\$post);";

@@ -5,7 +5,7 @@ php_flag magic_quotes_gpc off
 
 
 #自定义错误页面
-ErrorDocument 404 /qam/404.htm
+#ErrorDocument 404 /qam/404.htm
 
 
 #变更默认首页
