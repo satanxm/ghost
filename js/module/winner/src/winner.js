@@ -39,14 +39,13 @@ define(function(require,exports,module){
 			
 			var tips = $('#desk_center_tip');
 			
-			tips.hide();
 			tips.removeClass('bounceIn');
+			tips.hide();
 			
 			tips.html(tmpl.winner());
 			
 			tips.show();
 			tips.addClass('bounceIn');
-			
 			
 		},
 		
@@ -54,8 +53,8 @@ define(function(require,exports,module){
 			
 			var tips = $('#desk_center_tip');
 			
-			tips.hide();
 			tips.removeClass('bounceIn');
+			tips.hide();
 			
 			tips.html(tmpl.loser());
 			

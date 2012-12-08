@@ -82,14 +82,13 @@ define.pack("./winner",["./tmpl"],function(require,exports,module){
 			
 			var tips = $('#desk_center_tip');
 			
-			tips.hide();
 			tips.removeClass('bounceIn');
+			tips.hide();
 			
 			tips.html(tmpl.winner());
 			
 			tips.show();
 			tips.addClass('bounceIn');
-			
 			
 		},
 		
@@ -97,8 +96,8 @@ define.pack("./winner",["./tmpl"],function(require,exports,module){
 			
 			var tips = $('#desk_center_tip');
 			
-			tips.hide();
 			tips.removeClass('bounceIn');
+			tips.hide();
 			
 			tips.html(tmpl.loser());
 			
@@ -126,7 +125,7 @@ var tmpl = {
 'winner': function(data){
 
 var __p=[],_p=function(s){__p.push(s)};
-__p.push('<p>胜利！</p>');
+__p.push('<p>胜利</p>');
 
 return __p.join("");
 },
@@ -134,7 +133,7 @@ return __p.join("");
 'loser': function(data){
 
 var __p=[],_p=function(s){__p.push(s)};
-__p.push('<p>失败！</p>');
+__p.push('<p>失败</p>');
 
 return __p.join("");
 }
