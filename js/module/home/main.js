@@ -1,5 +1,4 @@
-define(function(require,exports,module){
-	
+
 /*
  * Copy Right: Tencent ISUX
  * Project: ghost
@@ -67,8 +66,7 @@ function init(){
     connectInit();
 }
 
-/*页面初始化 start 
-***************************************************************************/
+/*页面初始化 start ***************************************************************************/
 function userInit(){
     $("#nick").val(localStorage.nick)
     $("#nick").blur(function(){
@@ -553,11 +551,23 @@ function guessWordCorrect(){
     ws.send( wsParmEncode ); 
 }
 
-//游戏结束
+/**
+ * 
+ * 游戏结束
+ * @param {String} content.msg 消息
+ * @param {Number} content.winner 胜利者 1:人 2:鬼
+ * 
+ */
 function handleGameFinish(content){
-     if(content.ret==0){
-        gameStageMove(3,500) 
-    }
+	
+	if(content.ret!==0) return;
+
+    gameStageMove(3,500);
+		
+	seajs.use('ghost.v1/module/winner/index',function(winner){
+		winner.get('./winner').showWinner(content);
+	});
+		
 }
 
 
@@ -830,7 +840,7 @@ document.body.addEventListener('touchmove', function(event) {
     event.preventDefault();
 }, false); 
 */
-
+define(function(require,exports,module){
 
 	return {
 		init : init
