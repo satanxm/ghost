@@ -1,3 +1,5 @@
+define(function(require,exports,module){
+	
 /*
  * Copy Right: Tencent ISUX
  * Project: ghost
@@ -827,5 +829,12 @@ document.body.addEventListener('touchmove', function(event) {
     event.preventDefault();
 }, false); 
 */
+
+
+	return {
+		init : init
+	};
+
+});
 
 
