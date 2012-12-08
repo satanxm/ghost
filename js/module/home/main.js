@@ -441,7 +441,9 @@ function gameStageNext(){
  */
 function handleVoteResult(content){
 	
-	
+	seajs.use('ghost.v1/module/vote/result',function(result){
+		result.show(content);
+	});
 	
 }
 
@@ -457,6 +459,7 @@ function handleGameStage(content){
             if( content.deskStage.type != 1){
                 //非投票阶段，去掉投票界面
                 $(".mod_desk").removeClass('mod_desk_vote');
+                $(".mod_desk").removeClass('mod_desk_guess');
                 $(".mod_desk").removeClass('mod_desk_vote_judge');
                 $(".user_item").unbind('click').removeClass('user_item_vote');
             }
