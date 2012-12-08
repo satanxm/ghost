@@ -21,7 +21,7 @@ define(function(require,exports,module){
 					
 				}
 				
-			}else if(identity.identity === 2){
+			}else if(userInfo.identity === 2){
 				
 				if(data.winner === 1){
 					

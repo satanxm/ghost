@@ -20,6 +20,9 @@ var words={"human":"机器","ghost":"电脑"};
 var userLimit=1;
 //用户信息
 var userList=[];
+
+//活动用户，(可投票的或可陈述的)
+var activeUserList = [];
 var userInfo={
     uid:0,
     nick:'',
@@ -239,6 +242,34 @@ function readyStateCheck(){
         $("#server_status").html('<span class=\"t_err\">服务器连接失败，请检查网络</span>');
         $("#btn_connect_try").css({"display":"inline-block"});
     }
+}
+
+//灰掉所有玩家
+function disableAllUser(){
+	$('.user_item').addClass('user_item_disabled');
+}
+
+//显示可操作用户
+function enableActiveUser(){
+	
+	disableAllUser();
+	
+	var map = {};
+	
+	$.each(activeUserList || [],function(i,uid){
+		map[uid] = true;
+	});
+	
+	$('.user_item').each(function(){
+		
+		var item = $(this);
+		var uid = item.attr('uid');
+		
+		if(map[uid]){
+			item.removeClass('user_item_disabled');
+		}
+		
+	});
 }
 
 //移动玩家
@@ -477,30 +508,41 @@ function handleGameStage(content){
         //显示最后的消息
         $("#game_message").text(content.msg);
 
+		if(content.activeUserList){
+			activeUserList = content.activeUserList;
+			console.dir(activeUserList);
+		}
+		
         //投票阶段
         if( content.deskStage.step[content.deskStage.step.length-1] == 1){
-            voteStart(content.voteUserList);
+			voteStart(content.activeUserList);
         }
+		
     }
 }
 
 //开始投票
-function voteStart(voteUserList){
-    //console.log(voteUserList)
+function voteStart(activeUserList){
+	
+	enableActiveUser();
+	
     if(userInfo.identity!=11){
         $(".mod_desk").addClass('mod_desk_vote');
         $(".user_item").each(function(){
             var uid=$(this).attr('uid');
-            if(in_array(uid,voteUserList) && uid!=userInfo.uid){
+            if(in_array(uid,activeUserList) && uid!=userInfo.uid){
                 $(this).unbind('click').click(function(){
-                    $('.user_item').removeClass('user_item_vote');
+                    
+					if(!$(this).attr('uid')) return;
+					if($(this).hasClass('user_item_disabled')) return;
+					
+					$('.user_item').removeClass('user_item_vote');
                     $(this).addClass('user_item_vote');
                     voteUser(uid);
                 });
             }
-        })
-    }
-    else{
+        });
+    }else{
         $(".mod_desk").addClass('mod_desk_vote_judge');
     }
 	
