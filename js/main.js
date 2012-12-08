@@ -6,7 +6,6 @@
  * date: 2012-11-15
  */
 
-// test
 var ws; 
 var wsUrl = 'ws://ws.ghost.com:8001'; 
 
