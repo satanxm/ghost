@@ -32,6 +32,8 @@ class deskMod
 		 if (empty($data)) {
 			 self::showimg_err();
 		 }
+		 $data = urldecode($data);
+
 		 $level = intval($_REQUEST['level']);
 		 $size = intval($_REQUEST['size']);
 		 if (!isset($level, $_qr_level)) {

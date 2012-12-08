@@ -718,7 +718,24 @@ function showDesk(info){
             $("#mod_option").hide();
         }
     }
-    $("#desk_id").text("房间："+deskInfo.deskId);
+	var qrstr = '<a id="desk_show_qr">二维码</a>', deskId = deskInfo.deskId, qrpopstr = '<div id="qr_img_cont" style="display:none; background: #fff; z-index: 100; position:absolute; left:0px; top: 0px; "><img id="qr_img" /><span id="qr_hide">hide</span></div>', hasQr = false;
+    $("#desk_id").html("房间：" + deskId + qrstr);
+	$(document.body).append(qrpopstr);
+
+	// 显示二维码
+	// todo popup display
+	
+	$("#desk_show_qr").bind('click', function(evt) {
+		if (!hasQr) {
+			$('#qr_img').attr('src','http://www.ghost.com/index.php?mod=desk&act=binarycode&url=' + encodeURIComponent("http://ghost.com/ghost/index.htm?desk=" + deskId  ) );
+			hasQr = true;
+		}
+		$( "#qr_img_cont" ).show();
+	});
+	$('#qr_hide').bind('click', function(evt) {
+		$('#qr_img_cont').hide();
+	});
+	// http://ghost.com/ghost/index.htm?desk=123456
     window.location.href="#page_desk"
 }
 
