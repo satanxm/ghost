@@ -348,7 +348,6 @@ function reconnectionGame(){
 
 function handleReconnectionGame(content){
     //重连游戏，真的要做很多事情。。。
-    console.log(content);
     if(content.ret==0){
         userInfo.uid=content.uid
         userInfoSave(content.userlist);
@@ -510,7 +509,6 @@ function handleGameStage(content){
 
 		if(content.activeUserList){
 			activeUserList = content.activeUserList;
-			console.dir(activeUserList);
 		}
 		
         //投票阶段
@@ -568,7 +566,6 @@ function voteUser(uid){
 }
 
 function handleVoteUser(content){
-    console.log(content);
 }
 
 //显示投票状态
@@ -632,13 +629,19 @@ function gameStageMove(t,ms){
 
     t++;if(t==2)t=0;
     $("#btn_step_next .ui-btn-text").text( stageName[t]  );
+	
+	if(t === 0){
+		seajs.use('ghost.v1/api/centerTips',function(centerTips){
+			centerTips.displayMsg('陈述阶段');
+		});
+	}
     
 }
 
 
 //用户被投死，法官处理是否猜词
 function userDead(content){
-    console.log(content)
+    
     //作为鬼被投死，可以猜词反击
     if(content.ret==0){
         $("#popupGuess .guess_message").text(content.msg)
@@ -672,8 +675,6 @@ function guessWordCorrect(){
  */
 function handleGameFinish(content){
 	
-	console.dir(content);
-	
 	if(content.ret!==0) return;
 
     gameStageMove(3,500);
@@ -683,8 +684,6 @@ function handleGameFinish(content){
 	});
 		
 }
-
-
 
 //离开游戏
 function exitGame(){
@@ -706,7 +705,6 @@ function changeSeat(){
 
 //显示桌面
 function showDesk(info){
-    //console.log(info);
     if(info.status==0){ //游戏未开始
         $("#foot_desk").hide();
         $("#word_area").hide();
@@ -759,7 +757,6 @@ function showUserMessage(str){
 
 //更新当前用户信息
 function userInfoSave(userList){
-    //console.log(userList)
     $.each(userList,function(key,userItem){
         if(userItem.uid == userInfo.uid){
             userInfo.nick=userItem.nick;
