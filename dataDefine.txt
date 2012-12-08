@@ -1,0 +1,200 @@
+数据定义
+
+桌子列表信息
+deskList[deskId]={
+	'info':{
+		'deskId':deskId,	//桌子ID
+		'createTime':0,		//创建时间
+		'status':0,			//状态 0未开始游戏 1已开始游戏
+		'ghostNum':0,		//鬼的数量
+		'userLimit':14		//房间人数上限，默认14
+	},
+	'extend':{
+		'wordHuman':'',		//人的词
+		'wordGuest':'',		//鬼的词
+		'bindList':'',			//屏蔽用户列表
+		'tempUserIdList'		//临时用户列表
+	},
+	'stage':{
+		'step':[],			//游戏步骤列表
+		'type':-1,			//-1初始 0陈述 1投票 2猜词
+		'stageNum':0 		//当前游戏步骤，如第几轮
+	}
+}
+
+用户列表信息
+userList[socketId]={
+	'uid':uid,				//用户ID
+	'deskId':0,				//桌子ID
+	'nick':'',				//用户昵称
+	'avatarId':3,				//用户头像ID
+	'seatPos':0,				//用户座位号
+	'online':1,				//0掉线 1在线
+	'identity':11,			//0普通 1人 2鬼 3旁观 11法官
+	'alive':1,				//0死 1活
+	'voteUid':0 			//投票的用户ID
+}
+
+
+ 
+
+接口定义
+
+//服务端
+action		//请求接口
+callback		//回调接口
+
+//客户端
+ret 			//返回值，默认0正常
+msg			//返回文字消息
+
+创建桌子 p0
+//server
+create
+	uid
+	avaterId
+	nick
+
+//client
+handelCreate
+	userList
+	deskInfo
+	uid
+
+加入桌子 p0
+//server
+join
+	uid
+	avaterId
+	deskId
+	nick
+
+//client
+handleJoin
+	ret
+	msg
+	userList
+	deskInfo
+	uid
+
+userUpdate	//推给所有用户
+
+离开游戏 p0
+//server
+exit
+	
+//client
+handleExit
+	ret 	//0成功
+
+userUpdate	//推给所有用户
+
+重连游戏 p1
+//server
+reconnectionGame
+	uid
+	nick
+	avaterId
+
+//client
+handleReconnectionGame
+	userlist 	//桌面玩家列表
+	deskInfo 	//桌子信息
+	deskStage	 //游戏进度
+	voteStatus  //投票情况
+
+userUpdate	//推给所有用户
+
+查询游戏状态 p1
+//server
+queryStatus
+	uid
+
+//client
+handleQueryStatus
+	ret 	//1为可重连
+
+玩家更新	p0
+//client
+userUpdate
+	userList 	//桌面玩家列表
+
+
+换位置	p1
+//server
+changePos
+	seatpos1
+	seatpos2
+
+//client
+userUpdate	//推给所有用户
+
+开始游戏	p0
+//server
+startGame
+	wordHuman
+	wordGhost
+	ghostNum
+
+//client
+handleStartGame
+	
+handleGameStage//推给所有用户
+
+游戏下一步 p0
+//server
+gameStageNext
+
+//client
+handleGameStage
+	deskStage	//deskList[deskId]['stage']
+	userList 	//有效的用户列表，如可陈述的，可投票的
+
+投票用户 p0
+//server
+voteUser
+	voteUid		//投票的uid
+
+//client
+voteStatus
+	voteUserStatus:[
+		{
+			'uid':uid,			//用户的uid
+			'voteUid':voteUid,	//投票的uid
+			'voteNum':0 		//得票数量
+		}...
+	]
+
+猜词 p0
+//server
+guessWord
+	word 		//猜的词
+
+//client
+
+
+=============================	 php 接口
+
+======================== 通用定义
+//客户端
+ret 		//返回值，默认0正常
+msg			//返回文字消息
+
+/api/mod_act
+api 固定
+mod 模块
+act 需要执行的动作
+
+=========================
+生成二维码
+参数：
+get:
+mod : desk
+act :  binarycode
+
+post:
+url :   url
+
+返回：
+ 	图片内容
+

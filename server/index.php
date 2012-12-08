@@ -13,7 +13,7 @@ require('include/conn.php');
 
 $request_url=$_SERVER["REQUEST_URI"];
 $request_url=str_replace("index.php?","",$request_url);
-$htdoc_root="server";
+$htdoc_root="api";
 
 
 
