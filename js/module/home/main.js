@@ -672,6 +672,8 @@ function guessWordCorrect(){
  */
 function handleGameFinish(content){
 	
+	console.dir(content);
+	
 	if(content.ret!==0) return;
 
     gameStageMove(3,500);
@@ -787,11 +789,9 @@ function handleUserUpdate(content){
 
 //用户信息更新，包含身份信息、词条信息
 function userIdentityUpdate(content){
+	userInfoSave(content.userlist);
     userSit(content.userlist);
-	
-	seajs.use('ghost.v1/module/userIdentity/index',function(index){
-		index.get('./userIdentityUpdate').show(content);
-	});
+	words = content.words || words;
 }
 
 
@@ -808,7 +808,6 @@ function deskReset(){
     });
 }
 function userSit(userList){
-    console.log(userList)
     deskReset();
     $.each(userList,function(key,userItem){
         var seatPos=userItem.seatPos + userInfo.seatOffset;
