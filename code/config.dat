@@ -1,11 +1,11 @@
 (dp1
 S'deskCount'
 p2
-I1000
+L1000L
 sS'deskId'
 p3
 I100
 sS'uid'
 p4
-I10032
+L10032L
 s.
