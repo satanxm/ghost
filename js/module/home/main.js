@@ -508,36 +508,41 @@ function handleGameStage(content){
         //显示最后的消息
         $("#game_message").text(content.msg);
 
+		if(content.activeUserList){
+			activeUserList = content.activeUserList;
+			console.dir(activeUserList);
+		}
+		
         //投票阶段
         if( content.deskStage.step[content.deskStage.step.length-1] == 1){
-            if(content.activeUserList){
-				activeUserList = content.activeUserList;
-			}
-			voteStart(content.voteUserList);
+			voteStart(content.activeUserList);
         }
+		
     }
 }
 
 //开始投票
-function voteStart(voteUserList){
+function voteStart(activeUserList){
 	
 	enableActiveUser();
 	
-    //console.log(voteUserList)
     if(userInfo.identity!=11){
         $(".mod_desk").addClass('mod_desk_vote');
         $(".user_item").each(function(){
             var uid=$(this).attr('uid');
-            if(in_array(uid,voteUserList) && uid!=userInfo.uid){
+            if(in_array(uid,activeUserList) && uid!=userInfo.uid){
                 $(this).unbind('click').click(function(){
-                    $('.user_item').removeClass('user_item_vote');
+                    
+					if(!$(this).attr('uid')) return;
+					if($(this).hasClass('user_item_disabled')) return;
+					
+					$('.user_item').removeClass('user_item_vote');
                     $(this).addClass('user_item_vote');
                     voteUser(uid);
                 });
             }
-        })
-    }
-    else{
+        });
+    }else{
         $(".mod_desk").addClass('mod_desk_vote_judge');
     }
 	

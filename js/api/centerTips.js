@@ -8,10 +8,14 @@ define(function(require,exports,module){
 	return {
 		
 		displayMsg : function(msg){
+			if(!msg) return;
+			
 			this.display('<p>' + msg + '</p>');
 		},
 		
 		display: function(html){
+			
+			if(!html) return;
 			
 			var tips = $('#desk_center_tip');
 			

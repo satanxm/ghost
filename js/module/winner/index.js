@@ -64,7 +64,7 @@ define.pack("./winner",["./tmpl","ghost.v1/api/centerTips"],function(require,exp
 					
 				}
 				
-			}else if(identity.identity === 2){
+			}else if(userInfo.identity === 2){
 				
 				if(data.winner === 1){
 					
