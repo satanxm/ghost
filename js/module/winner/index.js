@@ -1,7 +1,7 @@
 //create by jsc 
 (function(){
 var mods = [],version = parseFloat(seajs.version);
-define([],function(require,exports,module){
+define(["ghost.v1/api/centerTips"],function(require,exports,module){
 
 	var uri		= module.uri || module.id,
 		m		= uri.split('?')[0].match(/^(.+\/)([^\/]*?)(?:\.js)?$/i),
@@ -41,9 +41,11 @@ define.pack = function(){
 
 
 
-define.pack("./winner",["./tmpl"],function(require,exports,module){
+define.pack("./winner",["./tmpl","ghost.v1/api/centerTips"],function(require,exports,module){
 
 	var tmpl = require('./tmpl');
+	var centerTips = require('ghost.v1/api/centerTips');
+	var tid;
 
 	return {
 		
@@ -79,33 +81,11 @@ define.pack("./winner",["./tmpl"],function(require,exports,module){
 		
 		
 		displayWinner: function(){
-			
-			var tips = $('#desk_center_tip');
-			
-			tips.hide();
-			tips.removeClass('bounceIn');
-			
-			tips.html(tmpl.winner());
-			
-			tips.show();
-			tips.addClass('bounceIn');
-			
-			
+			centerTips.display(tmpl.winner());
 		},
 		
 		displayLoser: function(){
-			
-			var tips = $('#desk_center_tip');
-			
-			tips.hide();
-			tips.removeClass('bounceIn');
-			
-			tips.html(tmpl.loser());
-			
-			tips.show();
-			tips.addClass('bounceIn');
-			
-			
+			centerTips.display(tmpl.loser());
 		}
 		
 	};
@@ -126,7 +106,7 @@ var tmpl = {
 'winner': function(data){
 
 var __p=[],_p=function(s){__p.push(s)};
-__p.push('<p>胜利！</p>');
+__p.push('<p>胜利</p>');
 
 return __p.join("");
 },
@@ -134,7 +114,7 @@ return __p.join("");
 'loser': function(data){
 
 var __p=[],_p=function(s){__p.push(s)};
-__p.push('<p>失败！</p>');
+__p.push('<p>失败</p>');
 
 return __p.join("");
 }

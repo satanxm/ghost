@@ -41,6 +41,9 @@ var ghostNum=0;
 
 //角色分配，鬼的默认数量
 var roleAllot={
+	"0": 0,
+	"1": 1,
+	"2": 1,
 	"3": 1,
     "4": 1,
     "5": 1,
@@ -394,24 +397,34 @@ function gameStart(){
         $( "#popupMessage_desk" ).popup('open');
     }
     else{
-
-        ghostNum=roleAllot[userList.length]
-        var wsParm ={'action':'startGame','callback':'handleStartGame','wordHuman':words.human,'wordGuest':words.ghost,'ghostNum':ghostNum}
+		
+        ghostNum = roleAllot[userList.length];
+		
+        var wsParm = {
+            'action': 'startGame',
+            'callback': 'handleStartGame',
+            'wordHuman': words.human,
+            'wordGhost': words.ghost,
+            'ghostNum': ghostNum
+        };
         var wsParmEncode = $.toJSON(wsParm);
-        ws.send( wsParmEncode ); 
+        ws.send(wsParmEncode);
     }
 }
 
 function handleStartGame(content){
+	
+	words = content.words;
+	
     //console.log(content)
     if(content.ret==0){
         showStage();
         //showDesk(content.deskInfo);
-    }
-    else{
+    }else{
         $( "#popupMessage_desk .message_text" ).text(content.msg);
         $( "#popupMessage_desk" ).popup('open');
     }
+	
 }
 
 
@@ -422,6 +435,17 @@ function gameStageNext(){
     ws.send( wsParmEncode ); 
 }
 
+
+/**
+ * 显示投票结果
+ */
+function handleVoteResult(content){
+	
+	seajs.use('ghost.v1/module/vote/result',function(result){
+		result.show(content);
+	});
+	
+}
 
 
 //游戏过程更新
@@ -435,6 +459,7 @@ function handleGameStage(content){
             if( content.deskStage.type != 1){
                 //非投票阶段，去掉投票界面
                 $(".mod_desk").removeClass('mod_desk_vote');
+                $(".mod_desk").removeClass('mod_desk_guess');
                 $(".mod_desk").removeClass('mod_desk_vote_judge');
                 $(".user_item").unbind('click').removeClass('user_item_vote');
             }
@@ -478,6 +503,20 @@ function voteStart(voteUserList){
     else{
         $(".mod_desk").addClass('mod_desk_vote_judge');
     }
+	
+	var voteNumNode=$('.user_item .voteNum');
+	
+	voteNumNode.removeClass('voteNum_voted');
+		
+	if (userInfo.identity === 11) {
+		voteNumNode.text('0');
+	}else{
+		voteNumNode.text('?');
+	}
+	
+	seajs.use('ghost.v1/api/centerTips',function(centerTips){
+		centerTips.displayMsg('请投票');
+	});
 }
 
 function voteUser(uid){
@@ -493,20 +532,51 @@ function handleVoteUser(content){
 //显示投票状态
 function voteStatus(content){
     var noVoteNum=0
-    $.each(content.voteUserStatus,function(key,userItem){
-        var voteNumNode=$('.user_item[uid='+userItem.uid+'] .voteNum');
-        voteNumNode.text(userItem.voteNum)
-        if(userItem.voteUid!=0)
-            voteNumNode.addClass('voteNum_voted')
-        else{
-            voteNumNode.removeClass('voteNum_voted')
-            noVoteNum++;
-        }
-    })
-    if(noVoteNum>0)
-        $("#game_message").text("还有 "+noVoteNum+" 位用户未股票");
-    else
-        $("#game_message").text("所有玩家已投票，请确认进入下一阶段");
+	
+	if(userInfo.identity === 11){
+		
+		//法官
+		 $.each(content.voteUserStatus,function(key,userItem){
+	        var voteNumNode=$('.user_item[uid='+userItem.uid+'] .voteNum');
+	        voteNumNode.text(userItem.voteNum)
+	        if(userItem.voteUid!=0)
+	            voteNumNode.addClass('voteNum_voted')
+	        else{
+	            voteNumNode.removeClass('voteNum_voted')
+	            noVoteNum++;
+	        }
+	    });
+		
+		 if(noVoteNum>0){
+	      	  $("#game_message").text("还有 "+noVoteNum+" 位用户未投票");
+		 	
+		 }else{
+	        $("#game_message").text("所有玩家已投票，请确认进入下一阶段");			
+		 }
+	}else{
+		
+		 $.each(content.voteUserStatus,function(key,userItem){
+	        var voteNumNode=$('.user_item[uid='+userItem.uid+'] .voteNum');
+	        if(userItem.voteUid!=0){
+		        voteNumNode.text('√');
+	            voteNumNode.addClass('voteNum_voted');
+			}else{
+				voteNumNode.text('?');
+	            voteNumNode.removeClass('voteNum_voted');
+	            noVoteNum++;
+	        }
+	    });
+		
+		 if(noVoteNum>0){
+	        $("#game_message").text("还有 "+noVoteNum+" 位用户未投票");
+		 }else{
+	        $("#game_message").text("所有玩家已投票");			
+		 }
+		
+	}
+	
+   
+   
 }
 
 //任务进度条 填充数据并向左平移
@@ -625,14 +695,14 @@ function showStage(){
             $( "#popupStage" ).popup('open');
         });
 
-        $("#word_area").show();
-        $('#word_human').text(words.human);
-        $('#word_ghost').text(words.ghost);
-     }
-     else{
+     }else{
         $("#word_area").hide();
         $("#game_stage_area").show();
     }
+	
+	seajs.use('ghost.v1/module/userIdentity/index',function(index){
+		index.get('./userIdentityUpdate').show(words);
+	});
 }
 
 //显示消息
@@ -676,9 +746,10 @@ function handleUserUpdate(content){
 //用户信息更新，包含身份信息、词条信息
 function userIdentityUpdate(content){
     userSit(content.userlist);
-    $("#word_area").show();
-    $('#word_human').text(words.human);
-    $('#word_ghost').text(words.ghost);
+	
+	seajs.use('ghost.v1/module/userIdentity/index',function(index){
+		index.get('./userIdentityUpdate').show(content);
+	});
 }
 
 

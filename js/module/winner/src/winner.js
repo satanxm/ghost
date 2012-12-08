@@ -1,6 +1,8 @@
 define(function(require,exports,module){
 
 	var tmpl = require('./tmpl');
+	var centerTips = require('ghost.v1/api/centerTips');
+	var tid;
 
 	return {
 		
@@ -36,33 +38,11 @@ define(function(require,exports,module){
 		
 		
 		displayWinner: function(){
-			
-			var tips = $('#desk_center_tip');
-			
-			tips.hide();
-			tips.removeClass('bounceIn');
-			
-			tips.html(tmpl.winner());
-			
-			tips.show();
-			tips.addClass('bounceIn');
-			
-			
+			centerTips.display(tmpl.winner());
 		},
 		
 		displayLoser: function(){
-			
-			var tips = $('#desk_center_tip');
-			
-			tips.hide();
-			tips.removeClass('bounceIn');
-			
-			tips.html(tmpl.loser());
-			
-			tips.show();
-			tips.addClass('bounceIn');
-			
-			
+			centerTips.display(tmpl.loser());
 		}
 		
 	};

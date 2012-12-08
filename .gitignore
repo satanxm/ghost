@@ -15,6 +15,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+.tmp_*
 
 # External tool builders
 .externalToolBuilders/
@@ -143,7 +144,7 @@ Desktop.ini
 
 *.py[co]
 *.pyc
-*.idea*
+.idea/*
 
 # Packages
 *.egg
