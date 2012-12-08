@@ -7,7 +7,7 @@
  */
 
 var ws; 
-var wsUrl = 'ws://192.168.1.131:8001'; 
+var wsUrl = 'ws://ws.ghost.com:8001'; 
 //var wsUrl = 'ws://127.0.0.1:8001'; 
 var wsFlag=0;//服务器连接状态,0:未连接 1:正常连接 2:已断开 3:超时(掉线)
 var wordsDict={};//词库
