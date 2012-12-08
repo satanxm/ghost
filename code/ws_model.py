@@ -33,7 +33,7 @@ deskListDefault={'info':{},'extend':{},'stage':{'step':[],'type':-1}}
 #userList[uid]['info']
 sendDataDefault={'callback':'','content':{'ret':-1,'data':''}}
 userList={} #socketId deskId uid nick昵称 avatarId用户头像 seatPos座位 seatPos座位偏移 online 是否在线(0不在线 1在线) identity身份 (0普通用户 1人 2鬼 3痴 4旁观 11法官) alive(0死 1活) voteUid投票玩家  
-deskList={} #deskId bindList屏蔽列表 createTime userLimit玩家上限 cleanFlag清理标记 status步骤(0未开始 1开始) wordHuman wordGuest ghostNum
+deskList={} #deskId bindList屏蔽列表 createTime userLimit玩家上限 cleanFlag清理标记 status步骤(0未开始 1开始) wordHuman wordGhost ghostNum
 
 
 #处理接收的数据
@@ -122,7 +122,7 @@ def createGame(self,decodeData):
     deskId = createDesk()
     deskList[deskId]=copy.deepcopy(deskListDefault)
     deskList[deskId]['info']={'deskId':deskId,'createTime':int(time.time()),'status':0,'ghostNum':0,'userLimit':14}
-    deskList[deskId]['extend']={'cleanFlag':0,'wordHuman':'','wordGuest':'','bindList':''}
+    deskList[deskId]['extend']={'cleanFlag':0,'wordHuman':'','wordGhost':'','bindList':'','voteStatus':{},'voteMsg':'','tempUserList':[]}
     userList[self]['deskId']=deskId
     userList[self]['online']=1
     userList[self]['identity']=11
@@ -197,7 +197,7 @@ def gameRestart(deskId):
     #还原桌子信息
     deskList[deskId]['info']['status']=0
     deskList[deskId]['extend']['wordHuman']=''
-    deskList[deskId]['extend']['wordGuest']=''
+    deskList[deskId]['extend']['wordGhost']=''
     deskList[deskId]['stage']['step']=[]
     deskList[deskId]['stage']['type']=-1
     #还原用户信息
@@ -244,7 +244,15 @@ def reconnectionGame(self,decodeData):
             sendData['content']['deskStage']=deskList[deskId]['stage']      #桌子信息
             sendData['content']['voteUserStatus']=voteStatus(deskId)         #投票信息，用于法官查看
             sendData['content']['voteUserList']=getAliveUserByDesk(deskId)  #活着的玩家列表，用于设置可投票
-            
+
+            #获取词条
+            # if userList[self]['deskId']==deskId and userList[self]['identity']==1 and userList[self]['online']==1:
+            #     sendData['content']['words']={'human':deskList[deskId]['extend']['wordHuman'],'ghost':deskList[deskId]['extend']['wordHuman']}
+            # elif userList[self]['deskId']==deskId and userList[self]['identity']==2 and userList[self]['online']==1:
+            #     sendData['content']['words']={'human':deskList[deskId]['extend']['wordGhost'],'ghost':deskList[deskId]['extend']['wordGhost']}
+            # elif userList[self]['deskId']==deskId and userList[self]['identity']==11 and userList[self]['online']==1:
+            #     sendData['content']['words']={'human':deskList[deskId]['extend']['wordHuman'],'ghost':deskList[deskId]['extend']['wordGhost']}
+
         self.send_data( json.dumps( sendData ) )
         
     else:
@@ -329,7 +337,7 @@ def startGame(self,decodeData):
     else:
         #保存桌子信息
         deskList[deskId]['extend']['wordHuman']=decodeData['wordHuman']
-        deskList[deskId]['extend']['wordGuest']=decodeData['wordGuest']
+        deskList[deskId]['extend']['wordGhost']=decodeData['wordGhost']
         deskList[deskId]['info']['ghostNum']=decodeData['ghostNum']
         deskList[deskId]['info']['status']=1
         #重置玩家信息
@@ -357,9 +365,17 @@ def startGame(self,decodeData):
         #print  userList
         sendData['callback']=decodeData['callback']
         sendData['content']['ret']=0
-        sendData['content']['msg']='创建游戏成功！'
-        
-        sendDataByDesk(deskId,0,sendData)
+        sendData['content']['msg']='开始游戏！'
+        for userIndex in userList:
+            if userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']==1 and userList[userIndex]['online']==1:
+                sendData['content']['words']={'human':deskList[deskId]['extend']['wordHuman'],'ghost':deskList[deskId]['extend']['wordHuman']}
+            elif userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']==2 and userList[userIndex]['online']==1:
+                sendData['content']['words']={'human':deskList[deskId]['extend']['wordGhost'],'ghost':deskList[deskId]['extend']['wordGhost']}
+            elif userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']==11 and userList[userIndex]['online']==1:
+                sendData['content']['words']={'human':deskList[deskId]['extend']['wordHuman'],'ghost':deskList[deskId]['extend']['wordGhost']}
+            
+            userIndex.send_data( json.dumps( sendData ) )
+
         userUpdate(deskId,'')
         gameStageNext(self,decodeData)
 
@@ -369,27 +385,31 @@ def startGame(self,decodeData):
 def gameStageNext(self,decodeData):
     sendData=copy.deepcopy(sendDataDefault)
     deskId=userList[self]['deskId']
-    voteUserList=[]
+    
+    if len(deskList[deskId]['extend']['tempUserList'])>0:
+        voteUserList=deskList[deskId]['extend']['tempUserList']
+    else:
+        voteUserList=getAliveUserByDesk(deskId)
+
     if deskList[deskId]['stage']['type']==-1:
         stepType=0
         message='陈述阶段:请从法官左手开始，顺时针陈述。'
+        sendData['content']['activeUserList']=voteUserList
     elif deskList[deskId]['stage']['type']==0:
         voteReset(deskId)
         stepType=1
         message='投票阶段:请选择一位玩家。'
         #获取还未死的玩家列表
-        voteUserList=getAliveUserByDesk(deskId)
-        sendData['content']['voteUserList']=voteUserList
+        sendData['content']['activeUserList']=voteUserList
     elif deskList[deskId]['stage']['type']==1:
         stepType=2
         message=dealVoteData(deskId)
     elif deskList[deskId]['stage']['type']==2:
         stepType=0
-        message='陈述阶段:请从死者左手开始，顺时针陈述。'
+        message='猜词阶段:请死者猜词。'
     elif deskList[deskId]['stage']['type']==3:
         stepType=4
         message='公布身份和选词。'
-        userIdentityUpdate(deskId)
     elif deskList[deskId]['stage']['type']==4:
         gameRestart(deskId)
         return
@@ -438,13 +458,30 @@ def dealVoteData(deskId):
             message=userList[userDeadIndex]['nick']+' 被投死'
             sendData['content']['deadIdentity']=1
             sendData['content']['ret']=0
-        
-    sendData['callback']='userDead'
+
+        deskList[deskId]['extend']['tempUserList']=[]
+        deskList[deskId]['extend']['voteMsg']=message
+        sendData['callback']='userDead'
+
+    elif len(voteNumMaxList)>1:
+        deskList[deskId]['extend']['tempUserList']=voteNumMaxList
+        sendData['content']['deadIdentity']=0
+        sendData['content']['ret']=0
+        message='未产生最高票'
+
+
+    
     sendData['content']['msg']=message
     judgeSocketId=getJudgeSocketByDesk(deskId)
     if judgeSocketId!=0 and userList[judgeSocketId]['online']==1:
         judgeSocketId.send_data( json.dumps( sendData ) )
 
+    sendData['callback']='handleVoteResult'
+    sendData['content']['msg']=message  
+    sendData['content']['voteUserStatus']=deskList[deskId]['extend']['voteStatus']  
+    sendDataByDesk(deskId,judgeSocketId,sendData)
+
+    userUpdate(deskId,'')
     return message
 
 #投票动作
@@ -466,10 +503,9 @@ def voteUser(self,decodeData):
                 sendData['content']['ret']=0
                 sendData['content']['msg']=message
                 sendData['content']['voteUserStatus']=voteStatus(deskId)
+                
 
-                judgeSocketId=getJudgeSocketByDesk(deskId)
-                if judgeSocketId!=0 and userList[judgeSocketId]['online']==1:
-                    judgeSocketId.send_data( json.dumps( sendData ) )
+                sendDataByDesk(deskId,0,sendData)
 
 
 #统计投票情况
@@ -484,6 +520,7 @@ def voteStatus(deskId):
             if voteItem2['voteUid']==voteItem['uid']:
                 voteItem['voteNum']+=1
 
+    deskList[deskId]['extend']['voteStatus']=voteUserStatus
     return voteUserStatus
     
 
@@ -497,16 +534,26 @@ def guessWordCorrect(self,decodeData):
         deskList[deskId]['stage']['type']=3
         deskList[deskId]['stage']['step'].append(3)
 
+        userIdentityUpdate(deskId)
         sendData['callback']='handleGameFinish'
         sendData['content']['ret']=0
         sendData['content']['msg']='鬼猜词正确，游戏结束!'
+        sendData['content']['winner']=2
         sendData['content']['deskStage']=deskList[deskId]['stage']
+
 
     sendDataByDesk(deskId,0,sendData)
 
 
 def gameFinish(t):
     if t == 1:
+        sendData['callback']='handleGameFinish'
+        sendData['content']['ret']=0
+        sendData['content']['msg']='鬼猜词正确，游戏结束!'
+        sendData['content']['winner']=2
+        sendData['content']['deskStage']=deskList[deskId]['stage']
+
+
         #人胜
         pass
     elif t == 2:
@@ -575,7 +622,7 @@ def getUserByUid(uid):
 def getAliveUserByDesk(deskId):
     userListByDesk=[]
     for userIndex in userList:
-        if userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']!=11 and userList[userIndex]['online']==1:
+        if userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']!=11 and userList[userIndex]['online']==1 and userList[userIndex]['alive']==1:
             userListByDesk.append(  userList[userIndex]['uid']  )
 
     return userListByDesk

@@ -1,0 +1,18 @@
+<script id="userInfo" type="text/html" nowith="yes">
+<%
+	var words = data.words;
+	
+	
+	if(words.human !== words.ghost){
+	%>
+		<p>人：<span><%=words.human%></span></p>
+		<p>鬼：<span><%=words.ghost%></span></p>
+	<%
+	}else{
+	%>
+		<p>词：<span><%=words.ghost%></span></p>
+	<%
+	}
+%>
+</script>
+

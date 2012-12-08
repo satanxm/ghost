@@ -5,7 +5,7 @@ php_flag magic_quotes_gpc off
 
 
 #自定义错误页面
-ErrorDocument 404 /qam/404.htm
+#ErrorDocument 404 /qam/404.htm
 
 
 #变更默认首页
@@ -19,7 +19,7 @@ Order allow,deny
 Allow from all
 
 #伪静态
-RewriteEngine on
-RewriteBase /server/
-RewriteRule ^(.+)-(.+)$ index.php
-RewriteRule ^preview\/(.+)$ image.php
+#RewriteEngine on
+#RewriteBase /server/
+#RewriteRule ^(.+)-(.+)$ index.php
+#RewriteRule ^preview\/(.+)$ image.php

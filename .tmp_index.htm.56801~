@@ -1,0 +1,317 @@
+<!doctype html>
+
+<html class="ui-mobile">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<!-- 	<meta HTTP-EQUIV="expires" CONTENT="86400">
+ -->	
+ 	<link rel="stylesheet" href="jquery.mobile-1.2.0.min.css" />
+	<link rel="stylesheet" href="style.css" />
+	<title>抓鬼</title>
+
+</head>
+
+
+<body class="ui-mobile-viewport">
+
+
+<div data-role="page"  id="page_index" class="type-interior" style="width:320px;">
+	<div data-role="header" data-position="inline" data-theme="a" role="banner">
+		<h1 class="ui-title" tabindex="0" role="heading" aria-level="1"></h1>
+		<a href="index.html" data-icon="gear" class="ui-btn-right" data-theme="a">设置</a>
+	</div>
+
+	<div data-role="content">
+		<div class="ui-body ui-body-b">
+			<h1>抓鬼游戏</h1>
+			<div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+		         <label for="nick" class="ui-input-text">昵称:</label>
+		         <input type="text" name="nick" id="nick" value="" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset" style="width:140px;">
+		         <a href="javascript:void(0)" class="avatar" id="avatarId"><i class="avatar_item avatar_4"></i></a>
+			</div>
+			<div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+		         <label for="room" class="ui-input-text">房间:</label>
+		         <input type="text" name="deskId" id="deskId" value="" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset">
+			</div>
+			<a id="btn_join" data-role="button" data-theme="a">加入</a>
+			<a id="btn_create" data-role="button" data-theme="a">创建游戏</a>
+		</div>
+	</div>
+
+	<div data-role="footer" data-theme="a" data-position="" role="contentinfo"> 
+		<div class="mod_server_status">
+			状态：<span id="server_status"></span>
+			<a id="btn_connect_try" data-role="button" data-theme="a" class="btn_connect_try" style="width:60px;line-height:20px;display:none;">重试</a>
+		</div>
+	</div>
+
+	<div data-role="popup" id="popupMessage_index"  class="popupMessage" data-overlay-theme="a" style="width:240px;">
+		<a data-rel="back" data-role="button" data-theme="b" data-icon="delete" data-iconpos="notext" class="ui-btn-right">关闭</a>
+		<p class="message_text"></p>
+	</div>
+
+</div>
+
+
+
+<div data-role="page" id="page_desk"  style="width:320px;">
+	<div data-role="header" data-position="inline" data-theme="a" role="banner">
+		<h1 class="ui-title" tabindex="0" role="heading" aria-level="1" id="desk_id"></h1>
+		<a data-icon="gear" class="ui-btn-right" data-theme="a" data-mini="true" id="link_exit">离开</a>
+	</div>
+
+	<div id="page_main">
+		<div class="mod_desk ">
+			<div class="inner">
+				<div class="desk embossed"><span class="image-wrap"></span></div>
+
+				<a data-rel="popup" class="user_item user_pos_0 user_item_self"><i class="avatar_item"></i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<a data-rel="popup" class="user_item user_pos_1"><i class="avatar_item"></i><i class="voteNum">0</i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<a data-rel="popup" class="user_item user_pos_2"><i class="avatar_item"></i><i class="voteNum">0</i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<a data-rel="popup" class="user_item user_pos_3"><i class="avatar_item"></i><i class="voteNum">0</i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<a data-rel="popup" class="user_item user_pos_4"><i class="avatar_item"></i><i class="voteNum">0</i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<a data-rel="popup" class="user_item user_pos_5"><i class="avatar_item"></i><i class="voteNum">0</i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<a data-rel="popup" class="user_item user_pos_6"><i class="avatar_item"></i><i class="voteNum">0</i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<a data-rel="popup" class="user_item user_pos_7"><i class="avatar_item"></i><i class="voteNum">0</i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<a data-rel="popup" class="user_item user_pos_8"><i class="avatar_item"></i><i class="voteNum">0</i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<a data-rel="popup" class="user_item user_pos_9"><i class="avatar_item"></i><i class="voteNum">0</i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<a data-rel="popup" class="user_item user_pos_10"><i class="avatar_item"></i><i class="voteNum">0</i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<a data-rel="popup" class="user_item user_pos_11"><i class="avatar_item"></i><i class="voteNum">0</i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<a data-rel="popup" class="user_item user_pos_12"><i class="avatar_item"></i><i class="voteNum">0</i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<a data-rel="popup" class="user_item user_pos_13"><i class="avatar_item"></i><i class="voteNum">0</i><i class="avatar_ident"></i><i class="ico mask_offline"></i><span class="user_name"></span></a>
+				<div class="word_area" id="word_area" style="display:none;">
+					<p>平民：<span id="word_human"></span></p>
+					<p>内鬼：<span id="word_ghost"></span></p>
+				</div>
+				
+				<!-- <a class="user_item user_item_vote user_pos_0 user_item_set"><i class="voteNum voteNum_voted">5</i><i class="avatar_item avatar_12"></i><i class="ico "></i><i class="ico mask_offline"></i><span class="user_name">nicknick</span></a> -->
+					
+				<div data-role="controlgroup" data-type="horizontal" data-mini="true"  class="desk_btn" style="display:none;">
+					<a id="link_change_seat" data-role="button" data-theme="a" data-icon="grid" data-iconpos="notext">换座位</a>
+					<a id="link_info" data-role="button" data-theme="a" data-icon="info" data-iconpos="notext">规则</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="mod_option" id="mod_option"  style="display:none;">
+			<div class="ui-bar-d game_option">
+				<p>【角色】 <span id="game_count">0</span>人<span class="t_error" id="game_status"></span></p>
+				<p>【猜词】 <span id="option_words"><span style="color:#f00">请在"游戏设置"中选词</span></span></p>
+			</div>
+			<div class="button_area" id="button_area" data-role="controlgroup" data-type="horizontal" >
+				<a id="link_page_option" data-role="button" data-inline="true" data-theme="a" >游戏设置</a>
+				<a id="link_game_start" data-role="button" data-inline="true" data-theme="a">游戏开始</a>
+			</div>
+		</div>
+		<div class="game_stage_area" id="game_stage_area" style="display:none;">
+			<div data-role="controlgroup" data-type="horizontal" class="game_stage" id="game_stage">
+				<a data-icon="arrow-r" data-iconpos="right" data-role="button" data-mini="true" data-theme="a" class="ui-disabled">开始</a>
+				<a data-icon="arrow-r" data-iconpos="right" data-role="button" data-mini="true" data-theme="a" class="ui-disabled" id="btn_step_next"></a>
+				<a data-icon="arrow-r" data-iconpos="right" data-role="button" data-mini="true" data-theme="a" class="ui-disabled">...</a>
+			</div>
+		</div>
+		
+		<div class="user_message" id="user_message" style="display:none;"></div>
+
+		<div data-role="footer"  id="foot_desk" data-position="inline" role="contentinfo" style="display:none;">
+			<div class="game_message">
+				状态：<span id="game_message"></span>
+			</div>
+		</div>
+	</div>
+
+
+	<div data-role="popup" id="popupMenu" data-overlay-theme="a">
+		<ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="b">
+			<li data-role="divider" data-theme="a">玩家：</li>
+			<li><a id="link_leave">请他离开游戏</a></li>
+			<li><a id="link_bind">请他永远离开</a></li>
+		</ul>
+	</div>
+
+	<div data-role="popup" id="popupMessage_desk" class="popupMessage" data-overlay-theme="a" style="width:240px;">
+		<a data-rel="back" data-role="button" data-theme="b" data-icon="delete" data-iconpos="notext" class="ui-btn-right">关闭</a>
+		<p class="message_text"></p>
+	</div>
+	
+	<div data-role="popup" id="popupStage"  data-theme="c" class="ui-body-d" style="width:240px;" >
+		<div data-role="header" data-theme="a" role="banner">
+			<h1 class="ui-title" role="heading" aria-level="1">任务进度</h1>
+		</div>
+		<div data-role="content" data-theme="d" role="main">
+			<h3 class="ui-title">确认进入下一步？</h3>
+			<a data-role="button" data-inline="true" data-mini="true" data-rel="back" data-theme="c" >取消</a>    
+			<a data-role="button" data-inline="true" data-mini="true" data-rel="back" data-transition="flow" data-theme="b" id="btn_stage_next">确认</a>  
+		</div>
+	</div>
+
+	<div data-role="dialog" class="popupGuess" id="popupGuess"  data-transition="slidedown" class="ui-body-a" data-theme="a">
+		<div data-role="header" data-theme="a" role="banner">
+			<a href="#" data-icon="delete" data-iconpos="notext"  data-theme="a" title="Close">Close</a>
+			<h1 class="ui-title" role="heading" aria-level="1">猜词</h1>
+		</div>
+		<div data-role="content" data-theme="c" role="main" style="padding-left:10px;">
+			<h3 class="guess_message">&nbsp;</h3>
+			<h3 class="guess_tip_human">人不能猜词，确认进入下一环节</h3>
+			<h3 class="guess_tip_ghost">鬼死后可以猜词，请询问是否猜词</h3>
+			<div class="btn">
+				<a data-role="button" data-theme="b" data-inline="true" id="link_guess_confirm">猜词正确</a>       
+				<a data-role="button" data-theme="c" data-inline="true" id="link_guess_cancel">关闭</a>    
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+<div data-role="page" id="page_option"  style="width:320px;">
+	<div data-role="header" data-position="inline" data-theme="a" class="ui-header" role="banner">
+		<h1 class="ui-title" tabindex="0" role="heading" aria-level="1"></h1>
+		<a href="javascript:void(0)" data-icon="check" data-theme="a" id="link_option_confirm">确认</a>
+
+	</div>
+
+	<ul data-role="listview mod_game_option" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+		<li data-role="fieldcontain" class="ui-field-contain ui-body ui-br ui-li ui-li-static ui-body-c ui-corner-top" style="display:none;">
+        	<label for="slider-0">玩家</label> <span class="role_human">平民：<span id="role_man_num">0</span></span> <span class="role_ghost">内鬼：<span id="role_man_num">0</span></span>
+        	<br />
+        	<label for="slider-0">调整</label>
+   			<input type="range" name="slider" id="slider-0" value="14" min="7" max="14"  />
+		</li>
+		<li data-role="fieldcontain" class="ui-field-contain ui-body ui-br ui-li ui-li-static ui-body-c ui-corner-top">
+			<div data-role="" class="ui-field-contain ui-body ui-br">
+		         <label for="id_human" class="ui-input-text">平民:</label>
+		         <input type="text" name="id_human" id="id_human" value="" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset" style="width:140px;">
+			</div>
+
+			<div data-role="" class="ui-field-contain ui-body ui-br">
+		         <label for="id_ghost" class="ui-input-text">内鬼:</label>
+		         <input type="text" name="id_ghost" id="id_ghost" value="" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset" style="width:140px;">
+			</div>
+        	<a data-role="button" data-inline="true" data-theme="a">随机词</a>
+			<a href="#page_dict" id="btn_dict" data-role="button" data-inline="true" data-theme="a">词  库</a>
+		</li>
+	</ul>	
+</div>
+
+<div data-role="page" id="page_dict"  style="width:320px;">
+	<div data-role="header" data-position="inline" data-theme="a" role="banner">
+		<h1 class="ui-title" tabindex="0" role="heading" aria-level="1"></h1>
+		<a href="#page_option" data-icon="back" data-theme="a">返回</a>
+		<div data-role="navbar" class="dict_type_area ui-navbar ui-navbar-noicons" role="navigation">
+			<ul class="ui-grid-d" id="dict_type"  data-inset="true">
+				<li id="dict_type_0" class="ui-block-a"><a class="ui-btn-active" data-theme="a">1</a></li>
+				<li id="dict_type_1" class="ui-block-b"><a data-theme="a">2</a></li>
+				<li id="dict_type_2" class="ui-block-c"><a data-theme="a">3</a></li>
+				<li id="dict_type_3" class="ui-block-d"><a data-theme="a">4</a></li>
+				<li id="dict_type_4" class="ui-block-e"><a data-theme="a">5</a></li>
+			</ul>
+		</div><!-- /navbar -->
+	</div>
+	<div class="mod_dict">
+		<ul id="dict_list" data-role="listview" data-inset="true" data-theme="c" >
+			<li data-role="list-divider" role="heading" class="ui-bar-b" >A</li>
+			<li><a><span class="dict_item">电话机</span> <span class="dict_item">电视机</span></a></li>
+			<li><a><span class="dict_item">电话</span> <span class="dict_item">电视机</span></a></li>
+		</ul>
+	</div>
+</div>
+
+
+
+
+<div data-role="page" id="page_avatar"  style="width:320px;">
+	<div data-role="header" data-position="inline" data-theme="a" role="banner">
+		<h1 class="ui-title" tabindex="0" role="heading" aria-level="1"></h1>
+		<a href="#page_index" data-icon="back" data-theme="a">返回</a>
+	</div>
+	<div class="mod_avatar">
+		<a class="avatar_item avatar_1" avatarId="1"></a>
+		<a class="avatar_item avatar_2" avatarId="2"></a>
+		<a class="avatar_item avatar_3" avatarId="3"></a>
+		<a class="avatar_item avatar_4" avatarId="4"></a>
+		<a class="avatar_item avatar_5" avatarId="5"></a>
+		<a class="avatar_item avatar_6" avatarId="6"></a>
+		<a class="avatar_item avatar_7" avatarId="7"></a>
+		<a class="avatar_item avatar_8" avatarId="8"></a>
+		<a class="avatar_item avatar_9" avatarId="9"></a>
+		<a class="avatar_item avatar_10" avatarId="10"></a>
+		<a class="avatar_item avatar_11" avatarId="11"></a>
+		<a class="avatar_item avatar_12" avatarId="12"></a>
+		<a class="avatar_item avatar_13" avatarId="13"></a>
+		<a class="avatar_item avatar_14" avatarId="14"></a>
+		<a class="avatar_item avatar_15" avatarId="15"></a>
+		<a class="avatar_item avatar_16" avatarId="16"></a>
+		<a class="avatar_item avatar_17" avatarId="17"></a>
+		<a class="avatar_item avatar_18" avatarId="18"></a>
+		<a class="avatar_item avatar_19" avatarId="19"></a>
+		<a class="avatar_item avatar_20" avatarId="20"></a>
+		<a class="avatar_item avatar_21" avatarId="21"></a>
+		<a class="avatar_item avatar_22" avatarId="22"></a>
+		<a class="avatar_item avatar_23" avatarId="23"></a>
+		<a class="avatar_item avatar_24" avatarId="24"></a>
+		<a class="avatar_item avatar_25" avatarId="25"></a>
+		<a class="avatar_item avatar_26" avatarId="26"></a>
+		<a class="avatar_item avatar_27" avatarId="27"></a>
+		<a class="avatar_item avatar_28" avatarId="28"></a>
+		<a class="avatar_item avatar_29" avatarId="29"></a>
+		<a class="avatar_item avatar_30" avatarId="30"></a>
+		<a class="avatar_item avatar_31" avatarId="31"></a>
+		<a class="avatar_item avatar_32" avatarId="32"></a>
+		<a class="avatar_item avatar_33" avatarId="33"></a>
+		<a class="avatar_item avatar_34" avatarId="34"></a>
+		<a class="avatar_item avatar_35" avatarId="35"></a>
+		<a class="avatar_item avatar_36" avatarId="36"></a>
+		<a class="avatar_item avatar_37" avatarId="37"></a>
+		<a class="avatar_item avatar_38" avatarId="38"></a>
+		<a class="avatar_item avatar_39" avatarId="39"></a>
+		<a class="avatar_item avatar_40" avatarId="40"></a>
+		<a class="avatar_item avatar_41" avatarId="41"></a>
+		<a class="avatar_item avatar_42" avatarId="42"></a>
+		<a class="avatar_item avatar_43" avatarId="43"></a>
+		<a class="avatar_item avatar_44" avatarId="44"></a>
+		<a class="avatar_item avatar_45" avatarId="45"></a>
+		<a class="avatar_item avatar_46" avatarId="46"></a>
+		<a class="avatar_item avatar_47" avatarId="47"></a>
+		<a class="avatar_item avatar_48" avatarId="48"></a>
+		<a class="avatar_item avatar_49" avatarId="49"></a>
+		<a class="avatar_item avatar_50" avatarId="50"></a>
+		<a class="avatar_item avatar_51" avatarId="51"></a>
+		<a class="avatar_item avatar_52" avatarId="52"></a>
+		<a class="avatar_item avatar_53" avatarId="53"></a>
+		<a class="avatar_item avatar_54" avatarId="54"></a>
+		<a class="avatar_item avatar_55" avatarId="55"></a>
+		<a class="avatar_item avatar_56" avatarId="56"></a>
+		<a class="avatar_item avatar_57" avatarId="57"></a>
+		<a class="avatar_item avatar_58" avatarId="58"></a>
+		<a class="avatar_item avatar_59" avatarId="59"></a>
+	</div>
+		
+</div>
+
+
+
+
+
+
+</body>
+<!--<script src="http://192.168.1.131:8081/target/target-script-min.js#anonymous" type="text/javascript"></script>-->
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/jquery.mobile-1.2.0.min.js"></script>
+<script src="js/functions.js" type="text/javascript"></script>
+<script src="js/main.js" type="text/javascript"></script>
+<script>
+
+    $(document).ready(function () {
+		init();
+    });
+	
+</script>
+
+
+
+
+
+
+</html>

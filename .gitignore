@@ -15,6 +15,7 @@ local.properties
 .classpath
 .settings/
 .loadpath
+.tmp_*
 
 # External tool builders
 .externalToolBuilders/
@@ -173,3 +174,7 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+#proj ignore
+temp
+
