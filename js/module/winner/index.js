@@ -44,6 +44,7 @@ define.pack = function(){
 define.pack("./winner",["./tmpl"],function(require,exports,module){
 
 	var tmpl = require('./tmpl');
+	var tid;
 
 	return {
 		
@@ -90,6 +91,8 @@ define.pack("./winner",["./tmpl"],function(require,exports,module){
 			tips.show();
 			tips.addClass('bounceIn');
 			
+			
+			this.autoClose();
 		},
 		
 		displayLoser: function(){
@@ -104,7 +107,21 @@ define.pack("./winner",["./tmpl"],function(require,exports,module){
 			tips.show();
 			tips.addClass('bounceIn');
 			
+			this.autoClose();
 			
+			
+		},
+		
+		autoClose: function(){
+			clearTimeout(tid);
+			
+			tid =  setTimeout(function(){
+				
+				var tips = $('#desk_center_tip');
+				tips.removeClass('bounceIn');
+				tips.fadeOut();
+				
+			},3000);
 		}
 		
 	};
