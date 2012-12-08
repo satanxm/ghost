@@ -13,9 +13,11 @@ define('ROOT_PATH', $dir . '/');
 unset($dir);
 
 require_once COMM_PATH . 'etc/conf.inc.php';
-//require_once COMM_PATH . 'lib/function.inc.php';
+require_once COMM_PATH . 'lib/resource.class.php';
 require_once COMM_PATH . 'lib/charset.inc.php';
 require_once COMM_PATH . 'lib/json.inc.php';
+
+$log = resource::get_logger();
 
 //require('include/conn.php');
 //$runtime= new runtime;
