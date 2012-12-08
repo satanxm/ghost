@@ -414,8 +414,6 @@ function gameStart(){
 
 function handleStartGame(content){
 	
-	console.dir(content);
-	
 	words = content.words;
 	
     //console.log(content)

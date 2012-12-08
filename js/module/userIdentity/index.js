@@ -44,6 +44,7 @@ define.pack = function(){
 define.pack("./userIdentityUpdate",["./tmpl"],function(require,exports,module){
 
 	var tmpl = require('./tmpl');
+	var isShow = true;
 
 	return {
 		
@@ -54,6 +55,30 @@ define.pack("./userIdentityUpdate",["./tmpl"],function(require,exports,module){
 			});
 			
 			$("#word_area").html(str).show();
+			
+			this.bindEvent();
+		},
+		
+		
+		bindEvent: function(){
+			
+			var area = $("#word_area");
+			
+			area.off('click.hideWords');
+			area.on('click.hideWords',function(){
+				if(isShow){
+					isShow = false;
+					area.css({
+						opacity: 0.2
+					});
+				}else{
+					isShow = true;
+					area.css({
+						opacity: 1
+					});
+				}
+			});
+			
 		}
 		
 	};
@@ -74,8 +99,25 @@ var tmpl = {
 'userInfo': function(data){
 
 var __p=[],_p=function(s){__p.push(s)};
-__p.push('<p>人：<span></span></p>\r\n\
-<p>鬼：<span></span></p>');
+
+	var words = data.words;
+	
+	
+	if(words.human === words.ghost){
+	__p.push('		<p>人：<span>');
+_p(words.human);
+__p.push('</span></p>\r\n\
+		<p>鬼：<span>');
+_p(words.ghost);
+__p.push('</span></p>');
+
+	}else{
+	__p.push('		<p>词：<span>');
+_p(words.ghost);
+__p.push('</span></p>');
+
+	}
+__p.push('');
 
 return __p.join("");
 }
