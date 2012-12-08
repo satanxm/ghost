@@ -394,7 +394,7 @@ function gameStart(){
     }
     else{
 
-        ghostNum=roleAllot[userList.length.toString()]
+        ghostNum=roleAllot[userList.length]
         var wsParm ={'action':'startGame','callback':'handleStartGame','wordHuman':words.human,'wordGuest':words.ghost,'ghostNum':ghostNum}
         var wsParmEncode = $.toJSON(wsParm);
         ws.send( wsParmEncode ); 
