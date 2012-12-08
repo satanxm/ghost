@@ -357,9 +357,18 @@ def startGame(self,decodeData):
         #print  userList
         sendData['callback']=decodeData['callback']
         sendData['content']['ret']=0
-        sendData['content']['msg']='创建游戏成功！'
-        
-        sendDataByDesk(deskId,0,sendData)
+        sendData['content']['msg']='开始游戏！'
+        sendData['content']['abc']='nima'
+        for userIndex in userList:
+            if userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']==1 and userList[userIndex]['online']==1:
+                sendData['content']['words']={'human':deskList[deskId]['extend']['wordHuman'],'ghost':deskList[deskId]['extend']['wordHuman']}
+            elif userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']==2 and userList[userIndex]['online']==1:
+                sendData['content']['words']={'human':deskList[deskId]['extend']['wordGhost'],'ghost':deskList[deskId]['extend']['wordGhost']}
+            elif userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']==11 and userList[userIndex]['online']==1:
+                sendData['content']['words']={'human':deskList[deskId]['extend']['wordHuman'],'ghost':deskList[deskId]['extend']['wordGhost']}
+            
+            userIndex.send_data( json.dumps( sendData ) )
+
         userUpdate(deskId,'')
         gameStageNext(self,decodeData)
 
