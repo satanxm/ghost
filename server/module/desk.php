@@ -21,9 +21,74 @@ class deskMod
 	 * @access public
 	 * @return void
 	 */
-	public function binarycode($postdata)
-	{
-		 echo "binarycode";
+	public function binarycode($postdata) {
+		 global $_qr_level;
+		 // web path
+		 $PNG_TEMP_DIR = ROOT_PATH . 'temp/';
+
+		 include COMM_PATH . "lib/phpqrcode/qrlib.php";  
+
+		 $data =  $_REQUEST['url'];
+		 if (empty($data)) {
+			 self::showimg_err();
+		 }
+		 $level = intval($_REQUEST['level']);
+		 $size = intval($_REQUEST['size']);
+		 if (!isset($level, $_qr_level)) {
+			 $level = DEFAULT_QR_LEVEL;
+		 } else {
+			 $level = $_qr_level[$level];
+		 }
+
+		 if (!($size<= QR_MAX_SIZE && $size >=QR_MIN_SIZE )) {
+			 $size = DEFAULT_QR_SIZE;
+		 }
+
+		 // 保证目录存在
+		 if (!is_dir($PNG_TEMP_DIR)) {
+			 $old_umask = umask(0);
+			 mkdir($PNG_TEMP_DIR, 0777);
+			 umask($old_umask);
+		 }
+
+		 if (!is_writable($PNG_TEMP_DIR)) {
+		 	chmod($PNG_TEMP_DIR, 0777);
+		 }
+
+
+		 // user data
+		 $filename = $PNG_TEMP_DIR.'qr'.md5( $data.'|'.$level.'|'.$size).'.png';
+		 QRcode::png($data, $filename, $level, $size, 2);    
+
+		 self::outputimg($filename);
+
+	}
+
+	/**
+	 * 向浏览器直接输出一张图片，该图片包含了错误信息说明
+	 *
+	 * @param int $code
+	 */
+	private function showimg_err($code = 0) {
+		header('HTTP/1.0 500 Not Found');
+		header('Status: 500 Not Found');
+		exit;
+	}
+
+	private function outputimg($filename){
+		$mime = image_type_to_mime_type(IMAGETYPE_PNG);
+
+		$imgdata = file_get_contents($filename);
+		// 输出图片
+		$time = time();
+		header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $time) . ' GMT');
+		header('Expires: ' . gmdate('D, d M Y H:i:s', $time + 7200) . ' GMT');
+		header("Cache-Control: max-age=0");
+		header("Content-Length: " . strlen($imgdata));
+		header("Content-Type: {$mime}");
+		echo $imgdata;
+		exit;
+		
 	}
 
 	public function wordlist($postdata){
