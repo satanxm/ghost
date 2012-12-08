@@ -500,6 +500,7 @@ def guessWordCorrect(self,decodeData):
         sendData['callback']='handleGameFinish'
         sendData['content']['ret']=0
         sendData['content']['msg']='鬼猜词正确，游戏结束!'
+        sendData['content']['winner']=2
         sendData['content']['deskStage']=deskList[deskId]['stage']
 
     sendDataByDesk(deskId,0,sendData)
