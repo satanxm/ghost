@@ -120,6 +120,32 @@ __p.push('</span></p>');
 __p.push('');
 
 return __p.join("");
+},
+
+'userInfo2222': function(data){
+
+var __p=[],_p=function(s){__p.push(s)};
+
+	var words = data.words;
+	
+	
+	if(words.human !== words.ghost){
+	__p.push('		<p>人：<span>');
+_p(words.human);
+__p.push('</span></p>\r\n\
+		<p>鬼：<span>');
+_p(words.ghost);
+__p.push('</span></p>');
+
+	}else{
+	__p.push('		<p>词：<span>');
+_p(words.ghost);
+__p.push('</span></p>');
+
+	}
+__p.push('');
+
+return __p.join("");
 }
 };
 return tmpl;

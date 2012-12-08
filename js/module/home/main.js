@@ -1,12 +1,4 @@
 
-/*
- * Copy Right: Tencent ISUX
- * Project: ghost
- * Description: 用户信息
- * Author: kundy
- * date: 2012-11-15
- */
-
 var ws; 
 var wsUrl = 'ws://ws.ghost.com:8001'; 
 
@@ -167,19 +159,12 @@ function connectInit(){
                 var callback = eval(decodeData.callback );
                 callback(decodeData.content);
                 
-                // try{
-                //     var callback = eval(decodeData.callback );
-                //     callback(decodeData.content);
-                // }catch(e){
-                //     console.log("receive error data:"+event.data);
-                // }
-                
             };
             ws.onclose = function(event) { 
                 connectClose();
             }; 
             ws.onerror = function(event) {
-                console.log("ws error.");
+                alert("ws error.");
             };
         }
     }
@@ -216,7 +201,6 @@ function readyStateCheck(){
     3: CLOSED
     */
     var state=ws.readyState;
-    //console.log(state);
     if(state==0){
         if(checkNum<15){
             checkNum++;
@@ -297,7 +281,6 @@ function userSave(uid){
 
 //检查用户状态，是否掉线用户
 function queryStatus(){
-    //console.log("queryStatus start");
     if(localStorage.uid!=""){
         var wsParm ={'action':'queryStatus','callback':'handleQueryStatus','uid':localStorage.uid}
         var wsParmEncode = $.toJSON(wsParm);
@@ -306,7 +289,6 @@ function queryStatus(){
 }
 
 function handleQueryStatus(content){
-    //console.log(content)
     if(content.ret==1){
         $("#server_status").html('<span class=\"t_err\">检测到掉线，是否重连</span>');
         $("#btn_connect_try").css({"display":"inline-block"});
@@ -387,7 +369,6 @@ function joinGame(){
 }
 
 function handleJoinGame(content){
-    //console.log(content)
     if(content.ret==0){
         userInfo.uid=content.uid
         userInfoSave(content.userlist);
@@ -411,8 +392,8 @@ function gameRestart(content){
         userSit(content.userlist);
         showDesk(content.deskInfo);
         showUserMessage(content.msg);
+		$('.user_item').removeClass('user_item_disabled');
     }
-
 }
 
 
@@ -446,7 +427,6 @@ function handleStartGame(content){
 	
 	words = content.words;
 	
-    //console.log(content)
     if(content.ret==0){
         showStage();
         //showDesk(content.deskInfo);
@@ -480,11 +460,9 @@ function handleVoteResult(content){
 
 //游戏过程更新
 function handleGameStage(content){
-    //console.log(content)
     if(content.ret==0){
         //只多一步，为正常更新
-        if( content.deskStage.step.length-stageList.length == 1){
-            stageList=content.deskStage.step;
+        if( content.deskStage.step.length - stageList.length == 1){
             gameStageMove( content.deskStage.type,500 )
             if( content.deskStage.type != 1){
                 //非投票阶段，去掉投票界面
@@ -493,36 +471,52 @@ function handleGameStage(content){
                 $(".mod_desk").removeClass('mod_desk_vote_judge');
                 $(".user_item").unbind('click').removeClass('user_item_vote');
             }
-        }
-        else{//掉包、重连等因素，要重置显示所有的步骤
+			
+			//陈述阶段
+			if(content.deskStage.type === 0){
+				seajs.use('ghost.v1/api/centerTips',function(centerTips){
+					centerTips.displayMsg('陈述阶段');
+				});
+			}
+			
+			//游戏结束
+			if(content.deskStage.type === 4){
+				seajs.use('ghost.v1/api/centerTips',function(centerTips){
+					centerTips.displayMsg('游戏结束');
+				});
+			}
+			
+        }else{
+			
+			//掉包、重连等因素，要重置显示所有的步骤
             stageList=content.deskStage.step;
             
             $(".link_stage_insert").remove();
             $('#game_stage').css({'left':'121px'});
             $.each(stageList,function(key,value){
                 gameStageMove( value,1 ) 
-            })
+            });
         }
 
         //显示最后的消息
         $("#game_message").text(content.msg);
 
+
 		if(content.activeUserList){
 			activeUserList = content.activeUserList;
+			enableActiveUser();
 		}
 		
         //投票阶段
         if( content.deskStage.step[content.deskStage.step.length-1] == 1){
-			voteStart(content.activeUserList);
+			voteStart();
         }
 		
     }
 }
 
 //开始投票
-function voteStart(activeUserList){
-	
-	enableActiveUser();
+function voteStart(){
 	
     if(userInfo.identity!=11){
         $(".mod_desk").addClass('mod_desk_vote');
@@ -622,20 +616,18 @@ function voteStatus(content){
 var stageLink="<a data-icon=\"arrow-r\" data-iconpos=\"right\" data-corners=\"false\" class=\"link_stage_insert\" data-role=\"button\" data-inline=\"true\" data-mini=\"true\" data-theme=\"a\">";
 var stageName=['陈述','投票','猜词','结束','结果','重新开始'];
 function gameStageMove(t,ms){
+	stageList.push(t);
     $("#game_stage a").addClass('ui-disabled');
     $("#btn_step_next").before(  stageLink + stageName[t] + "</a>" );
     $("#game_stage a").button();
     $('#game_stage').animate({left:'-=71px'}, ms);
 
-    t++;if(t==2)t=0;
+    t++;
+	if(t==2){
+		t=0;
+	};
     $("#btn_step_next .ui-btn-text").text( stageName[t]  );
 	
-	if(t === 0){
-		seajs.use('ghost.v1/api/centerTips',function(centerTips){
-			centerTips.displayMsg('陈述阶段');
-		});
-	}
-    
 }
 
 
@@ -880,7 +872,6 @@ function updateDict(){
 //加载词库
 function loadDictType(){
     $.each(wordsDict,function(key,dictItem){
-        //console.log(dictItem.name);
         $('#dict_type_'+key+ " a").text(dictItem.name);
         $('#dict_type_'+key+ " a").unbind('click').click(function(){
             loadDict(key)
