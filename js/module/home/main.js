@@ -405,15 +405,20 @@ function gameStart(){
 }
 
 function handleStartGame(content){
+	
+	console.dir(content);
+	
+	words = content.words;
+	
     //console.log(content)
     if(content.ret==0){
         showStage();
         //showDesk(content.deskInfo);
-    }
-    else{
+    }else{
         $( "#popupMessage_desk .message_text" ).text(content.msg);
         $( "#popupMessage_desk" ).popup('open');
     }
+	
 }
 
 
@@ -627,11 +632,10 @@ function showStage(){
             $( "#popupStage" ).popup('open');
         });
 
-        $("#word_area").show();
-        $('#word_human').text(words.human);
-        $('#word_ghost').text(words.ghost);
-     }
-     else{
+      	seajs.use('ghost.v1/module/userIdentity/index',function(index){
+			index.get('./userIdentityUpdate').show(words);
+		});
+     }else{
         $("#word_area").hide();
         $("#game_stage_area").show();
     }
@@ -678,9 +682,10 @@ function handleUserUpdate(content){
 //用户信息更新，包含身份信息、词条信息
 function userIdentityUpdate(content){
     userSit(content.userlist);
-    $("#word_area").show();
-    $('#word_human').text(words.human);
-    $('#word_ghost').text(words.ghost);
+	
+	seajs.use('ghost.v1/module/userIdentity/index',function(index){
+		index.get('./userIdentityUpdate').show(content);
+	});
 }
 
 
