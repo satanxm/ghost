@@ -118,6 +118,12 @@ function userInit(){
 	$(".mod_desk").delegate('.user_item', 'click', function(e) {
 		var target = $(this) , isAdmin = false, seat1, seat2 ;
 		isAdmin = (userInfo.identity == 11);
+
+		// 不允许换座位的时候
+		if (!isChangePosAllow()) {
+			return;
+		}
+		
 		// 普通用户不能改座位
 		if ( !isAdmin  && target.hasClass('user_item_set') && changeSeatMod) {
 			return;
@@ -846,6 +852,18 @@ function handleChangeSeat(o) {
 	}
 }
 
+/**
+ * isChangePosAllow  是否允许换座位
+ * 
+ * @access public
+ * @return void
+ */
+function isChangePosAllow() {
+	// todo  不允许换座位的条件
+	var n = $('#game_stage_area').css('display');
+	return (n != 'none');
+}
+
 //显示桌面
 function showDesk(info){
     if(info.status==0){ //游戏未开始
@@ -881,7 +899,7 @@ function showDesk(info){
 	// todo popup display
     $('#deskImage').click(function(){
         $( "#popupCode" ).popup('close');
-    })
+    });
 	$("#link_code").bind('click', function(evt) {
 		$( "#popupCode" ).popup('open');
 	});
