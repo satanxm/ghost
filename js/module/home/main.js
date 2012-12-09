@@ -77,7 +77,7 @@ function userInit(){
     }
     $("#avatarId i").attr("class","avatar_item avatar_"+avatarId);
     $("#avatarId").click(function(){
-        window.location="#page_avatar"
+        window.location="#page_avatar";
     });
 
 
@@ -703,13 +703,29 @@ function showDesk(info){
         if(userInfo.identity==11){//法官身份
             $("#mod_option").show();
             $("#button_area").show();
-            updateDict();
+            getDict();
         }
         else{//其它玩家
             $("#mod_option").hide();
         }
     }
-    $("#desk_id").text("房间："+deskInfo.deskId);
+	var qrstr = '<a id="desk_show_qr">二维码</a>', deskId = deskInfo.deskId, qrpopstr = '<div id="qr_img_cont" style="display:none; background: #fff; z-index: 100; position:absolute; left:0px; top: 0px; "><img id="qr_img" /><span id="qr_hide">hide</span></div>', hasQr = false;
+    $("#desk_id").html("房间：" + deskId + qrstr);
+	$(document.body).append(qrpopstr);
+
+	// 显示二维码
+	// todo popup display
+	$("#desk_show_qr").bind('click', function(evt) {
+		if (!hasQr) {
+			$('#qr_img').attr('src','http://www.ghost.com/index.php?mod=desk&act=binarycode&url=' + encodeURIComponent("http://ghost.com/ghost/index.htm?desk=" + deskId  ) );
+			hasQr = true;
+		}
+		$( "#qr_img_cont" ).show();
+	});
+	$('#qr_hide').bind('click', function(evt) {
+		$('#qr_img_cont').hide();
+	});
+
     window.location.href="#page_desk"
 }
 
@@ -855,10 +871,8 @@ function userOptionInit(userList){
     }
 }
 
-
-
 //更新词库
-function updateDict(){
+function getDict(){
     var data ={'action':'getWords','callback':'handleDictCallback', 'reqNum': 15};
 	sendWsReq(data);
 }
@@ -867,6 +881,7 @@ function updateDict(){
 *  拉取随机词库处理
 */
 function handleDictCallback(content) {
+	console.log('dict conten', content);
 	if (content.ret === 0) {
 		wordsDict = content.list;
 		loadDictType();
@@ -896,27 +911,26 @@ function sendWsReq(data) {
 //加载词库
 function loadDictType(){
 	$('#dict_random').unbind('click').bind('click', function() {
-		// todo
-		var index = Math.ceil(Math.random() * 5);
-		loadDict(index);
+		loadDictType();
 	});
 
+	debugger
 	var pagenum =  wordsDict.length / PAGEWORDNUM, words;
 	wordPageIndex ++;
 	if (wordPageIndex >= pagenum) {
 		wordPageIndex = -1;
+		getDict();
 		return;
 	}
 	words = wordsDict.slice(PAGEWORDNUM * (wordPageIndex), PAGEWORDNUM);
-    loadDict(words)
+    loadDict(words);
 }
 
 function loadDict(words){
     var html="";
     $.each(words,function(key,dictItem){
-
 		var  a = dictItem.wordA, b =  dictItem.wordB , str = a + '#' + b;
-        html+="<li><a onclick=\"dictSet('"+dictItem+"')\"><span class=\"dict_item\">"+ a +"</span> <span class=\"dict_item\" >"+b +"</span></a></li>"
+        html+="<li><a onclick=\"dictSet('"+ str +"')\"><span class=\"dict_item\">"+ a +"</span> <span class=\"dict_item\" >"+b +"</span></a></li>"
 
     })
     $('#dict_list').html(html);
