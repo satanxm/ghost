@@ -119,7 +119,19 @@ function userInit(){
 		var target = $(this) , isAdmin = false, seat1, seat2 ;
 		isAdmin = (userInfo.identity == 11);
 		// 普通用户不能改座位
-		if ( !isAdmin  && target.hasClass('user_item_set') || !changeSeatMod) {
+		if ( !isAdmin  && target.hasClass('user_item_set') && changeSeatMod) {
+			return;
+		}
+
+		if (isAdmin && !changeSeatMod) {
+			//window.location = '#popupMenu';
+			var user_name = target.find('.user_name').text(), uid = target.attr('uid');
+			$("#popupUserName").text(user_name);
+			$( "#popupMenu" ).popup("open");
+
+			$('#link_set_judge').unbind('click').bind('click', function() {
+				svrSetJudge(uid);
+			});
 			return;
 		}
 
@@ -144,7 +156,7 @@ function userInit(){
 				seat1 = getSeatId(checked[0], true), seat2 = getSeatId(checked[1], true);
 
 				console.log('change seat: system myseat, myseat, change seat', userInfo.seatPos, seat1, seat2);
-				changeSeat(seat1, seat2);
+				svrChangeSeat(seat1, seat2);
 				seatChanging = true;
 			} 
 		} else {
@@ -152,7 +164,7 @@ function userInit(){
 			seat1 = getSeatId($('.user_pos_0'), true), seat2 = getSeatId(target, true);
 
 			console.log('change seat: system myseat, myseat, change seat', userInfo.seatPos, seat1, seat2);
-			changeSeat(seat1, seat2);
+			svrChangeSeat(seat1, seat2);
 		}
 		
 	});
@@ -797,13 +809,24 @@ function seatIdExchange(seatId, isServer) {
 }
 
 /**
- * changeSeat  换座位
+ * svrChangeSeat  换座位
  * 
  * @access public
  * @return void
  */
-function changeSeat(seat1, seat2) {
+function svrChangeSeat(seat1, seat2) {
     var wsParm ={'action':'changePos','callback':'handleChangeSeat','seatpos1': seat1,'seatpos2': seat2};
+	sendWsReq(wsParm);
+}
+
+/**
+ * svrSetJudge  换法官
+ * 
+ * @access public
+ * @return void
+ */
+function svrSetJudge(uid) {
+    var wsParm ={'action':'setJudge','callback':'handleSetJudge','judge_uid': uid};
 	sendWsReq(wsParm);
 }
 
@@ -941,7 +964,6 @@ function handleUserUpdate(content){
     if(content.msg.length>0)showUserMessage(content.msg);
 
 	// 更换位置的话需要取消选择 todo
-	
 	if (seatChanging) {
 		clearPosChecked();
 		seatChanging = false;
@@ -1035,12 +1057,12 @@ function userOptionInit(userList){
         }
 
         //法官可对玩家操作，如离开游戏、换座位
-        $(".user_item").each(function(index){
+        /*$(".user_item").each(function(index){
             if( $(this).hasClass('user_item_set') && !$(this).hasClass('user_pos_0')){
 				// todo
-                //$(this).attr("href",'#popupMenu' );
+				//$(this).attr("href",'#popupMenu' );
             }
-        });
+        });*/
     }
 }
 
