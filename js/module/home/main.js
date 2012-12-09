@@ -60,6 +60,7 @@ function init(){
     if( location.hash!="" && location.hash!="#page_index" && wsFlag!=1){
          window.location.href="index.htm";
     }
+	
     //userMoveInit()
     userInit();
     avatarInit();
@@ -68,6 +69,13 @@ function init(){
 
 /*页面初始化 start ***************************************************************************/
 function userInit(){
+	
+	var deskId = functions.getRequest('desk');
+	
+	if(deskId){
+		$("#deskId").val(deskId);
+	}
+	
     $("#nick").val(localStorage.nick);
     $("#nick").blur(function(){
             localStorage.nick=$("#nick").val();
