@@ -1,0 +1,33 @@
+
+<html>
+
+<body>
+
+
+
+<canvas width="200" height="200" id="tutorial">abc</canvas>
+
+<script src="js/lib/jquery.js" type="text/javascript"></script>
+<script>
+
+$(document).ready(function () {
+	var canvas = document.getElementById('tutorial');
+	var ctx = canvas.getContext('2d');
+	//ctx.fillRect(0,0,200,200) ;
+
+
+	ctx.fillStyle = "rgb(0,0,0)";
+	ctx.moveTo(100,0);	
+	ctx.quadraticCurveTo(200, 50, 100, 100)
+	ctx.stroke();
+
+
+
+});
+
+
+</script>
+
+
+</body>
+</html>
