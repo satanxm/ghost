@@ -75,6 +75,16 @@ define.pack("./winner",["./tmpl","ghost.v1/api/centerTips"],function(require,exp
 					this.displayWinner();
 					
 				}
+			}else if(userInfo.identity === 11){
+				if(data.winner === 1){
+					
+					centerTips.displayMsg('人胜利');
+					
+				}else if(data.winner === 2){
+					
+					centerTips.displayMsg('鬼胜利');
+					
+				}
 			}
 			
 		},
@@ -122,7 +132,7 @@ var tmpl = {
 'winner': function(data){
 
 var __p=[],_p=function(s){__p.push(s)};
-__p.push('<p>胜利</p>');
+__p.push('<p>游戏胜利</p>');
 
 return __p.join("");
 },
@@ -130,7 +140,7 @@ return __p.join("");
 'loser': function(data){
 
 var __p=[],_p=function(s){__p.push(s)};
-__p.push('<p>失败</p>');
+__p.push('<p>游戏失败</p>');
 
 return __p.join("");
 },
@@ -140,6 +150,11 @@ return __p.join("");
 var __p=[],_p=function(s){__p.push(s)};
 
 	var list = data.userlist,
+		roleMap = {
+			'1': '人',
+			'2': '鬼',
+			'11': '法官'
+		},
 		i,len,user,
 		userStat;
 
@@ -169,7 +184,9 @@ _p(userStat.human_succ);
 __p.push('&nbsp;&nbsp;&nbsp;&nbsp;</span>鬼：<span class="score">');
 _p(userStat.ghost_succ);
 __p.push('</span></p>\r\n\
-				</a>\r\n\
+				<span class="user_role">身份：');
+_p(roleMap[user.identity]);
+__p.push('</span>\r\n\
 			</div>\r\n\
 		</li>');
 

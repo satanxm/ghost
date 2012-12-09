@@ -927,7 +927,7 @@ function showDesk(info){
      $("#desk_id .num").text( deskInfo.deskId  );
 
 	// 显示二维码
-    $('#deskImage').attr('src',window.config.www + '/index.php?mod=desk&act=binarycode&size=9&url=' + encodeURIComponent("http://ghost.com/ghost/index.htm?desk=" + deskId  ) );
+    $('#deskImage').attr('src',window.config.www + '/index.php?mod=desk&act=binarycode&size=9&url=' + encodeURIComponent( window.config.www + "/ghost/index.htm?desk=" + deskId  ) );
 	// popup display
     $('#deskImage').click(function(){
         $( "#popupCode" ).popup('close');
@@ -1107,8 +1107,8 @@ function userOptionInit(userList){
         if(userList.length<4){
             $("#game_status").show();
             $("#game_status").text('（无法开始游戏）');
-        }
-        else{
+			$("#game_role_message").hide();
+        }else{
             //算出默认的鬼数量
             var userCount=userList.length;
             $.each(roleAllot,function(key,value){
@@ -1116,6 +1116,7 @@ function userOptionInit(userList){
             });
             $("#game_role_message").html("<span class=\"role_human\">平民："+ (userCount-1-ghostNum) +"人</span> <span class=\"role_ghost\">内鬼："+ghostNum+"人</span>");
             $("#game_role_message").show();
+			$("#game_status").hide();
         }
 
     }

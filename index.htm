@@ -103,7 +103,7 @@
 
 		<div class="mod_option" id="mod_option"  style="display:none;">
 			<div class="ui-bar-d game_option">
-				<p>【角色】 <span id="game_count">0</span>人<span class="t_error" id="game_status"></span></p>
+				<p>【角色】 <span id="game_count">0</span>人<span class="t_error" id="game_status"></span><span class="t_error" style="display:none" id="game_role_message"></span></p>
 				<p>【猜词】 <span id="option_words"><span style="color:#f00">请在"游戏设置"中选词</span></span></p>
 			</div>
 			<div class="button_area" id="button_area" data-role="controlgroup" data-type="horizontal" >
@@ -239,18 +239,18 @@
 <div data-role="page" id="page_rank"  style="width:320px;">
 	<div data-role="header" data-position="inline" data-theme="a" role="banner">
 		<h1 class="ui-title" tabindex="0" role="heading" aria-level="1">排行榜</h1>
-		<a href="index.html" data-icon="gear" class="ui-btn-right" data-theme="a">返回</a>
+		<a href="index.html" data-icon="gear" class="ui-btn-right" onclick="window.history.back()" data-theme="a">返回</a>
 	</div>
 	<ul data-role="listview" data-split-icon="gear" data-split-theme="d" class="ui-listview lisk_rank">
-			<li  data-icon="false" data-iconpos="right" data-theme="c">
-				
-				<i class="user_avatar avatar_12"></i>
-				<div class="ct">
-					<h3 class="ui-li-heading">kundy 积分：<span class="score">12</span></h3>
-					<p class="ui-li-desc">人：<span class="score">12&nbsp;&nbsp;&nbsp;&nbsp;</span>鬼：<span class="score">12</span></p>
-					</a>
-				</div>
-		</ul>
+		<li  data-icon="false" data-iconpos="right" data-theme="c">
+			<i class="user_avatar avatar_12"></i>
+			<div class="ct">
+				<h3 class="ui-li-heading">kundy 积分：<span class="score">12</span></h3>
+				<p class="ui-li-desc">人：<span class="score">12&nbsp;&nbsp;&nbsp;&nbsp;</span>鬼：<span class="score">12</span></p>
+				<span class="user_role">身份：<%=roleMap[user.identity]%></span>
+			</div>
+		</li>
+	</ul>
 </div>
 
 
