@@ -24,7 +24,7 @@ def decodeData(self,data):
     except:
         print 'receive error data:',data
         return
-    print '---decodeData',decodeData
+    #print '---decodeData',decodeData
     parseData(self,decodeData)
 
 
@@ -35,7 +35,7 @@ deskListDefault={'info':{},'extend':{},'stage':{'step':[],'type':-1}}
 #userList[uid]['info']
 sendDataDefault={'callback':'','content':{'ret':-1,'data':''}}
 userList={} #socketId deskId uid nick昵称 avatarId用户头像 seatPos座位 seatPos座位偏移 online 是否在线(0不在线 1在线) identity身份 (0普通用户 1人 2鬼 3痴 4旁观 11法官) alive(0死 1活) voteUid投票玩家  
-deskList={} #deskId bindList屏蔽列表 createTime userLimit玩家上限 cleanFlag清理标记 status步骤(0未开始 1开始) wordHuman wordGhost ghostNum
+deskList={} #deskId bindList屏蔽列表 createTime userLimit玩家上限 cleanFlag清理标记 status步骤(0未开始 1开始) wordHuman wordGuest ghostNum
 
 
 #处理接收的数据
@@ -364,7 +364,7 @@ def startGame(self,decodeData):
         while len(randomList)<deskList[deskId]['info']['ghostNum']:
             randomList.append( int(random.random()*len(userListByRole)) )
             randomList=list(set(randomList))
-            print randomList
+            #print randomList
         roleIndex=0
         for roleItem in userListByRole:
             if roleIndex in randomList:#这是鬼
@@ -402,8 +402,6 @@ def gameStageNext(self,decodeData):
     else:
         activeUserList=getAliveUserByDesk(deskId)
     
-    print 'desk stage type'
-    print deskList[deskId]['stage']['type']
 
     if deskList[deskId]['stage']['type']==-1:
         stepType=0
@@ -486,8 +484,7 @@ def dealVoteData(deskId):
         elif voteUserItem['voteNum']==voteNumMax and voteUserItem['voteNum']>0:
             voteNumMaxList.append(voteUserItem['uid'])
 
-    print 'voteNumMaxList'
-    print voteNumMaxList
+
     #票最多的玩家只有一个时，用户可以死了
     if len(voteNumMaxList)==1:
         userDeadIndex=getUserByUid(voteNumMaxList[0])
@@ -628,7 +625,7 @@ def finishAndStat(deskId, succ):
                     userList[userIndex]['userStat']['human_times']+=1
 
             # 更新用户积分
-            print userList[userIndex]
+            #print userList[userIndex]
             UpdateUserStat(deskId, uid, userList[userIndex]['userStat'])
 
 # 将用户的积分信息写入数据库
@@ -639,7 +636,7 @@ def UpdateUserStat(deskId, uid, userStat):
         %(deskId, uid, userStat['total_times'], userStat['total_score'], userStat['ghost_times'], userStat['ghost_succ'], userStat['human_times'], userStat['human_succ'],\
           userStat['total_times'], userStat['total_score'], userStat['ghost_times'], userStat['ghost_succ'], userStat['human_times'], userStat['human_succ'])
 
-    print sql
+    #print sql
     exec_db(sql)
 
 # 将用户的积分信息写入数据库
@@ -650,6 +647,7 @@ def ClearUserStat(deskId):
 
 # 执行DB操作
 def exec_db(sql):
+    return
     try:
         conn = MySQLdb.connect(host='127.0.0.1', user='root', passwd='',db='ghost')
         cursor = conn.cursor()
@@ -798,7 +796,7 @@ def userUpdate(deskId,message):
 
     sendData['content']['userlist']=getUserByDeskNoIdent(deskId)
 
-    print 'userUpdate',sendData
+    #print 'userUpdate',sendData
 
     sendDataByDesk(deskId,judgeSocketId,sendData)#发送该桌其它的玩家，自己的带上uid另外发送 
 
@@ -956,6 +954,7 @@ def taskCleanScan():
     for deskId in deskDelList:
         print 'clear desk',deskList[deskId]['info']['deskId']
         del deskList[deskId]
+        ClearUserStat(deskId)
 
 
 #服务器初始化
