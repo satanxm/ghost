@@ -14,7 +14,7 @@ var functions = {
 
     /* 获取url参数 */
     getRequest:function (paras) {
-        var url = location.href;
+        var url = location.href.replace('#','&');
         var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
         var paraObj = {}
         for (i = 0; j = paraString[i]; i++) {
