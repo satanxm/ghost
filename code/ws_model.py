@@ -8,6 +8,7 @@ import json
 import time
 import random
 import copy
+import MySQLdb
 
 #维护socket列表
 #包含信息：socketid,uid,nick,avatarId,deskId,seatPos,identity
@@ -23,6 +24,7 @@ def decodeData(self,data):
     except:
         print 'receive error data:',data
         return
+    print '---decodeData',decodeData
     parseData(self,decodeData)
 
 
@@ -56,7 +58,15 @@ def parseData(self,decodeData):
     elif decodeData['action'] == 'gameStageNext':
         gameStageNext(self,decodeData)    
     elif decodeData['action'] == 'voteUser':
-        voteUser(self,decodeData)  
+        voteUser(self,decodeData)
+    elif decodeData['action'] == 'changePos':
+        changePos(self,decodeData)
+    elif decodeData['action'] == 'changeUserInfo':
+        changeUserInfo(self,decodeData)
+    elif decodeData['action'] == 'setJudge':
+        setJudge(self,decodeData)
+    elif decodeData['action'] == 'getWords':
+        getWords(self,decodeData)
     elif decodeData['action'] == 'guessWord':
         guessWord(self,decodeData)  
     elif decodeData['action'] == 'guessWordCorrect':
@@ -585,29 +595,194 @@ def gameFinish(deskId,t,message):
     sendDataByDesk(deskId,0,sendData)
 
 
+# succ = 1 人胜利  succ = 2 鬼胜利
+#total_times 总次数 total_score 总积分 ghost_times 鬼次数 ghost_succ 鬼胜利次数 human_times 人次数 human_succ 人胜利次数
+def finishAndStat(deskId, succ):
+    DEF_SUCC_SCORE_ONCE=1
+    for userIndex in userList:
+        if userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']!=11:
+            if not userList[userIndex].has_key('userStat'): #init userStat
+                userStat={}
+                userStat['total_times'] = 0
+                userStat['total_score'] = 0
+                userStat['ghost_times'] = 0
+                userStat['ghost_succ'] = 0
+                userStat['human_times'] = 0
+                userStat['human_succ'] = 0
+                userList[userIndex]['userStat'] = userStat
+
+            userList[userIndex]['userStat']['total_times']+=1
+            if succ == 1: # human succ
+                if userList[userIndex]['identity'] == 1: # human
+                    userList[userIndex]['userStat']['total_score']+=DEF_SUCC_SCORE_ONCE
+                    userList[userIndex]['userStat']['human_times']+=1
+                    userList[userIndex]['userStat']['human_succ']+=1
+                else:
+                    userList[userIndex]['userStat']['ghost_times']+=1
+            else: # ghost succ
+                if userList[userIndex]['identity'] == 2: # ghost
+                    userList[userIndex]['userStat']['total_score']+=DEF_SUCC_SCORE_ONCE
+                    userList[userIndex]['userStat']['ghost_times']+=1
+                    userList[userIndex]['userStat']['ghost_succ']+=1
+                else:
+                    userList[userIndex]['userStat']['human_times']+=1
+
+            # 更新用户积分
+            print userList[userIndex]
+            UpdateUserStat(deskId, uid, userList[userIndex]['userStat'])
+
+# 将用户的积分信息写入数据库
+def UpdateUserStat(deskId, uid, userStat):
+    sql='INSERT INTO ghost.user_score(deskId,uid, total_times, total_score, ghost_times, ghost_succ, human_times, human_succ ) '\
+        'VALUES( %d, %d, %d, %d, %d, %d, %d, %d ) ON DUPLICATE KEY UPDATE total_times=%d, total_score=%d,'\
+        'ghost_times=%d, ghost_succ=%d, human_times=%d, human_succ=%d '\
+        %(deskId, uid, userStat['total_times'], userStat['total_score'], userStat['ghost_times'], userStat['ghost_succ'], userStat['human_times'], userStat['human_succ'],\
+          userStat['total_times'], userStat['total_score'], userStat['ghost_times'], userStat['ghost_succ'], userStat['human_times'], userStat['human_succ'])
+
+    print sql
+    exec_db(sql)
+
+# 将用户的积分信息写入数据库
+def ClearUserStat(deskId):
+    sql='DELETE FROM ghost.user_score WHERE deskId=%d' %(deskId)
+    print sql
+    exec_db(sql)
+
+# 执行DB操作
+def exec_db(sql):
+    try:
+        conn = MySQLdb.connect(host='127.0.0.1', user='root', passwd='',db='ghost')
+        cursor = conn.cursor()
+        count = cursor.execute(sql)
+        results = cursor.fetchall()
+        conn.close()
+        return results
+    except MySQLdb.Error as e:
+        print("Mysql Error:%s\nSQL:%s" %(e,sql))
+        return None
+
+
 ##用户换位置
-#ddef changePos(self,decodeData):
-#    sendData=copy.deepcopy(sendDataDefault)
-#    deskId=userList[self]['deskId']
-#
-#    voteUid=int(decodeData['voteUid'])
-#    voteUserInfo=userList[getUserByUid(voteUid)]
-#    if voteUserInfo!=0:
-#        #游戏已开始 and 游戏在投票阶段 and 投的玩家不是法官 and 投的玩家没死 and 投的不是自己
-#        if deskList[deskId]['info']['status']==1 and deskList[deskId]['stage']['type']==1 and voteUserInfo['identity']!=11 and voteUserInfo['alive']==1 and voteUid!=userList[self]['uid']:
-#            #如果是投的原来的用户，不做任何处理
-#            if userList[self]['voteUid']!=voteUid:
-#                userList[self]['voteUid']=voteUid
-#                message=userList[self]['nick']+' 投票给 '+ voteUserInfo['nick']
-#
-#                sendData['callback']='voteStatus'
-#                sendData['content']['ret']=0
-#                sendData['content']['msg']=message
-#                sendData['content']['voteUserStatus']=voteStatus(deskId)
-#
-#                judgeSocketId=getJudgeSocketByDesk(deskId)
-#                if judgeSocketId!=0 and userList[judgeSocketId]['online']==1:
-#                    judgeSocketId.send_data( json.dumps( sendData ) )
+def changePos(self,decodeData):
+    sendData=copy.deepcopy(sendDataDefault)
+    deskId=userList[self]['deskId']
+
+    # 获得位置的用户
+    seatpos1=int(decodeData['seatpos1'])
+    seatpos2=int(decodeData['seatpos2'])
+    UinAInfo =  getUserInfoByPos(deskId, seatpos1)
+    UinBInfo =  getUserInfoByPos(deskId, seatpos2)
+    if seatpos1 == seatpos2:
+        print 'ERROR:seatpos1 == seatpos2, do nothing'
+        return
+    if UinAInfo is None and UinBInfo is None:
+        print 'ERROR:both pos not has uin'
+        return
+
+    # 用户是普通用户,且用户指定座位不为空
+    if userList[self]['identity'] != 11 and ( userList[self]['seatPos'] != seatpos1 or UinBInfo is not None):
+        sendData['callback']=decodeData['callback']
+        sendData['content']['ret']=1
+        sendData['content']['msg']='目标座位不为空'
+        self.send_data( json.dumps( sendData ) )
+        return
+
+    # 开始换位置
+    if UinAInfo is not None:
+        print 'Move Pos[%s] to [%s]' %(UinAInfo['seatPos'],seatpos2)
+        UinAInfo['seatPos'] = seatpos2
+    if UinBInfo is not None:
+        print 'Move Pos[%s] to [%s]' %(UinBInfo['seatPos'],seatpos1)
+        UinBInfo['seatPos'] = seatpos1
+
+    # 获取提示信息
+    msg=''
+    if UinAInfo is not None:
+        if UinBInfo is not None:
+            msg='用户【%s】和用户【%s】换位置' %(UinAInfo['nick'],UinBInfo['nick'])
+        else:
+            msg='用户【%s】换到位置%s' %(UinAInfo['nick'], seatpos2)
+    else:
+        if UinBInfo is not None:
+            msg='用户【%s】换到位置%s' %(UinBInfo['nick'], seatpos1)
+
+    # 更新所有用户信息
+    userUpdate(deskId,msg)
+
+
+##用户更新个人信息
+def changeUserInfo(self,decodeData):
+    sendData=copy.deepcopy(sendDataDefault)
+    deskId=userList[self]['deskId']
+
+    # 更新用户信息
+    userList[self]['nick']=decodeData['nick']
+    userList[self]['avatarId']=decodeData['avatarId']
+
+    # 更新所有用户信息
+    msg='用户【%s】修改信息成功' %(userList[self]['nick'])
+    userUpdate(deskId,msg)
+
+## 重新指定裁判
+def setJudge(self,decodeData):
+    sendData=copy.deepcopy(sendDataDefault)
+    deskId=userList[self]['deskId']
+
+    judge_uid = int(decodeData['judge_uid'])
+    if userList[self]['identity'] != 11: # not judge
+        print 'ERROR: not judge to set judge!!!'
+        return
+
+    judge_socket=getUserByUid(judge_uid)
+    if judge_socket == 0 or userList[judge_socket]['deskId'] != deskId:
+        print 'ERROR: uid is has not find or not same desk!!!'
+        return
+    if judge_socket == self:
+        return
+
+    # 必须是在没有开始的情况下才可以更新
+    if deskList[deskId]['info']['status'] == 1:
+        return
+
+    # 更新裁判信息
+    userList[self]['identity'] = 0
+    userList[judge_socket]['identity'] = 11
+
+    # 更新所有用户信息
+    msg='用户【%s】被指定为裁判' %(userList[judge_socket]['nick'])
+    userUpdate(deskId,msg)
+
+
+## 获取字库
+def getWords(self,decodeData):
+    sendData=copy.deepcopy(sendDataDefault)
+    deskId=userList[self]['deskId']
+
+    reqWordsNum = int(decodeData['reqNum'])
+    sql='SELECT id,WordA,WordB FROM ghost.words ORDER BY rand() LIMIT %s' %(reqWordsNum)
+    res = exec_db(sql)
+    print res
+    # return pack
+    sendData=copy.deepcopy(sendDataDefault)
+    sendData['callback']=decodeData['callback']
+    sendData['content']['ret']=0
+    sendData['content']['msg']='拉取字库成功'
+
+    WordList=[]
+    for r in res:
+        Words = {}
+        Words['wordA'] = r[1]
+        Words['wordB'] = r[2]
+        WordList.append(Words)
+
+    sendData['content']['num'] = len(WordList)
+    sendData['content']['list'] = WordList
+    self.send_data( json.dumps( sendData ) )
+
+def InsertWords(self,wordA,wordB):
+    sql='SELECT id,WordA,WordB FROM ghost.words ORDER BY rand() LIMIT %s' %(reqWordsNum)
+    res = exec_db(sql)
+    print res
 
 #桌子信息更新，一般用于玩家更新
 def userUpdate(deskId,message):
@@ -622,6 +797,9 @@ def userUpdate(deskId,message):
         judgeSocketId.send_data( json.dumps( sendData ) )
 
     sendData['content']['userlist']=getUserByDeskNoIdent(deskId)
+
+    print 'userUpdate',sendData
+
     sendDataByDesk(deskId,judgeSocketId,sendData)#发送该桌其它的玩家，自己的带上uid另外发送 
 
 #桌子信息更新，包含身份
@@ -688,6 +866,12 @@ def getJudgeSocketByDesk(deskId):
         if userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']==11:
             return userIndex
     return 0
+
+def getUserInfoByPos(deskId, seatPos):
+    for userIndex in userList:
+        if userList[userIndex]['deskId']==deskId and userList[userIndex]['seatPos']==seatPos:
+            return userList[userIndex]
+    return None
 
 #给桌号所有在线玩家发消息，第二个参数为排除列表
 def sendDataByDesk(deskId,exceptSocketId,content):
