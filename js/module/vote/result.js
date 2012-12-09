@@ -8,7 +8,15 @@ define(function(require,exports,module){
 
 	return {
 		
+		animateList: [],
+		
 		show: function(content){
+			
+			var that = this;
+			
+			this.animateList = [];
+			
+			var animateList = this.animateList;
 			
 			$(".mod_desk").addClass('mod_desk_guess');
 			
@@ -24,6 +32,40 @@ define(function(require,exports,module){
 		        }
 		    });
 			
+			this.vote2index(content.voteUserStatus);
+			
+			setTimeout(function(){
+				that.showAnimate();
+			},3000);
+			
+		},
+		
+		/**
+		 * 
+		 * 投票信息转为下标信息
+		 * @param {Object} voteUserStatus
+		 */
+		vote2index: function(voteUserStatus){
+			
+			this.animateList = [];
+			
+			var animateList = this.animateList;
+			
+			$.each(voteUserStatus,function(key,userItem){
+				if(userItem.voteUid==0){
+					return;
+				}
+				
+		        var from = $('.user_item[uid='+userItem.uid+']');
+				var to = $('.user_item[uid='+userItem.voteUid+']');
+				
+				animateList.push({
+					from: from.index(),
+					to: to.index()
+				});
+		    });
+			
+			return this;
 		},
 		
 		/**
@@ -31,10 +73,9 @@ define(function(require,exports,module){
 		 * 显示投票动画
 		 * 
 		 */
-		showAnimate: function(data){
+		showAnimate: function(animateList){
 			
-			data = data || {};
-			data.animateList = [
+			animateList = [
 				{
 					from: 0,
 					to: 3
@@ -57,14 +98,17 @@ define(function(require,exports,module){
 				}
 			];
 			
+			animateList = animateList || this.animateList;
+			
 			var desk = $('#page_main .mod_desk');
+			var users = desk.find('.inner .user_item');
 			
 			desk.stop(true,true);
 			
-			$.each(data.animateList,function(i,v){
+			$.each(animateList,function(i,v){
 				
-				var from = desk.find('.inner .user_pos_' + v.from);
-				var to = desk.find('.inner .user_pos_' + v.to);
+				var from = users.eq(v.from);
+				var to = users.eq(v.to);
 				var curr;
 				
 				if(from.size() === 0 || to.size() === 0){
@@ -93,9 +137,6 @@ define(function(require,exports,module){
 				});
 				
 			});
-			
-			
-			
 			
 		}
 		
