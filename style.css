@@ -37,6 +37,15 @@ _width: 100%;
 	box-shadow: inset 0 0 2px rgba(0,0,0,.8), inset 0 2px 0 rgba(255,255,255,.5), inset 0 -7px 0 rgba(0,0,0,.6), inset 0 -9px 0 rgba(255,255,255,.3);
 }
 
+
+
+
+
+
+
+
+
+
 /*用户位置 一桌上限14人*/
 .user_item{position:absolute;width:40px;height:40px;border-radius:10px;display:block;}
 .user_item .user_name{display:none;}
@@ -203,13 +212,13 @@ a:visited{color:#fff;}
 .mod_desk_guess .user_item_disabled .voteNum{display:none;}
 
 .mod_desk_vote .user_item{opacity:1;cursor:pointer;}
-.mod_desk_vote .user_item_self{opacity:0.1;cursor:default;}
-.mod_desk_vote .user_item_judge{opacity:0.1;cursor:default;}
+.mod_desk_vote .user_item_self{opacity:0.2;cursor:default;}
+.mod_desk_vote .user_item_judge{opacity:0.2;cursor:default;}
 .mod_desk_vote .user_item_dead{opacity:1;cursor:default;}
 
 
 
-.mod_desk .user_item.user_item_disabled{opacity:0.1;cursor:default;}
+.mod_desk .user_item.user_item_disabled{opacity:0.2;cursor:default;}
 
 .mod_desk_vote .user_item_vote{opacity:1;cursor:default;}
 .popupGuess{width: 92.5%;margin: 10% auto 15px auto;z-index:10;}
@@ -224,7 +233,11 @@ a:visited{color:#fff;}
 #link_exit{top:-2px;}
 #deskImage{width:333px;height:333px;max-width:333px!important;}
 
-
+#page_rank {}
+#page_rank .lisk_rank li{padding:0 0 0 15px;margin:0;}
+.lisk_rank .user_avatar{display:block;width:40px;height:40px;margin-right:10px;float:left;margin-top:5px;}
+.lisk_rank .user_avatar img{width:40px;height:40px;}
+.lisk_rank .score{display:inline-block;color:#73f;}
 
 
 .user_item_vote{
