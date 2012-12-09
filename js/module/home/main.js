@@ -4,7 +4,7 @@ var wsUrl = 'ws://ws.ghost.com:8001';
 
 //var wsUrl = 'ws://127.0.0.1:8001'; 
 var wsFlag=0;//服务器连接状态,0:未连接 1:正常连接 2:已断开 3:超时(掉线)
-var wordsDict={}, wordPageIndex = 0, WORDGETCOUNT = 15, PAGEWORDNUM = 5 ;//词库
+var wordsDict={}, wordPageIndex = -1, WORDGETCOUNT = 15, PAGEWORDNUM = 5 ;//词库
 
 
 //var words={"human":"","ghost":""};
@@ -96,7 +96,7 @@ function userInit(){
 
     /*按钮设置*/
     $("#link_page_option").click(function(){
-        window.location="#page_option"
+        window.location="#page_option";
     });
     $("#link_page_main").click(function(){
         $("#page_main").show();
@@ -131,7 +131,7 @@ function userInit(){
             words.ghost=$('#id_ghost').val();
             $('#option_words').html("<span class=\"role_human\">平民："+words.human+"</span> <span class=\"role_ghost\">内鬼："+words.ghost+"</span>");
         }
-        window.location="#page_desk"
+        window.location="#page_desk";
     });
 
 }
@@ -140,9 +140,9 @@ function userInit(){
 function avatarInit(){
     $(".mod_avatar a").click(function(){
         var avatarId=$(this).attr("avatarId");
-        localStorage.avatarId=avatarId
-        $("#avatarId i").attr("class","avatar_item avatar_"+avatarId)
-        window.location="#page_index"
+        localStorage.avatarId=avatarId;
+        $("#avatarId i").attr("class","avatar_item avatar_"+avatarId);
+        window.location="#page_index";
     });
 }
 
@@ -166,10 +166,10 @@ function connectInit(){
             ws.onerror = function(event) {
                 alert("ws error.");
             };
-        }
+        };
     }
     else{
-        window.location="b.htm"
+        window.location="b.htm";
     }
 
     $("#btn_connect_try").click(function(){
@@ -282,7 +282,7 @@ function userSave(uid){
 //检查用户状态，是否掉线用户
 function queryStatus(){
     if(localStorage.uid!=""){
-        var wsParm ={'action':'queryStatus','callback':'handleQueryStatus','uid':localStorage.uid}
+        var wsParm ={'action':'queryStatus','callback':'handleQueryStatus','uid':localStorage.uid};
         var wsParmEncode = $.toJSON(wsParm);
         ws.send( wsParmEncode ); 
     }
@@ -301,7 +301,7 @@ function handleQueryStatus(content){
 
 //创建房间
 function createGame(){
-    var wsParm ={'action':'create','callback':'handleCreate','nick':localStorage.nick,'avatarId':localStorage.avatarId}
+    var wsParm ={'action':'create','callback':'handleCreate','nick':localStorage.nick,'avatarId':localStorage.avatarId};
     if(localStorage.uid>0)wsParm['uid']=localStorage.uid;
     var wsParmEncode = $.toJSON(wsParm);
     ws.send( wsParmEncode ); 
@@ -323,7 +323,7 @@ function handleCreate(content){
 
 //重连
 function reconnectionGame(){
-    var wsParm ={'action':'reconnectionGame','callback':'handleReconnectionGame','uid':localStorage.uid,'nick':localStorage.nick,'avatarId':localStorage.avatarId}
+    var wsParm ={'action':'reconnectionGame','callback':'handleReconnectionGame','uid':localStorage.uid,'nick':localStorage.nick,'avatarId':localStorage.avatarId};
     var wsParmEncode = $.toJSON(wsParm);
     ws.send( wsParmEncode ); 
 }
@@ -331,7 +331,7 @@ function reconnectionGame(){
 function handleReconnectionGame(content){
     //重连游戏，真的要做很多事情。。。
     if(content.ret==0){
-        userInfo.uid=content.uid
+        userInfo.uid=content.uid;
         userInfoSave(content.userlist);
         deskInfoSave(content.deskInfo);
         userSit(content.userlist);
@@ -359,7 +359,7 @@ function joinGame(){
     $("#server_status").html('正在连接，请稍候...');
     var deskId=$("#deskId").val();
     if(deskId!=""){
-        var wsParm ={'action':'join','callback':'handleJoinGame','nick':localStorage.nick,'avatarId':localStorage.avatarId,'deskId':deskId}
+        var wsParm ={'action':'join','callback':'handleJoinGame','nick':localStorage.nick,'avatarId':localStorage.avatarId,'deskId':deskId};
         if(localStorage.uid>0)wsParm['uid']=localStorage.uid;
         var wsParmEncode = $.toJSON(wsParm);
         ws.send( wsParmEncode ); 
@@ -440,7 +440,7 @@ function handleStartGame(content){
 
 //确认任务进入下一阶段
 function gameStageNext(){
-    var wsParm ={'action':'gameStageNext','callback':'handleGameStage'}
+    var wsParm ={'action':'gameStageNext','callback':'handleGameStage'};
     var wsParmEncode = $.toJSON(wsParm);
     ws.send( wsParmEncode ); 
 }
@@ -463,7 +463,7 @@ function handleGameStage(content){
     if(content.ret==0){
         //只多一步，为正常更新
         if( content.deskStage.step.length - stageList.length == 1){
-            gameStageMove( content.deskStage.type,500 )
+            gameStageMove( content.deskStage.type,500 );
             if( content.deskStage.type != 1){
                 //非投票阶段，去掉投票界面
                 $(".mod_desk").removeClass('mod_desk_vote');
@@ -553,7 +553,7 @@ function voteStart(){
 }
 
 function voteUser(uid){
-    var wsParm ={'action':'voteUser','callback':'handleVoteUser','voteUid':uid}
+    var wsParm ={'action':'voteUser','callback':'handleVoteUser','voteUid':uid};
     var wsParmEncode = $.toJSON(wsParm);
     ws.send( wsParmEncode ); 
 }
@@ -563,18 +563,18 @@ function handleVoteUser(content){
 
 //显示投票状态
 function voteStatus(content){
-    var noVoteNum=0
+    var noVoteNum=0;
 	
 	if(userInfo.identity === 11){
 		
 		//法官
 		 $.each(content.voteUserStatus,function(key,userItem){
 	        var voteNumNode=$('.user_item[uid='+userItem.uid+'] .voteNum');
-	        voteNumNode.text(userItem.voteNum)
+	        voteNumNode.text(userItem.voteNum);
 	        if(userItem.voteUid!=0)
-	            voteNumNode.addClass('voteNum_voted')
+	            voteNumNode.addClass('voteNum_voted');
 	        else{
-	            voteNumNode.removeClass('voteNum_voted')
+	            voteNumNode.removeClass('voteNum_voted');
 	            noVoteNum++;
 	        }
 	    });
@@ -624,7 +624,7 @@ function gameStageMove(t,ms){
     t++;
 	if(t==2){
 		t=0;
-	};
+	}
     $("#btn_step_next .ui-btn-text").text( stageName[t]  );
 	
 }
@@ -635,24 +635,24 @@ function userDead(content){
     
     //作为鬼被投死，可以猜词反击
     if(content.ret==0){
-        $("#popupGuess .guess_message").text(content.msg)
+        $("#popupGuess .guess_message").text(content.msg);
         if(content.deadIdentity==1){
-            $("#popupGuess .guess_tip_human").show()
-            $("#popupGuess .guess_tip_ghost").hide()
-            $("#link_guess_confirm").hide()
+            $("#popupGuess .guess_tip_human").show();
+            $("#popupGuess .guess_tip_ghost").hide();
+            $("#link_guess_confirm").hide();
         }
         else if(content.deadIdentity==2){
-            $("#popupGuess .guess_tip_human").hide()
-            $("#popupGuess .guess_tip_ghost").show()
-            $("#link_guess_confirm").show()
+            $("#popupGuess .guess_tip_human").hide();
+            $("#popupGuess .guess_tip_ghost").show();
+            $("#link_guess_confirm").show();
         }
-        $("#popupGuess").show()
+        $("#popupGuess").show();
     }
 }
 
 //猜词正确
 function guessWordCorrect(){
-    var wsParm ={'action':'guessWordCorrect','callback':'handleGuessWord'}
+    var wsParm ={'action':'guessWordCorrect','callback':'handleGuessWord'};
     var wsParmEncode = $.toJSON(wsParm);
     ws.send( wsParmEncode ); 
 }
@@ -678,14 +678,14 @@ function handleGameFinish(content){
 
 //离开游戏
 function exitGame(){
-    var wsParm ={'action':'exit','callback':'handleExit'}
+    var wsParm ={'action':'exit','callback':'handleExit'};
     var wsParmEncode = $.toJSON(wsParm);
     ws.send( wsParmEncode ); 
 }
 
 function handleExit(content){
     if(content.ret==0){
-        window.location.href="#page_index"
+        window.location.href="#page_index";
         connectInit();
     }
 }
@@ -704,6 +704,18 @@ function showDesk(info){
             $("#mod_option").show();
             $("#button_area").show();
             getDict();
+			// 随机选词
+			$('#dict_random').unbind('click').bind('click', function() {
+				if (wordsDict.length === 0 ) {
+					getDict();
+				} else {
+					loadDictType();
+				}
+			});
+			// 随机选单个词
+			$('#get_rand_word').unbind('click').bind('click', function() {
+				selSingleWord();
+			});
         }
         else{//其它玩家
             $("#mod_option").hide();
@@ -726,7 +738,7 @@ function showDesk(info){
 		$('#qr_img_cont').hide();
 	});
 
-    window.location.href="#page_desk"
+    window.location.href="#page_desk";
 }
 
 //显示游戏阶段
@@ -757,9 +769,9 @@ function showStage(){
 //显示消息
 var messageTimeout=null;
 function showUserMessage(str){
-    clearTimeout(messageTimeout)
+    clearTimeout(messageTimeout);
     $("#user_message").text(str).fadeIn(300);
-    messageTimeout=setTimeout(function(){$("#user_message").fadeOut(300)},2000);
+    messageTimeout=setTimeout(function(){$("#user_message").fadeOut(300);},2000);
 }
 
 //更新当前用户信息
@@ -774,7 +786,7 @@ function userInfoSave(userList){
             deskInfo.deskId=userItem.deskId;
             userSave(userInfo.uid);
         }
-    })
+    });
 }
 
 //更新当前桌子信息
@@ -787,7 +799,7 @@ function deskInfoSave(info){
 //用户信息更新
 function handleUserUpdate(content){
     if(content.msg.length>0)showUserMessage(content.msg);
-    userList=content.userlist
+    userList=content.userlist;
     userSit(content.userlist);
 }
 
@@ -837,7 +849,7 @@ function userSit(userList){
         else
             $(".user_pos_"+seatPos).addClass("user_item_Dead");
 
-    })
+    });
     
     userOptionInit(userList);
 }
@@ -857,7 +869,7 @@ function userOptionInit(userList){
             var userCount=userList.length;
             $.each(roleAllot,function(key,value){
                 if(key*1==userCount)ghostNum=value;
-            })
+            });
             $("#game_role_message").html("<span class=\"role_human\">平民："+ (userCount-1-ghostNum) +"人</span> <span class=\"role_ghost\">内鬼："+ghostNum+"人</span>");
             $("#game_role_message").show();
         }
@@ -890,6 +902,22 @@ function handleDictCallback(content) {
 	}
 }
 
+/**
+ * selSingleWord 随机选一个词
+ * 
+ * @access public
+ * @return void
+ */
+function selSingleWord() {
+	var word , index, len = wordsDict.length;
+	if ( len >0 ) {
+	   index = Math.floor(Math.random() * len)	;
+	   word = wordsDict[index];
+	   word = word.wordA + '#' + word.wordB;
+	   dictSet(word);
+	}
+}
+
 function popMessage(msg) {
 	$( "#popupMessage_index .message_text" ).text(msg);
 	$( "#popupMessage_index" ).popup('open');
@@ -908,31 +936,48 @@ function sendWsReq(data) {
     ws.send( wsParmEncode ); 
 }
 
-//加载词库
+/**
+ * loadDictType  从词库中选择一定个数词，展示到列表中
+ * 
+ * @access public
+ * @return void
+ */
 function loadDictType(){
-	$('#dict_random').unbind('click').bind('click', function() {
-		loadDictType();
-	});
+	if (wordsDict.length == 0 ) {
+		return false;
+	}
 
-	debugger
 	var pagenum =  wordsDict.length / PAGEWORDNUM, words;
 	wordPageIndex ++;
 	if (wordPageIndex >= pagenum) {
 		wordPageIndex = -1;
 		getDict();
-		return;
+		return false;
 	}
-	words = wordsDict.slice(PAGEWORDNUM * (wordPageIndex), PAGEWORDNUM);
+
+	var start = 0, end = 0 ;
+	start = PAGEWORDNUM * wordPageIndex;
+	end = start + PAGEWORDNUM;
+
+	words = wordsDict.slice(start, end);
+	console.log('words to render:(index, start, end,words):', wordPageIndex , start, end, words);
     loadDict(words);
 }
 
+/**
+ * loadDict  把词列表展示到页面上供用户选择
+ * 
+ * @param {words}  words 
+ * @access public
+ * @return void
+ */
 function loadDict(words){
     var html="";
     $.each(words,function(key,dictItem){
 		var  a = dictItem.wordA, b =  dictItem.wordB , str = a + '#' + b;
-        html+="<li><a onclick=\"dictSet('"+ str +"')\"><span class=\"dict_item\">"+ a +"</span> <span class=\"dict_item\" >"+b +"</span></a></li>"
+        html+="<li><a onclick=\"dictSet('"+ str +"')\"><span class=\"dict_item\">"+ a +"</span> <span class=\"dict_item\" >"+b +"</span></a></li>";
 
-    })
+    });
     $('#dict_list').html(html);
     try{
         $("#dict_list").listview('refresh');
@@ -942,11 +987,11 @@ function loadDict(words){
 
 function dictSet(dictItem){
     var dict_arr=dictItem.split("#");
-    words.human=dict_arr[0]
-    words.ghost=dict_arr[1]
+    words.human=dict_arr[0];
+    words.ghost=dict_arr[1];
     $('#id_human').val( words.human );
     $('#id_ghost').val( words.ghost );
-    window.location.href="#page_option"
+    window.location.href="#page_option";
 }
 
 
