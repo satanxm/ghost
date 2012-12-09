@@ -917,7 +917,7 @@ function showDesk(info){
      $("#desk_id .num").text( deskInfo.deskId  );
 
 	// 显示二维码
-    $('#deskImage').attr('src','http://www.ghost.com/index.php?mod=desk&act=binarycode&size=9&url=' + encodeURIComponent("http://ghost.com/ghost/index.htm?desk=" + deskId  ) );
+    $('#deskImage').attr('src',window.config.www + '/index.php?mod=desk&act=binarycode&size=9&url=' + encodeURIComponent("http://ghost.com/ghost/index.htm?desk=" + deskId  ) );
 	// popup display
     $('#deskImage').click(function(){
         $( "#popupCode" ).popup('close');
