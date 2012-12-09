@@ -115,16 +115,16 @@ define(function(require,exports,module){
 					min2max = from.index() - to.index();
 					if(min2max < 0){
 					    if(min2max < -users.size() / 2){
-					        min2max = false;
-					    }else{
 					        min2max = true;
+					    }else{
+					        min2max = false;
 					    }
 					}else if(min2max > 0){
 						
 						if(min2max < users.size() / 2){
-						    min2max = true;
-						}else{
 						    min2max = false;
+						}else{
+						    min2max = true;
 						}
 						
 					}
