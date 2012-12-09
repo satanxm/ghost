@@ -132,6 +132,9 @@ function userInit(){
 
 		if (isAdmin && !changeSeatMod) {
 			//window.location = '#popupMenu';
+			if (!target.hasClass("user_item_set")) {
+				return;
+			}
 			var user_name = target.find('.user_name').text(), uid = target.attr('uid');
 			$("#popupUserName").text(user_name);
 			$( "#popupMenu" ).popup("open");
