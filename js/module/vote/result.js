@@ -76,9 +76,9 @@ define(function(require,exports,module){
 		 * 显示投票动画
 		 * 
 		 */
-		showAnimate: function(animateList){
+		showAnimate: function(){
 			
-			animateList = animateList || this.animateList || [];
+			animateList = this.animateList || [];
 			
 			var desk = $('#page_main .mod_desk');
 			var users = desk.find('.inner .user_item');
