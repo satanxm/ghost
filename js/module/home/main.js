@@ -893,6 +893,13 @@ function showDesk(info){
             $("#mod_option").show();
             $("#button_area").show();
             getDict();
+
+			// 选择单词
+			$("#dict_list").delegate('a[word]', 'click', function() {
+				var target = $(this), word = target.attr('word');
+				dictSet(word);
+			});
+
 			// 随机选词
 			$('#dict_random').unbind('click').bind('click', function() {
 				if (wordsDict.length === 0 ) {
@@ -1195,7 +1202,7 @@ function loadDict(words){
     var html="";
     $.each(words,function(key,dictItem){
 		var  a = dictItem.wordA, b =  dictItem.wordB , str = a + '#' + b;
-        html+="<li><a onclick=\"dictSet('"+ str +"')\"><span class=\"dict_item\">"+ a +"</span> <span class=\"dict_item\" >"+b +"</span></a></li>";
+        html+="<li><a word=\""+ str +"\"><span class=\"dict_item\">"+ a +"</span> <span class=\"dict_item\" >"+b +"</span></a></li>";
 
     });
     $('#dict_list').html(html);
