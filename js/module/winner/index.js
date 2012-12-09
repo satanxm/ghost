@@ -150,6 +150,11 @@ return __p.join("");
 var __p=[],_p=function(s){__p.push(s)};
 
 	var list = data.userlist,
+		roleMap = {
+			'1': '人',
+			'2': '鬼',
+			'11': '法官'
+		},
 		i,len,user,
 		userStat;
 
@@ -179,7 +184,9 @@ _p(userStat.human_succ);
 __p.push('&nbsp;&nbsp;&nbsp;&nbsp;</span>鬼：<span class="score">');
 _p(userStat.ghost_succ);
 __p.push('</span></p>\r\n\
-				</a>\r\n\
+				<span class="user_role">身份：');
+_p(roleMap[user.identity]);
+__p.push('</span>\r\n\
 			</div>\r\n\
 		</li>');
 

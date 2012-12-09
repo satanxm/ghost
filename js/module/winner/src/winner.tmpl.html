@@ -9,6 +9,11 @@
 <script id="gameResult" type="text/html" nowith="yes">
 <%
 	var list = data.userlist,
+		roleMap = {
+			'1': '人',
+			'2': '鬼',
+			'11': '法官'
+		},
 		i,len,user,
 		userStat;
 
@@ -29,7 +34,7 @@
 			<div class="ct">
 				<h3 class="ui-li-heading"><%=user.nick%> 积分：<span class="score"><%=userStat.total_score%></span></h3>
 				<p class="ui-li-desc">人：<span class="score"><%=userStat.human_succ%>&nbsp;&nbsp;&nbsp;&nbsp;</span>鬼：<span class="score"><%=userStat.ghost_succ%></span></p>
-				</a>
+				<span class="user_role">身份：<%=roleMap[user.identity]%></span>
 			</div>
 		</li>
 	<%
