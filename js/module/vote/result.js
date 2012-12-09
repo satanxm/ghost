@@ -114,13 +114,19 @@ define(function(require,exports,module){
 					
 					min2max = from.index() - to.index();
 					if(min2max < 0){
-						min2max += users.size();
-					}
-					
-					if(min2max > 0 && min2max < users.size() / 2){
-						min2max = true;
-					}else{
-						min2max = false;
+					    if(min2max < -users.size() / 2){
+					        min2max = false;
+					    }else{
+					        min2max = true;
+					    }
+					}else if(min2max > 0){
+						
+						if(min2max < users.size() / 2){
+						    min2max = true;
+						}else{
+						    min2max = false;
+						}
+						
 					}
 					
 					curr = from.clone();
