@@ -233,11 +233,11 @@ a:visited{color:#fff;}
 #deskImage{width:333px;height:333px;max-width:333px!important;}
 
 #page_rank {}
-#page_rank .lisk_rank li{padding:0 0 0 15px;margin:0;position:relative;}
-.lisk_rank .user_avatar{display:block;width:40px;height:40px;margin-right:10px;float:left;margin-top:5px;}
+#page_rank .lisk_rank li{padding:0 0 0 15px;margin:0;position:relative;border-bottom:#bbb solid 1px;}
+.lisk_rank .user_avatar{display:block;width:40px;height:40px;margin-right:10px;float:left;}
 .lisk_rank .user_avatar img{width:40px;height:40px;}
 .lisk_rank .score{display:inline-block;color:#610;}
-.user_role{position:absolute;display:block;width:90px;right:5px;top:15px;color:#705;}
+.user_role{position:absolute;display:block;width:90px;right:5px;top:5px;color:#705;}
 
 
 .user_item_vote{

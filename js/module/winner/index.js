@@ -176,7 +176,7 @@ __p.push('"></i>\r\n\
 			<div class="ct">\r\n\
 				<h3 class="ui-li-heading">');
 _p(user.nick);
-__p.push(' 积分：<span class="score">');
+__p.push(' 积分:<span class="score">');
 _p(userStat.total_score);
 __p.push('</span></h3>\r\n\
 				<p class="ui-li-desc">人：<span class="score">');
@@ -184,7 +184,7 @@ _p(userStat.human_succ);
 __p.push('&nbsp;&nbsp;&nbsp;&nbsp;</span>鬼：<span class="score">');
 _p(userStat.ghost_succ);
 __p.push('</span></p>\r\n\
-				<span class="user_role">身份：');
+				<span class="user_role">身份:');
 _p(roleMap[user.identity]);
 __p.push('</span>\r\n\
 			</div>\r\n\
