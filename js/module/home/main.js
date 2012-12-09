@@ -685,6 +685,7 @@ var stageName=['陈述','投票','猜词','结束','结果','重新开始'];
 function gameStageMove(t,ms){
 	
 	$('#page_main .mod_desk .user_item').off('click');
+	$('#desk_center_tip').off('click');
 	
 	stageList.push(t);
     $("#game_stage a").addClass('ui-disabled');
