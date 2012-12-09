@@ -884,9 +884,8 @@ function handleChangeSeat(o) {
  * @return void
  */
 function isChangePosAllow() {
-	// todo  不允许换座位的条件
-	var n = $('#game_stage_area').css('display');
-	return (n == 'none');
+	//允许换座位的条件
+	return $('#game_stage_area').is(':hidden');
 }
 
 //显示桌面
