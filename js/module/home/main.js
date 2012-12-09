@@ -1076,6 +1076,18 @@ function userSit(userList){
             default:
                 break;
         }
+
+		// 法官的切换
+        if(userItem.uid == userInfo.uid){
+			if (userItem.identity == 11) {
+				$("#mod_option").show();
+				$("#button_area").show();
+			} else {
+				$("#mod_option").hide();
+			}
+		}
+
+
         if(userItem.alive==1)
             $(".user_pos_"+seatPos).removeClass("user_item_Dead");
         else
