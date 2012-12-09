@@ -13,7 +13,7 @@ define(function(require,exports,module){
 			this.display('<p>' + msg + '</p>');
 		},
 		
-		display: function(html){
+		display: function(html,autoClose){
 			
 			if(!html) return;
 			
@@ -27,19 +27,28 @@ define(function(require,exports,module){
 			tips.show();
 			tips.addClass('bounceIn');
 			
-			this.autoClose();
+			if(autoClose){
+				this.autoClose();
+			}
 		},
 		
 		autoClose: function(){
 			clearTimeout(tid);
 			
+			var that = this;
+			
 			tid =  setTimeout(function(){
 				
-				var tips = $('#desk_center_tip');
-				tips.removeClass('bounceIn');
-				tips.fadeOut();
+				that.close();
 				
 			},3000);
+		},
+		
+		close: function(){
+			var tips = $('#desk_center_tip');
+			tips.removeClass('bounceIn');
+			tips.off('click.tips');
+			tips.fadeOut();
 		}
 		
 	};

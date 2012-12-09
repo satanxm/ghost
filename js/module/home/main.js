@@ -615,6 +615,11 @@ function voteStatus(content){
 var stageLink="<a data-icon=\"arrow-r\" data-iconpos=\"right\" data-corners=\"false\" class=\"link_stage_insert\" data-role=\"button\" data-inline=\"true\" data-mini=\"true\" data-theme=\"a\">";
 var stageName=['陈述','投票','猜词','结束','结果','重新开始'];
 function gameStageMove(t,ms){
+	
+	seajs.use('ghost.v1/api/centerTips',function(centerTips){
+		centerTips.close();
+	});
+	
 	stageList.push(t);
     $("#game_stage a").addClass('ui-disabled');
     $("#btn_step_next").before(  stageLink + stageName[t] + "</a>" );

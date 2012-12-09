@@ -13,6 +13,7 @@ define(function(require,exports,module){
 		show: function(content){
 			
 			var that = this;
+			var tips = $('#desk_center_tip');
 			
 			this.animateList = [];
 			
@@ -36,7 +37,11 @@ define(function(require,exports,module){
 			
 			setTimeout(function(){
 				that.showAnimate();
-			},3000);
+			},1000);
+			
+			tips.on('click.tips',function(){
+				that.showAnimate();
+			});
 			
 		},
 		
@@ -56,12 +61,9 @@ define(function(require,exports,module){
 					return;
 				}
 				
-		        var from = $('.user_item[uid='+userItem.uid+']');
-				var to = $('.user_item[uid='+userItem.voteUid+']');
-				
 				animateList.push({
-					from: from.index(),
-					to: to.index()
+					from: userItem.uid,
+					to: userItem.voteUid
 				});
 		    });
 			
@@ -75,30 +77,7 @@ define(function(require,exports,module){
 		 */
 		showAnimate: function(animateList){
 			
-			animateList = [
-				{
-					from: 0,
-					to: 3
-				},
-				{
-					from: 0,
-					to: 6
-				},
-				{
-					from: 0,
-					to: 10
-				},
-				{
-					from: 0,
-					to: 13
-				},
-				{
-					from: 0,
-					to: 4
-				}
-			];
-			
-			animateList = animateList || this.animateList;
+			animateList = animateList || this.animateList || [];
 			
 			var desk = $('#page_main .mod_desk');
 			var users = desk.find('.inner .user_item');
@@ -107,8 +86,8 @@ define(function(require,exports,module){
 			
 			$.each(animateList,function(i,v){
 				
-				var from = users.eq(v.from);
-				var to = users.eq(v.to);
+				var from = users.filter('.user_item_set[uid=' + v.from + ']');
+				var to = users.filter('.user_item_set[uid=' + v.to + ']');
 				var curr;
 				
 				if(from.size() === 0 || to.size() === 0){
@@ -123,6 +102,7 @@ define(function(require,exports,module){
 						'-webkit-transform': 'scale(0.5)',
 						'-moz-transform': 'scale(0.5)',
 						'-o-transform': 'scale(0.5)',
+						opacity: 1,
 						zIndex: 99999
 					});
 					//from.hide();
