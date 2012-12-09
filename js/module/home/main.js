@@ -943,7 +943,7 @@ function showDesk(info){
      $("#desk_id .num").text( deskInfo.deskId  );
 
 	// 显示二维码
-    $('#deskImage').attr('src',window.config.api + '/index.php?mod=desk&act=binarycode&size=9&url=' + encodeURIComponent( window.config.www + "/ghost/index.htm?desk=" + deskInfo.deskId  ) );
+    $('#deskImage').attr('src',window.config.api + '/index.php?mod=desk&act=binarycode&size=8&url=' + encodeURIComponent( window.config.www + "/ghost/index.htm?desk=" + deskInfo.deskId  ) );
 	// popup display
     $('#deskImage').click(function(){
         $( "#popupCode" ).popup('close');
