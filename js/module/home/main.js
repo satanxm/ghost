@@ -224,6 +224,7 @@ function connectInit(){
                 var decodeData = JSON.parse(event.data);
                 
                 var callback = eval(decodeData.callback );
+				console.log(decodeData.callback,decodeData.content);
                 callback(decodeData.content);
                 
             };
@@ -1032,9 +1033,11 @@ function handleUserUpdate(content){
 
 //用户信息更新，包含身份信息、词条信息
 function userIdentityUpdate(content){
+	userList=content.userlist;
+	words = content.words || words;
+	
 	userInfoSave(content.userlist);
     userSit(content.userlist);
-	words = content.words || words;
 }
 
 function clearPosChecked() {
