@@ -902,6 +902,12 @@ function showDesk(info){
 			$('#get_rand_word').unbind('click').bind('click', function() {
 				selSingleWord();
 			});
+			$('#switch_word').unbind('click').click(function() {
+				var h = $('#id_human'), g=$('#id_ghost'), tmp;
+				tmp = h.val();
+				h.val(g.val());
+				g.val(tmp);
+			});
         }
         else{//其它玩家
             $("#mod_option").hide();
@@ -912,7 +918,7 @@ function showDesk(info){
 
 	// 显示二维码
     $('#deskImage').attr('src','http://www.ghost.com/index.php?mod=desk&act=binarycode&size=9&url=' + encodeURIComponent("http://ghost.com/ghost/index.htm?desk=" + deskId  ) );
-	// todo popup display
+	// popup display
     $('#deskImage').click(function(){
         $( "#popupCode" ).popup('close');
     });
@@ -1090,13 +1096,6 @@ function userOptionInit(userList){
             $("#game_role_message").show();
         }
 
-        //法官可对玩家操作，如离开游戏、换座位
-        /*$(".user_item").each(function(index){
-            if( $(this).hasClass('user_item_set') && !$(this).hasClass('user_pos_0')){
-				// todo
-				//$(this).attr("href",'#popupMenu' );
-            }
-        });*/
     }
 }
 
