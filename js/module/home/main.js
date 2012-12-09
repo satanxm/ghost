@@ -464,6 +464,8 @@ function gameRestart(content){
 		seajs.use('ghost.v1/api/centerTips',function(centerTips){
 			centerTips.close();
 		});
+		
+		stageList = [];
     }
 }
 
