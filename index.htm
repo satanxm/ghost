@@ -192,7 +192,7 @@
 		         <label for="id_ghost" class="ui-input-text">内鬼:</label>
 		         <input type="text" name="id_ghost" id="id_ghost" value="" class="ui-input-text ui-body-c ui-corner-all ui-shadow-inset" style="width:140px;">
 			</div>
-        	<a data-role="button" data-inline="true" data-theme="a">随机词</a>
+        	<a data-role="button" id="get_rand_word" data-inline="true" data-theme="a">随机词</a>
 			<a href="#page_dict" id="btn_dict" data-role="button" data-inline="true" data-theme="a">词  库</a>
 		</li>
 	</ul>	
@@ -202,8 +202,9 @@
 	<div data-role="header" data-position="inline" data-theme="a" role="banner">\]
 		<h1 class="ui-title" tabindex="0" role="heading" aria-level="1"></h1>
 		<a href="#page_option" data-icon="back" data-theme="a">返回</a>
+		<a href="" id="dict_random" data-theme="a">随机</a>
 		<div data-role="navbar" class="dict_type_area ui-navbar ui-navbar-noicons" role="navigation">
-			<ul class="ui-grid-d" id="dict_type"  data-inset="true">
+			<ul class="ui-grid-d" id="dict_type"  data-inset="true" style="display: none;">
 				<li id="dict_type_0" class="ui-block-a"><a class="ui-btn-active" data-theme="a">1</a></li>
 				<li id="dict_type_1" class="ui-block-b"><a data-theme="a">2</a></li>
 				<li id="dict_type_2" class="ui-block-c"><a data-theme="a">3</a></li>
