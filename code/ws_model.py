@@ -541,7 +541,7 @@ def dealVoteData(deskId):
 #        for uid in voteNumMaxList:
 #            index = getUserByUid(uid)
 #            message="%s【%s】" %(message, userList[index]['nick'])
-        message="存在相同票数，请继续陈述" %(message)
+        message="存在相同票数，请继续陈述"
 
     sendData['content']['msg']=message
     judgeSocketId=getJudgeSocketByDesk(deskId)
