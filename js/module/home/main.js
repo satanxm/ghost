@@ -489,7 +489,7 @@ function gameStart(){
 
 function handleStartGame(content){
 	
-	words = content.words;
+	words = content.words || words;
 	
     if(content.ret==0){
         showStage();
