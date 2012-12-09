@@ -620,6 +620,8 @@ function gameStageMove(t,ms){
 		centerTips.close();
 	});
 	
+	$('#page_main .mod_desk .inner .user_item').off('click.result');
+	
 	stageList.push(t);
     $("#game_stage a").addClass('ui-disabled');
     $("#btn_step_next").before(  stageLink + stageName[t] + "</a>" );
