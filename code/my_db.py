@@ -60,7 +60,7 @@ def exec_db(sql):
 #sendData['content']['list'] = WordList
 #print json.dumps( sendData )
 
-def InsertWords(wordA,wordB):
+def InsertWordsToDBDict(wordA,wordB):
     bIsHasWord = False
     # 查看是否存在相同的词语
     sql="SELECT COUNT(id) FROM ghost.words WHERE (WordA='%s'and WordB='%s') or (WordA='%s'and WordB='%s')" \
@@ -69,24 +69,39 @@ def InsertWords(wordA,wordB):
     for r in res:
         if  int(r[0]) > 0:
             bIsHasWord = True
+            print "Already has",wordA,wordB
+
     # 没有相同词语则插入
     if False == bIsHasWord:
         sql="INSERT INTO ghost.words(WordA, WordB) VALUES ('%s','%s') " %(wordA, wordB)
         exec_db(sql)
+        print "Insert Into",wordA,wordB
     return
 
 
 #InsertWords("a1","a2")
 
-def Run():
+def InsertWordsFromFile():
     fd=open("dict.txt")
     #fd=open('a.txt')
     for line in fd:
         #print line,"aaa"
         list = line.split('#')
-        print list[0],list[1]
-        InsertWords(list[0],list[1])
+        #print list[0],list[1]
+        InsertWordsToDBDict(list[0],list[1])
 
 
 
-Run()
+#InsertWordsFromFile()
+
+str = '中国人'
+print len(str)
+str = 'abcdefghigk'
+print str.decode('utf-8')[0:4].encode('utf-8')
+print len(str)
+message=""
+message="%s 【%s】" %(message, 'abc')
+message="%s 【%s】" %(message, 'abc')
+message="%s 相同票数，请继续陈述" %(message)
+
+print message

@@ -13,7 +13,7 @@ import MySQLdb
 #维护socket列表
 #包含信息：socketid,uid,nick,avatarId,deskId,seatPos,identity
 socketDict={}
-userLimit=1
+userLimit=4
 
 
 #转换接收到的数据，必须是json，否则忽略
@@ -24,7 +24,7 @@ def decodeData(self,data):
     except:
         print 'receive error data:',data
         return
-    #print '---decodeData',decodeData
+    print '---decodeData',decodeData
     parseData(self,decodeData)
 
 
@@ -83,16 +83,26 @@ def userInit(self,decodeData):
         uid=userAdd()
     else:
         uid=int(decodeData['uid'])
-    
-    #判断用户是否在用户列表中
+
+    #得到一个不在线的用户ID
     socketId=getSocketByUid(uid)
-    if socketId != None and socketId != self:
-        userList[self]=copy.deepcopy(userList[socketId])
-        userList[self]['nick']=decodeData['nick']
-        userList[self]['avatarId']=decodeData['avatarId']
-        userList[self]['online']=1
-        del userList[socketId]
-    else:
+    while socketId != None and userList[socketId]['online'] == 1:
+        uid=userAdd()
+        socketId=getSocketByUid(uid)
+
+    # 当原状态为不在线时，认为是用户重连
+    if socketId != None and userList[socketId]['online'] == 0:
+        if socketId == self:
+            userList[self]['nick']=decodeData['nick']
+            userList[self]['avatarId']=decodeData['avatarId']
+            userList[self]['online']=1
+        else:
+            userList[self]=copy.deepcopy(userList[socketId])
+            userList[self]['nick']=decodeData['nick']
+            userList[self]['avatarId']=decodeData['avatarId']
+            userList[self]['online']=1
+            del userList[socketId]
+    else: #新的用户ID，直接初始化
         userList[self]={'uid':uid,'deskId':0,'nick':decodeData['nick'],'avatarId':decodeData['avatarId'],'seatPos':0,'online':1,'identity':11,'alive':1,'voteUid':0}
     #print userList
 
@@ -169,8 +179,8 @@ def joinGame(self,decodeData):
                 userList[self]['online']=1
                 userList[self]['identity']=0
                 userList[self]['alive']=1
-
                 userList[self]['seatPos']= seatList[int(random.random()*len(seatList))]
+                userList[self]['userStat'] = GetNUllStat()
 
                 #通知桌子上的其它玩家
                 message="玩家\""+userList[self]['nick']+"\"加入游戏！"
@@ -211,6 +221,7 @@ def gameRestart(deskId):
     deskList[deskId]['stage']['step']=[]
     deskList[deskId]['stage']['type']=-1
     deskList[deskId]['extend']['tempUserList']=[]
+
     #还原用户信息
     for userIndex in userList:
         if userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']!=11:
@@ -294,10 +305,7 @@ def exitGame(self,decodeData):
         message="玩家\""+userList[self]['nick']+"\"离开游戏！"            
         del userList[self]
 
-        
         userUpdate(deskId,message)
-
-        
 
         #通知本人成功退出
         sendData['content']['ret']=0
@@ -332,6 +340,12 @@ def exitGameSoft(self,decodeData):
 def startGame(self,decodeData):
     sendData=copy.deepcopy(sendDataDefault)
     deskId=userList[self]['deskId']
+
+    # 如果游戏已经开始，则不处理
+    if deskList[deskId]['info']['status'] == 1:
+        return
+
+    # 计算用户数量
     userCount=0
     userListByRole=[]
     for userIndex in userList:
@@ -347,16 +361,25 @@ def startGame(self,decodeData):
         self.send_data( json.dumps( sendData ) )
     else:
         #保存桌子信息
+        if not decodeData.has_key('wordHuman') or not decodeData.has_key('wordGhost') or not decodeData.has_key('ghostNum'):
+            sendData['callback']=decodeData['callback']
+            sendData['content']['ret']=1
+            sendData['content']['msg']='创建游戏失败，请设置词语'
+            self.send_data( json.dumps( sendData ) )
+            return
+
         deskList[deskId]['extend']['wordHuman']=decodeData['wordHuman']
         deskList[deskId]['extend']['wordGhost']=decodeData['wordGhost']
         deskList[deskId]['info']['ghostNum']=decodeData['ghostNum']
         deskList[deskId]['info']['status']=1
+        #尝试增加新的词语
+        #InsertWordsToDBDict(decodeData['wordHuman'], decodeData['wordGhost'])
+        
         #重置玩家信息
         for userIndex in userList:
             if userList[userIndex]['deskId']==deskId:
                 userList[userIndex]['alive']=1
                 userList[userIndex]['voteUid']=0
-
 
         #分配游戏角色
         #先得到随机数量的鬼
@@ -384,8 +407,8 @@ def startGame(self,decodeData):
                 sendData['content']['words']={'human':deskList[deskId]['extend']['wordGhost'],'ghost':deskList[deskId]['extend']['wordGhost']}
             elif userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']==11 and userList[userIndex]['online']==1:
                 sendData['content']['words']={'human':deskList[deskId]['extend']['wordHuman'],'ghost':deskList[deskId]['extend']['wordGhost']}
-            
-            userIndex.send_data( json.dumps( sendData ) )
+            if userList[userIndex]['online'] == 1:
+                userIndex.send_data( json.dumps( sendData ) )
 
         userUpdate(deskId,'')
         gameStageNext(self,decodeData)
@@ -417,8 +440,11 @@ def gameStageNext(self,decodeData):
     elif deskList[deskId]['stage']['type']==1:
         stepType=2
         sendData['content']['activeUserList']=activeUserList
-        message=dealVoteData(deskId)
-
+        message,bHasDead = dealVoteData(deskId)
+        if True == bHasDead: #如果死人了，则进入猜词阶段
+            stepType = 2
+        else: #如果有相同票数则要陈述
+            stepType = 0
 
     elif deskList[deskId]['stage']['type']==2:
         stepType=0
@@ -426,7 +452,8 @@ def gameStageNext(self,decodeData):
         sendData['content']['activeUserList']=activeUserList
     elif deskList[deskId]['stage']['type']==3:
         stepType=4
-        message='公布身份和选词。'
+        message='公布身份和选词和积分。'
+        userIdentityUpdate(deskId)
     elif deskList[deskId]['stage']['type']==4:
         gameRestart(deskId)
         return
@@ -435,14 +462,14 @@ def gameStageNext(self,decodeData):
     if deskList[deskId]['stage']['type']<3:
         #判断是否胜
         if len(getAliveGhostByDesk(deskId))==0:
-            userIdentityUpdate(deskId)
+            #userIdentityUpdate(deskId)
             stepType=3
             message='鬼死完了，人胜利了'
             sendData['content']['winner']=1
             gameFinish(deskId,1,message)
             finishFlag=True
         elif len(getAliveUserByDesk(deskId))<=2:
-            userIdentityUpdate(deskId)
+            #userIdentityUpdate(deskId)
             stepType=3
             message='只剩下2个玩家，鬼胜利了'
             sendData['content']['winner']=2
@@ -469,7 +496,7 @@ def voteReset(deskId):
             userList[userIndex]['voteUid']=0
 
 
-#处理投票数据，返回值为Flase时，由本函数触发下一步
+#处理投票数据，返回值为False时，由本函数触发下一步
 def dealVoteData(deskId):
     sendData=copy.deepcopy(sendDataDefault)
     #取出得票最多的玩家
@@ -484,7 +511,7 @@ def dealVoteData(deskId):
         elif voteUserItem['voteNum']==voteNumMax and voteUserItem['voteNum']>0:
             voteNumMaxList.append(voteUserItem['uid'])
 
-
+    bHasDead = False # 是否有用户死掉
     #票最多的玩家只有一个时，用户可以死了
     if len(voteNumMaxList)==1:
         userDeadIndex=getUserByUid(voteNumMaxList[0])
@@ -502,18 +529,20 @@ def dealVoteData(deskId):
         deskList[deskId]['extend']['tempUserList']=[]
         deskList[deskId]['extend']['voteMsg']=message
         sendData['callback']='userDead'
+        bHasDead = True
 
     elif len(voteNumMaxList)>1:
+        bHasDead = False
         deskList[deskId]['extend']['tempUserList']=voteNumMaxList
 
         sendData['content']['deadIdentity']=0
         sendData['content']['ret']=0
-        message='未产生最高票'
+        message=""
+#        for uid in voteNumMaxList:
+#            index = getUserByUid(uid)
+#            message="%s【%s】" %(message, userList[index]['nick'])
+        message="存在相同票数，请继续陈述" %(message)
 
-
-
-
-    
     sendData['content']['msg']=message
     judgeSocketId=getJudgeSocketByDesk(deskId)
     if judgeSocketId!=0 and userList[judgeSocketId]['online']==1:
@@ -525,7 +554,7 @@ def dealVoteData(deskId):
     sendDataByDesk(deskId,judgeSocketId,sendData)
 
     userUpdate(deskId,'')
-    return message
+    return message,bHasDead
 
 #投票动作
 def voteUser(self,decodeData):
@@ -546,7 +575,6 @@ def voteUser(self,decodeData):
                 sendData['content']['ret']=0
                 sendData['content']['msg']=message
                 sendData['content']['voteUserStatus']=voteStatus(deskId)
-                
 
                 sendDataByDesk(deskId,0,sendData)
 
@@ -565,8 +593,6 @@ def voteStatus(deskId):
 
     deskList[deskId]['extend']['voteStatus']=voteUserStatus
     return voteUserStatus
-    
-
 
 
 def guessWordCorrect(self,decodeData):
@@ -577,7 +603,6 @@ def guessWordCorrect(self,decodeData):
         deskList[deskId]['stage']['type']=3
         deskList[deskId]['stage']['step'].append(3)
 
-        userIdentityUpdate(deskId)
         gameFinish(deskId,2,'鬼猜词正确，游戏结束!')
 
 
@@ -588,6 +613,10 @@ def gameFinish(deskId,t,message):
     sendData['content']['msg']=message
     sendData['content']['winner']=t
 
+    # 计算得分
+    finishAndStat(deskId,t)
+    # 更新
+    userIdentityUpdate(deskId)
 
     sendDataByDesk(deskId,0,sendData)
 
@@ -599,14 +628,7 @@ def finishAndStat(deskId, succ):
     for userIndex in userList:
         if userList[userIndex]['deskId']==deskId and userList[userIndex]['identity']!=11:
             if not userList[userIndex].has_key('userStat'): #init userStat
-                userStat={}
-                userStat['total_times'] = 0
-                userStat['total_score'] = 0
-                userStat['ghost_times'] = 0
-                userStat['ghost_succ'] = 0
-                userStat['human_times'] = 0
-                userStat['human_succ'] = 0
-                userList[userIndex]['userStat'] = userStat
+                userList[userIndex]['userStat'] = GetNUllStat()
 
             userList[userIndex]['userStat']['total_times']+=1
             if succ == 1: # human succ
@@ -624,30 +646,35 @@ def finishAndStat(deskId, succ):
                 else:
                     userList[userIndex]['userStat']['human_times']+=1
 
-            # 更新用户积分
-            #print userList[userIndex]
-            UpdateUserStat(deskId, uid, userList[userIndex]['userStat'])
+## 将用户的积分信息写入数据库
+#def UpdateUserStat(deskId, uid, userStat):
+#    sql='INSERT INTO ghost.user_score(deskId,uid, total_times, total_score, ghost_times, ghost_succ, human_times, human_succ ) '\
+#        'VALUES( %d, %d, %d, %d, %d, %d, %d, %d ) ON DUPLICATE KEY UPDATE total_times=%d, total_score=%d,'\
+#        'ghost_times=%d, ghost_succ=%d, human_times=%d, human_succ=%d '\
+#        %(deskId, uid, userStat['total_times'], userStat['total_score'], userStat['ghost_times'], userStat['ghost_succ'], userStat['human_times'], userStat['human_succ'],\
+#          userStat['total_times'], userStat['total_score'], userStat['ghost_times'], userStat['ghost_succ'], userStat['human_times'], userStat['human_succ'])
+#
+#    exec_db(sql)
 
-# 将用户的积分信息写入数据库
-def UpdateUserStat(deskId, uid, userStat):
-    sql='INSERT INTO ghost.user_score(deskId,uid, total_times, total_score, ghost_times, ghost_succ, human_times, human_succ ) '\
-        'VALUES( %d, %d, %d, %d, %d, %d, %d, %d ) ON DUPLICATE KEY UPDATE total_times=%d, total_score=%d,'\
-        'ghost_times=%d, ghost_succ=%d, human_times=%d, human_succ=%d '\
-        %(deskId, uid, userStat['total_times'], userStat['total_score'], userStat['ghost_times'], userStat['ghost_succ'], userStat['human_times'], userStat['human_succ'],\
-          userStat['total_times'], userStat['total_score'], userStat['ghost_times'], userStat['ghost_succ'], userStat['human_times'], userStat['human_succ'])
+def GetNUllStat():
+    userStat={}
+    userStat['total_times'] = 0
+    userStat['total_score'] = 0
+    userStat['ghost_times'] = 0
+    userStat['ghost_succ'] = 0
+    userStat['human_times'] = 0
+    userStat['human_succ'] = 0
+    return userStat
 
-    #print sql
-    exec_db(sql)
-
-# 将用户的积分信息写入数据库
+# 清空用户的积分信息
 def ClearUserStat(deskId):
-    sql='DELETE FROM ghost.user_score WHERE deskId=%d' %(deskId)
-    print sql
-    exec_db(sql)
+    for userIndex in userList:
+        if userList[userIndex]['deskId']==deskId:
+            userList[userIndex]['userStat'] = GetNUllStat()
 
 # 执行DB操作
 def exec_db(sql):
-    return
+    print "SQL:", sql
     try:
         conn = MySQLdb.connect(host='127.0.0.1', user='root', passwd='',db='ghost')
         cursor = conn.cursor()
@@ -659,11 +686,18 @@ def exec_db(sql):
         print("Mysql Error:%s\nSQL:%s" %(e,sql))
         return None
 
-
 ##用户换位置
 def changePos(self,decodeData):
     sendData=copy.deepcopy(sendDataDefault)
     deskId=userList[self]['deskId']
+
+    # 游戏进行过程中不能换位置
+    if deskList[deskId]['info']['status'] == 1:
+        sendData['callback']=decodeData['callback']
+        sendData['content']['ret']=1
+        sendData['content']['msg']='游戏进行过程中不能换位置'
+        self.send_data( json.dumps( sendData ) )
+        return
 
     # 获得位置的用户
     seatpos1=int(decodeData['seatpos1'])
@@ -750,6 +784,23 @@ def setJudge(self,decodeData):
     msg='用户【%s】被指定为裁判' %(userList[judge_socket]['nick'])
     userUpdate(deskId,msg)
 
+def GetWordsFromFile(reqNum):
+    fd=open("dict.txt")
+    if fd is None:
+        return
+
+    WordList=[]
+    for line in fd:
+        list = line.split('#')
+        Words = {}
+        Words['wordA'] = list[0]
+        Words['wordB'] = list[1]
+        WordList.append(Words)
+        if len(WordList) == reqNum:
+            break
+
+    fd.close()
+    return WordList
 
 ## 获取字库
 def getWords(self,decodeData):
@@ -759,28 +810,47 @@ def getWords(self,decodeData):
     reqWordsNum = int(decodeData['reqNum'])
     sql='SELECT id,WordA,WordB FROM ghost.words ORDER BY rand() LIMIT %s' %(reqWordsNum)
     res = exec_db(sql)
-    print res
-    # return pack
+    #print res
+    WordList=[]
+    if res is not None:
+        for r in res:
+            Words = {}
+            Words['wordA'] = r[1]
+            Words['wordB'] = r[2]
+            WordList.append(Words)
+    else:
+        WordList = GetWordsFromFile(reqWordsNum)
+
+    # 回包
     sendData=copy.deepcopy(sendDataDefault)
     sendData['callback']=decodeData['callback']
     sendData['content']['ret']=0
     sendData['content']['msg']='拉取字库成功'
-
-    WordList=[]
-    for r in res:
-        Words = {}
-        Words['wordA'] = r[1]
-        Words['wordB'] = r[2]
-        WordList.append(Words)
-
     sendData['content']['num'] = len(WordList)
     sendData['content']['list'] = WordList
     self.send_data( json.dumps( sendData ) )
 
-def InsertWords(self,wordA,wordB):
-    sql='SELECT id,WordA,WordB FROM ghost.words ORDER BY rand() LIMIT %s' %(reqWordsNum)
+def InsertWordsToDBDict(wordA,wordB):
+    bIsHasWord = False
+    # 查看是否存在相同的词语
+    sql="SELECT COUNT(id) FROM ghost.words WHERE (WordA='%s'and WordB='%s') or (WordA='%s'and WordB='%s')"\
+        %(wordA, wordB, wordB, wordB)
     res = exec_db(sql)
-    print res
+    if res is None:
+        return
+
+    for r in res:
+        if  int(r[0]) > 0:
+            bIsHasWord = True
+            print "Already has",wordA,wordB
+
+    # 没有相同词语则插入
+    if False == bIsHasWord:
+        sql="INSERT INTO ghost.words(WordA, WordB) VALUES ('%s','%s') " %(wordA, wordB)
+        exec_db(sql)
+        print "Insert Into",wordA,wordB
+    return
+
 
 #桌子信息更新，一般用于玩家更新
 def userUpdate(deskId,message):
@@ -792,11 +862,10 @@ def userUpdate(deskId,message):
     judgeSocketId=getJudgeSocketByDesk(deskId)
     if judgeSocketId!=0 and userList[judgeSocketId]['online']==1:
         sendData['content']['userlist']=getUserByDesk(deskId)
+        print ' -- userUpdate to judge ---'
         judgeSocketId.send_data( json.dumps( sendData ) )
 
     sendData['content']['userlist']=getUserByDeskNoIdent(deskId)
-
-    #print 'userUpdate',sendData
 
     sendDataByDesk(deskId,judgeSocketId,sendData)#发送该桌其它的玩家，自己的带上uid另外发送 
 
@@ -873,9 +942,11 @@ def getUserInfoByPos(deskId, seatPos):
 
 #给桌号所有在线玩家发消息，第二个参数为排除列表
 def sendDataByDesk(deskId,exceptSocketId,content):
+    print "-- sendDataByDesk ---"
+    print content
     for userIndex in userList:
         if userList[userIndex]['deskId']==deskId and userIndex!=exceptSocketId and userList[userIndex]['online']==1:
-            userIndex.send_data( json.dumps( content ) )
+            userIndex.send_data( json.dumps( content ), False )
     
 #添加用户 临时用户
 def userAdd():
