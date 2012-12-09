@@ -904,7 +904,6 @@ function showDesk(info){
 		$( "#popupCode" ).popup('open');
 	});
 
-
     window.location.href="#page_desk";
 
 }
