@@ -721,7 +721,7 @@ function userDead(content){
             $("#popupGuess .guess_tip_ghost").show();
             $("#link_guess_confirm").show();
         }
-        $("#popupGuess").show();
+        $("#popupGuess").popup();
     }
 }
 
