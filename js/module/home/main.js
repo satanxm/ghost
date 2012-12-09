@@ -5,6 +5,7 @@ var wsUrl = 'ws://ws.ghost.com:8001';
 //var wsUrl = 'ws://127.0.0.1:8001'; 
 var wsFlag=0;//服务器连接状态,0:未连接 1:正常连接 2:已断开 3:超时(掉线)
 var wordsDict={}, wordPageIndex = -1, WORDGETCOUNT = 15, PAGEWORDNUM = 5 ;//词库
+var seatChanging = false, changeSeatMod = false;
 
 
 //var words={"human":"","ghost":""};
@@ -110,8 +111,52 @@ function userInit(){
         exitGame();
     });
     $("#link_change_seat").click(function(){
-        changeSeat();
+        toggleChangeSeat();
     });
+
+	// 换座位
+	$(".mod_desk").delegate('.user_item', 'click', function(e) {
+		var target = $(this) , isAdmin = false, seat1, seat2 ;
+		isAdmin = (userInfo.identity == 11);
+		// 普通用户不能改座位
+		if ( !isAdmin  && target.hasClass('user_item_set') || !changeSeatMod) {
+			return;
+		}
+
+		// 法官不能改自己的座位
+		if (isAdmin && target.hasClass('user_pos_0')) {
+			return ;
+		}
+
+		// 法官更换两个位置
+		if (isAdmin) {
+			target.toggleClass('user_item_vote');
+			var checked = $('.mod_desk .user_item_vote');
+			if (checked.length >= 2) {
+				var hasuser = false;
+				checked.each(function(k, v) {
+					hasuser = hasuser || $(v).hasClass('user_item_set');
+				});
+				if (!hasuser) {
+					clearPosChecked();
+					return;
+				}
+				seat1 = getSeatId(checked[0], true), seat2 = getSeatId(checked[1], true);
+
+				console.log('change seat: system myseat, myseat, change seat', userInfo.seatPos, seat1, seat2);
+				changeSeat(seat1, seat2);
+				seatChanging = true;
+			} 
+		} else {
+			// 普通用户和空白位置更换
+			seat1 = getSeatId($('.user_pos_0'), true), seat2 = getSeatId(target, true);
+
+			console.log('change seat: system myseat, myseat, change seat', userInfo.seatPos, seat1, seat2);
+			changeSeat(seat1, seat2);
+		}
+		
+	});
+
     $("#link_game_start").click(function(){
         gameStart();
     });
@@ -690,8 +735,88 @@ function handleExit(content){
     }
 }
 
-function changeSeat(){
-    $(".mod_desk").addClass("mod_desk_edit");
+/**
+ * toggleChangeSeat  切换显示换座位
+ * 
+ * @access public
+ * @return void
+ */
+function toggleChangeSeat(){
+	var desk = $(".mod_desk"), editCn = 'mod_desk_edit';
+    desk.toggleClass(editCn);
+	changeSeatMod = desk.hasClass(editCn);
+	clearPosChecked();
+}
+
+/**
+ * getSeatId  获取用户位置id
+ * 
+ * @param {el}  位置的dom元素
+ * @param {bool}  isServer  是否服务器的id
+ * @access public
+ * @return {integer}  seatid
+ */
+function getSeatId(el, isServer) {
+	var cn , mat, seatid;
+	el = $(el);
+	cn = el.attr('class');
+
+	mat = cn.match(/user_pos_(\d+)/);
+	if (mat) {
+		seatid = mat[1];
+		if (isServer) {
+			seatid = seatIdExchange(seatid);
+		}
+	}
+	return seatid;
+}
+
+/**
+ * seatIdExchange 前台和服务器seat id 对话
+ * 
+ * @param {seatId}  seatId 
+ * @param {isServer}  isServer  传进来的是服务器id
+ * @access public
+* @return {integer}  seatid
+ */
+function seatIdExchange(seatId, isServer) {
+	var rseatId , offset = userInfo.seatOffset, limit = deskInfo.userLimit;
+
+	if (isServer) {
+		// server id -> front id
+		rseatId = (seatId + offset + limit) % limit;
+	} else {
+		// server id -> front id
+		rseatId = (seatId - offset) % limit;
+	}
+	return rseatId;
+}
+
+/**
+ * changeSeat  换座位
+ * 
+ * @access public
+ * @return void
+ */
+function changeSeat(seat1, seat2) {
+    var wsParm ={'action':'changePos','callback':'handleChangeSeat','seatpos1': seat1,'seatpos2': seat2};
+	sendWsReq(wsParm);
+}
+
+/**
+ * handleChangeSeat 换座位回调
+ * 
+ * @param {o}  o 
+ * @access public
+ * @return void
+ */
+function handleChangeSeat(o) {
+	console.log('seat change callback:', o);
+	if (o.ret ===0 ) {
+		popMessage('更换成功');
+	} else {
+		popMessage(o.msg);
+	}
 }
 
 //显示桌面
@@ -774,15 +899,21 @@ function showUserMessage(str){
     messageTimeout=setTimeout(function(){$("#user_message").fadeOut(300);},2000);
 }
 
-//更新当前用户信息
+/**
+ * userInfoSave  更新当前用户信息
+ * 
+ * @param {userList}  userList 
+ * @access public
+ * @return void
+ */
 function userInfoSave(userList){
     $.each(userList,function(key,userItem){
         if(userItem.uid == userInfo.uid){
             userInfo.nick=userItem.nick;
             userInfo.avatarId=userItem.avatarId;
             userInfo.identity=userItem.identity;
-            userInfo.seatPos=userItem.seatPos;
-            userInfo.seatOffset=-1*userItem.seatPos;
+            userInfo.seatPos=userItem.seatPos;  // 采用后台下发的座位号
+            userInfo.seatOffset=-1*userItem.seatPos;  // 前台用户座位号的差值, 用于全局计算别的用户的后台的坐标系统
             deskInfo.deskId=userItem.deskId;
             userSave(userInfo.uid);
         }
@@ -796,9 +927,25 @@ function deskInfoSave(info){
 }
 
 
-//用户信息更新
+/**
+ * handleUserUpdate  更新用户信息和相关的座位信息
+ * 
+ * @param {content}  content 
+ * @access public
+ * @return void
+ */
 function handleUserUpdate(content){
+	console.log('user update info:', content);
     if(content.msg.length>0)showUserMessage(content.msg);
+
+	// 更换位置的话需要取消选择 todo
+	
+	if (seatChanging) {
+		clearPosChecked();
+		seatChanging = false;
+	}
+
+	userInfoSave(content.userlist);
     userList=content.userlist;
     userSit(content.userlist);
 }
@@ -810,6 +957,9 @@ function userIdentityUpdate(content){
 	words = content.words || words;
 }
 
+function clearPosChecked() {
+	$('.mod_desk .user_item_vote').removeClass('user_item_vote');
+}
 
 //清空桌子上的玩家
 function deskReset(){
@@ -823,11 +973,19 @@ function deskReset(){
         $(this).find(".avatar_ident").attr("class","avatar_ident");
     });
 }
+
+/**
+ * userSit  用户坐位置
+ * 
+ * @param {userList}  userList 
+ * @access public
+ * @return void
+ */
 function userSit(userList){
     deskReset();
     $.each(userList,function(key,userItem){
-        var seatPos=userItem.seatPos + userInfo.seatOffset;
-        if(seatPos<0)seatPos=seatPos+deskInfo.userLimit;
+        var seatPos = seatIdExchange(userItem.seatPos, true);
+		// todo  更换头像动画
         $(".user_pos_"+seatPos).addClass("user_item_set");
         $(".user_pos_"+seatPos+" .avatar_item").addClass("avatar_"+userItem.avatarId);
         $(".user_pos_"+seatPos+" .user_name").text(userItem.nick);
@@ -877,7 +1035,8 @@ function userOptionInit(userList){
         //法官可对玩家操作，如离开游戏、换座位
         $(".user_item").each(function(index){
             if( $(this).hasClass('user_item_set') && !$(this).hasClass('user_pos_0')){
-                $(this).attr("href",'#popupMenu' );
+				// todo
+                //$(this).attr("href",'#popupMenu' );
             }
         });
     }
@@ -919,8 +1078,9 @@ function selSingleWord() {
 }
 
 function popMessage(msg) {
-	$( "#popupMessage_index .message_text" ).text(msg);
-	$( "#popupMessage_index" ).popup('open');
+	seajs.use('ghost.v1/api/centerTips',function(centerTips){
+		centerTips.displayMsg(msg);
+	});
 }
 
 
