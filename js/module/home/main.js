@@ -17,7 +17,8 @@ var userList=[];
 //活动用户，(可投票的或可陈述的)
 var activeUserList = [];
 var userInfo={
-    uid:0,
+    alive: 1,
+	uid:0,
     nick:'',
     avatarId:'',
     identity:0,
@@ -535,6 +536,11 @@ function handleGameStage(content){
                 $(".user_item").unbind('click').removeClass('user_item_vote');
             }
 			
+			//猜词阶段
+			if(content.deskStage.type === 2){
+				$(".mod_desk").addClass('mod_desk_guess');
+			}
+			
 			//陈述阶段
 			if(content.deskStage.type === 0){
 				seajs.use('ghost.v1/api/centerTips',function(centerTips){
@@ -596,6 +602,8 @@ function voteStart(){
                     
 					if(!$(this).attr('uid')) return;
 					if($(this).hasClass('user_item_disabled')) return;
+					if($(this).hasClass('user_item_Dead')) return;
+					if(userInfo.alive == 0) return;
 					
 					$('.user_item').removeClass('user_item_vote');
                     $(this).addClass('user_item_vote');
@@ -959,6 +967,7 @@ function showUserMessage(str){
 function userInfoSave(userList){
     $.each(userList,function(key,userItem){
         if(userItem.uid == userInfo.uid){
+            userInfo.alive=userItem.alive;
             userInfo.nick=userItem.nick;
             userInfo.avatarId=userItem.avatarId;
             userInfo.identity=userItem.identity;
