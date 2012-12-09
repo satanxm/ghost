@@ -76,12 +76,14 @@ define(function(require,exports,module){
 		 * 显示投票动画
 		 * 
 		 */
-		showAnimate: function(){
+		showAnimate: function(uid){
 			
-			animateList = this.animateList || [];
-			
+			var that = this;
 			var desk = $('#page_main .mod_desk');
 			var users = desk.find('.inner .user_item');
+			var showOne = !!uid;
+			
+			animateList = this.animateList || [];
 			
 			desk.stop(true,true);
 			
@@ -93,6 +95,17 @@ define(function(require,exports,module){
 				
 				if(from.size() === 0 || to.size() === 0){
 					return;
+				}
+				
+				if(showOne && v.to !== uid){
+					return;
+				}
+				
+				if(!showOne){
+					to.off('click.result');
+					to.on('click.result',function(){
+						that.showAnimate(v.to);
+					});
 				}
 				
 				desk.queue(function(){
@@ -129,8 +142,14 @@ define(function(require,exports,module){
 							$(this).remove();
 						});
 						from.show();
-						desk.dequeue();
+						if(!showOne){
+							desk.dequeue();
+						}
 					});
+					
+					if(showOne){
+						desk.dequeue();
+					}
 				});
 				
 			});
