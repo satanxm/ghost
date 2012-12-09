@@ -9,7 +9,7 @@ var seatChanging = false, changeSeatMod = false;
 
 
 //var words={"human":"","ghost":""};
-var words={"human":"机器","ghost":"电脑"};
+var words={"human":"","ghost":""};
 var userLimit=1;
 //用户信息
 var userList=[];
@@ -165,7 +165,6 @@ function userInit(){
 				}
 				seat1 = getSeatId(checked[0], true), seat2 = getSeatId(checked[1], true);
 
-				console.log('change seat: system myseat, myseat, change seat', userInfo.seatPos, seat1, seat2);
 				svrChangeSeat(seat1, seat2);
 				seatChanging = true;
 			} 
@@ -173,7 +172,6 @@ function userInit(){
 			// 普通用户和空白位置更换
 			seat1 = getSeatId($('.user_pos_0'), true), seat2 = getSeatId(target, true);
 
-			console.log('change seat: system myseat, myseat, change seat', userInfo.seatPos, seat1, seat2);
 			svrChangeSeat(seat1, seat2);
 		}
 		
@@ -467,6 +465,11 @@ function gameRestart(content){
 		});
 		
 		stageList = [];
+		
+		words = {
+			human: '',
+			ghost: ''
+		};
     }
 }
 
@@ -870,7 +873,6 @@ function svrSetJudge(uid) {
  * @return void
  */
 function handleChangeSeat(o) {
-	console.log('seat change callback:', o);
 	if (o.ret ===0 ) {
 		popMessage('更换成功');
 	} else {
@@ -1017,7 +1019,6 @@ function deskInfoSave(info){
  * @return void
  */
 function handleUserUpdate(content){
-	console.log('user update info:', content);
     if(content.msg.length>0)showUserMessage(content.msg);
 
 	// 更换位置的话需要取消选择 todo
@@ -1143,7 +1144,6 @@ function getDict(){
 *  拉取随机词库处理
 */
 function handleDictCallback(content) {
-	console.log('dict conten', content);
 	if (content.ret === 0) {
 		wordsDict = content.list;
 		loadDictType();
@@ -1211,7 +1211,6 @@ function loadDictType(){
 	end = start + PAGEWORDNUM;
 
 	words = wordsDict.slice(start, end);
-	console.log('words to render:(index, start, end,words):', wordPageIndex , start, end, words);
     loadDict(words);
 }
 
