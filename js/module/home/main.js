@@ -459,7 +459,11 @@ function gameRestart(content){
         userSit(content.userlist);
         showDesk(content.deskInfo);
         showUserMessage(content.msg);
-		$('.user_item').removeClass('user_item_disabled user_item_ghost');
+		$('.user_item').removeClass('user_item_disabled user_item_ghost user_item_Dead');
+		
+		seajs.use('ghost.v1/api/centerTips',function(centerTips){
+			centerTips.close();
+		});
     }
 }
 
