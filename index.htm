@@ -150,14 +150,14 @@
 		</div>
 	</div>
 
-	<div data-role="dialog" class="popupGuess" id="popupGuess"  data-transition="slidedown" class="ui-body-a" data-theme="a">
+	<div data-role="popup" style="width:300px;" class="popupGuess" id="popupGuess"  data-overlay-theme="a"  data-transition="slidedown"  style="display:block;">
 		<div data-role="header" data-theme="a" role="banner">
-			<a href="#" data-icon="delete" data-iconpos="notext"  data-theme="a" title="Close">Close</a>
+			<a href="#" data-icon="delete" data-iconpos="notext"  data-theme="a" title="Close" class="ui-btn-right">Close</a>
 			<h1 class="ui-title" role="heading" aria-level="1">猜词</h1>
 		</div>
 		<div data-role="content" data-theme="c" role="main" style="padding-left:10px;">
 			<h3 class="guess_message">&nbsp;</h3>
-			<h3 class="guess_tip_human">人不能猜词，确认进入下一环节</h3>
+			<h3 class="guess_tip_human">人不能猜词，自动进入下一环节</h3>
 			<h3 class="guess_tip_ghost">鬼死后可以猜词，请询问是否猜词</h3>
 			<div class="btn">
 				<a data-role="button" data-theme="b" data-inline="true" id="link_guess_confirm">猜词正确</a>       
@@ -235,16 +235,15 @@
 		<a href="index.html" data-icon="gear" class="ui-btn-right" data-theme="a">返回</a>
 	</div>
 	<ul data-role="listview" data-split-icon="gear" data-split-theme="d" class="ui-listview lisk_rank">
-		<li  data-icon="false" data-iconpos="right" data-theme="c">
-			
-			<i class="user_avatar avatar_12"></i>
-			<div class="ct">
-				<h3 class="ui-li-heading">kundy 积分：<span class="score">12</span></h3>
-				<p class="ui-li-desc">人：<span class="score">12&nbsp;&nbsp;&nbsp;&nbsp;</span>鬼：<span class="score">12</span></p>
-				</a>
-			</div>
-		</li>
-	</ul>
+			<li  data-icon="false" data-iconpos="right" data-theme="c">
+				
+				<i class="user_avatar avatar_12"></i>
+				<div class="ct">
+					<h3 class="ui-li-heading">kundy 积分：<span class="score">12</span></h3>
+					<p class="ui-li-desc">人：<span class="score">12&nbsp;&nbsp;&nbsp;&nbsp;</span>鬼：<span class="score">12</span></p>
+					</a>
+				</div>
+		</ul>
 </div>
 
 
