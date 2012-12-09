@@ -506,9 +506,15 @@ function handleVoteResult(content){
 //游戏过程更新
 function handleGameStage(content){
     if(content.ret==0){
+<<<<<<< HEAD
         //只多一步，为正常更新
         if( content.deskStage.step.length - stageList.length == 1){
             gameStageMove( content.deskStage.type,500 );
+=======
+
+        if( content.deskStage.step.length - stageList.length == 1){
+            gameStageMove( content.deskStage.type,500 )
+>>>>>>> main.js
             if( content.deskStage.type != 1){
                 //非投票阶段，去掉投票界面
                 $(".mod_desk").removeClass('mod_desk_vote');
@@ -660,6 +666,7 @@ function voteStatus(content){
 var stageLink="<a data-icon=\"arrow-r\" data-iconpos=\"right\" data-corners=\"false\" class=\"link_stage_insert\" data-role=\"button\" data-inline=\"true\" data-mini=\"true\" data-theme=\"a\">";
 var stageName=['陈述','投票','猜词','结束','结果','重新开始'];
 function gameStageMove(t,ms){
+<<<<<<< HEAD
 	
 	seajs.use('ghost.v1/api/centerTips',function(centerTips){
 		centerTips.close();
@@ -667,6 +674,8 @@ function gameStageMove(t,ms){
 	
 	$('#page_main .mod_desk .inner .user_item').off('click.result');
 	
+=======
+>>>>>>> main.js
 	stageList.push(t);
     $("#game_stage a").addClass('ui-disabled');
     $("#btn_step_next").before(  stageLink + stageName[t] + "</a>" );
@@ -677,6 +686,7 @@ function gameStageMove(t,ms){
 	if(t==2){
 		t=0;
 	}
+
     $("#btn_step_next .ui-btn-text").text( stageName[t]  );
 	
 }
@@ -844,11 +854,6 @@ function showDesk(info){
 					loadDictType();
 				}
 			});
-			// 选择单词
-			$("#dict_list").delegate('a[word]', 'click', function() {
-				var target = $(this), word = target.attr('word');
-				dictSet(word);
-			});
 			// 随机选单个词
 			$('#get_rand_word').unbind('click').bind('click', function() {
 				selSingleWord();
@@ -858,24 +863,22 @@ function showDesk(info){
             $("#mod_option").hide();
         }
     }
-	var qrstr = '<a id="desk_show_qr">二维码</a>', deskId = deskInfo.deskId, qrpopstr = '<div id="qr_img_cont" style="display:none; background: #fff; z-index: 100; position:absolute; left:0px; top: 0px; "><img id="qr_img" /><span id="qr_hide">hide</span></div>', hasQr = false;
-    $("#desk_id").html("房间：" + deskId + qrstr);
-	$(document.body).append(qrpopstr);
+	 //var qrstr = '<a id="desk_show_qr" class="ico_code"></a>', deskId = deskInfo.deskId, qrpopstr = '<div id="qr_img_cont" style="display:none; background: #fff; z-index: 100; position:absolute; left:0px; top: 0px; "><img id="qr_img" /><span id="qr_hide">hide</span></div>', hasQr = false;
+     $("#desk_id .num").text( deskInfo.deskId  );
 
 	// 显示二维码
+    $('#deskImage').attr('src','http://www.ghost.com/index.php?mod=desk&act=binarycode&size=9&url=' + encodeURIComponent("http://ghost.com/ghost/index.htm?desk=" + deskId  ) );
 	// todo popup display
-	$("#desk_show_qr").bind('click', function(evt) {
-		if (!hasQr) {
-			$('#qr_img').attr('src','http://www.ghost.com/index.php?mod=desk&act=binarycode&url=' + encodeURIComponent("http://ghost.com/ghost/index.htm?desk=" + deskId  ) );
-			hasQr = true;
-		}
-		$( "#qr_img_cont" ).show();
-	});
-	$('#qr_hide').bind('click', function(evt) {
-		$('#qr_img_cont').hide();
+    $('#deskImage').click(function(){
+        $( "#popupCode" ).popup('close');
+    })
+	$("#link_code").bind('click', function(evt) {
+		$( "#popupCode" ).popup('open');
 	});
 
+
     window.location.href="#page_desk";
+
 }
 
 //显示游戏阶段
@@ -1147,7 +1150,7 @@ function loadDict(words){
     var html="";
     $.each(words,function(key,dictItem){
 		var  a = dictItem.wordA, b =  dictItem.wordB , str = a + '#' + b;
-        html+="<li><a word=\""+ str +"\"><span class=\"dict_item\">"+ a +"</span> <span class=\"dict_item\" >"+b +"</span></a></li>";
+        html+="<li><a onclick=\"dictSet('"+ str +"')\"><span class=\"dict_item\">"+ a +"</span> <span class=\"dict_item\" >"+b +"</span></a></li>";
 
     });
     $('#dict_list').html(html);
