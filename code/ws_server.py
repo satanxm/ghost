@@ -58,8 +58,12 @@ class Broadcaster(Protocol):
 
         return base64.b64encode(ser_key)
 
-    def send_data(self, raw_str):
-        print '--send_data',raw_str
+    def send_data(self, raw_str, bDumpData=True):
+        if True == bDumpData:
+            print '--send_data',raw_str
+        if not self:
+            return
+
         if self.sockets[self]['new_version']:
             back_str = []
             back_str.append('\x81')
