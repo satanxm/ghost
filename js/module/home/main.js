@@ -952,6 +952,7 @@ function showStage(){
     $(".link_stage_insert").remove();
     $('#game_stage').css({'left':'121px'});
     showUserMessage('游戏开始！');
+	$("#link_change_seat").hide();
 
     if(userInfo.identity==11){//法官身份
         $("#mod_option").hide();
@@ -1087,7 +1088,9 @@ function userSit(userList){
         if(userItem.uid == userInfo.uid){
 			if (userItem.identity == 11) {
 				$("#mod_option").show();
-				$("#button_area").show();
+				if (isChangePosAllow()) {
+					$("#button_area").show();
+				}
 			} else {
 				$("#mod_option").hide();
 			}
