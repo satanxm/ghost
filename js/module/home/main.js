@@ -665,7 +665,7 @@ function gameStageMove(t,ms){
 		centerTips.close();
 	});
 	
-	$('#page_main .mod_desk .inner .user_item').off('click.result');
+	$('#page_main .mod_desk .inner .user_item').off('click');
 	
 	stageList.push(t);
     $("#game_stage a").addClass('ui-disabled');
