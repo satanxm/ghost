@@ -39,8 +39,9 @@ define(function(require,exports,module){
 				that.showAnimate();
 			},1000);
 			
-			tips.on('click.tips',function(){
+			tips.on('click.tips',function(e){
 				that.showAnimate();
+				e.preventDefault();
 			});
 			
 		},
@@ -107,8 +108,8 @@ define(function(require,exports,module){
 					});
 					//from.hide();
 					curr.animate({
-						top: [to.offset().top - desk.offset().top,'easeOutSine'],
-						left: [to.offset().left - desk.offset().left,'easeInSine']
+						top: [to.offset().top - desk.offset().top,from.index() > to.index() ? 'easeInSine' : 'easeOutSine'],
+						left: [to.offset().left - desk.offset().left,from.index() > to.index() ? 'easeOutSine' : 'easeInSine']
 					},600,function(){
 						curr.remove();
 						from.show();
