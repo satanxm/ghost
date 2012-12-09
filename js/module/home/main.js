@@ -125,7 +125,7 @@ function userInit(){
 		}
 		
 		// 普通用户不能改座位
-		if ( !isAdmin  && target.hasClass('user_item_set') && changeSeatMod) {
+		if ( !isAdmin  && target.hasClass('user_item_set') && changeSeatMod || (!isAdmin && !changeSeatMod)) {
 			return;
 		}
 
@@ -861,7 +861,7 @@ function handleChangeSeat(o) {
 function isChangePosAllow() {
 	// todo  不允许换座位的条件
 	var n = $('#game_stage_area').css('display');
-	return (n != 'none');
+	return (n == 'none');
 }
 
 //显示桌面
