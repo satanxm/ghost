@@ -661,7 +661,7 @@ var stageLink="<a data-icon=\"arrow-r\" data-iconpos=\"right\" data-corners=\"fa
 var stageName=['陈述','投票','猜词','结束','结果','重新开始'];
 function gameStageMove(t,ms){
 	
-	$('#page_main .mod_desk .inner .user_item').off('click');
+	$('#page_main .mod_desk .user_item').off('click');
 	
 	stageList.push(t);
     $("#game_stage a").addClass('ui-disabled');
