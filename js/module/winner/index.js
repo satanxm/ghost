@@ -86,6 +86,22 @@ define.pack("./winner",["./tmpl","ghost.v1/api/centerTips"],function(require,exp
 		
 		displayLoser: function(){
 			centerTips.display(tmpl.loser());
+		},
+		
+		displayResult: function(){
+            
+			var data = {
+				userlist: userList
+			};
+			
+			var str = tmpl.gameResult(data);
+			
+			var rank = $('#page_rank');
+			
+			rank.find('ul').html(str);
+			
+			window.location = '#page_rank';
+			
 		}
 		
 	};
@@ -115,6 +131,50 @@ return __p.join("");
 
 var __p=[],_p=function(s){__p.push(s)};
 __p.push('<p>失败</p>');
+
+return __p.join("");
+},
+
+'gameResult': function(data){
+
+var __p=[],_p=function(s){__p.push(s)};
+
+	var list = data.userlist,
+		i,len,user,
+		userStat;
+
+	for(i=0,len = list.length; i<len ;i++){
+	
+		user = list[i];
+		userStat = user.userStat || {
+            "total_times": 0,
+            "total_score": 0,
+            "human_times": 0,
+            "ghost_succ": 0,
+            "ghost_times": 0,
+            "human_succ": 0
+        };
+	__p.push('		<li data-icon="false" data-iconpos="right" data-theme="c">\r\n\
+			<i class="user_avatar avatar_');
+_p(user.avatarId);
+__p.push('"></i>\r\n\
+			<div class="ct">\r\n\
+				<h3 class="ui-li-heading">');
+_p(user.nick);
+__p.push(' 积分：<span class="score">');
+_p(userStat.total_score);
+__p.push('</span></h3>\r\n\
+				<p class="ui-li-desc">人：<span class="score">');
+_p(userStat.human_succ);
+__p.push('&nbsp;&nbsp;&nbsp;&nbsp;</span>鬼：<span class="score">');
+_p(userStat.ghost_succ);
+__p.push('</span></p>\r\n\
+				</a>\r\n\
+			</div>\r\n\
+		</li>');
+
+	}
+__p.push('');
 
 return __p.join("");
 }

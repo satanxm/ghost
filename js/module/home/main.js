@@ -549,9 +549,11 @@ function handleGameStage(content){
 				});
 				
 				//显示游戏结果
-				seajs.use('ghost.v1/module/winner/index',function(index){
-					index.get('./winner').displayResult();
-				});
+				setTimeout(function(){
+					seajs.use('ghost.v1/module/winner/index',function(index){
+						index.get('./winner').displayResult();
+					});
+				},2000);
 			}
 			
         }else{

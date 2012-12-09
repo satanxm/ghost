@@ -43,6 +43,22 @@ define(function(require,exports,module){
 		
 		displayLoser: function(){
 			centerTips.display(tmpl.loser());
+		},
+		
+		displayResult: function(){
+            
+			var data = {
+				userlist: userList
+			};
+			
+			var str = tmpl.gameResult(data);
+			
+			var rank = $('#page_rank');
+			
+			rank.find('ul').html(str);
+			
+			window.location = '#page_rank';
+			
 		}
 		
 	};

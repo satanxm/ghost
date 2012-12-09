@@ -5,3 +5,34 @@
 <script id="loser" type="text/html" nowith="yes">
 <p>失败</p>
 </script>
+
+<script id="gameResult" type="text/html" nowith="yes">
+<%
+	var list = data.userlist,
+		i,len,user,
+		userStat;
+
+	for(i=0,len = list.length; i<len ;i++){
+	
+		user = list[i];
+		userStat = user.userStat || {
+            "total_times": 0,
+            "total_score": 0,
+            "human_times": 0,
+            "ghost_succ": 0,
+            "ghost_times": 0,
+            "human_succ": 0
+        };
+	%>
+		<li data-icon="false" data-iconpos="right" data-theme="c">
+			<i class="user_avatar avatar_<%=user.avatarId%>"></i>
+			<div class="ct">
+				<h3 class="ui-li-heading"><%=user.nick%> 积分：<span class="score"><%=userStat.total_score%></span></h3>
+				<p class="ui-li-desc">人：<span class="score"><%=userStat.human_succ%>&nbsp;&nbsp;&nbsp;&nbsp;</span>鬼：<span class="score"><%=userStat.ghost_succ%></span></p>
+				</a>
+			</div>
+		</li>
+	<%
+	}
+%>
+</script>
