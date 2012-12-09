@@ -230,7 +230,7 @@ a:visited{color:#fff;}
 
 .ico_code{background-image:url(slice/code.png);display:inline-block;width:30px;height:30px;vertical-align:middle;margin-left:10px;cursor:pointer;position:relative;top:-2px;}
 #link_exit{top:-2px;}
-#deskImage{width:333px;height:333px;max-width:333px!important;}
+#deskImage{width:264px;height:264px;max-width:264px!important;}
 
 #page_rank {}
 #page_rank .lisk_rank li{padding:0 0 0 15px;margin:0;position:relative;border-bottom:#bbb solid 1px;}
