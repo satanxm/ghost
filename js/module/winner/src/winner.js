@@ -32,6 +32,16 @@ define(function(require,exports,module){
 					this.displayWinner();
 					
 				}
+			}else if(userInfo.identity === 11){
+				if(data.winner === 1){
+					
+					centerTips.displayMsg('人胜利');
+					
+				}else if(data.winner === 2){
+					
+					centerTips.displayMsg('鬼胜利');
+					
+				}
 			}
 			
 		},
