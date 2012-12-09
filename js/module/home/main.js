@@ -541,6 +541,11 @@ function handleGameStage(content){
 				seajs.use('ghost.v1/api/centerTips',function(centerTips){
 					centerTips.displayMsg('游戏结束');
 				});
+				
+				//显示游戏结果
+				seajs.use('ghost.v1/module/winner/index',function(index){
+					index.get('./winner').displayResult();
+				});
 			}
 			
         }else{
