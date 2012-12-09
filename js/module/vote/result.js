@@ -4,10 +4,20 @@
 define(function(require,exports,module){
 
 	var centerTips = require('ghost.v1/api/centerTips');
+	require('./easing');
 
 	return {
 		
+		animateList: [],
+		
 		show: function(content){
+			
+			var that = this;
+			var tips = $('#desk_center_tip');
+			
+			this.animateList = [];
+			
+			var animateList = this.animateList;
 			
 			$(".mod_desk").addClass('mod_desk_guess');
 			
@@ -22,6 +32,127 @@ define(function(require,exports,module){
 		            voteNumNode.removeClass('voteNum_voted')
 		        }
 		    });
+			
+			this.vote2index(content.voteUserStatus);
+			
+			setTimeout(function(){
+				that.showAnimate();
+			},1000);
+			
+			tips.on('click.tips',function(e){
+				that.showAnimate();
+				e.preventDefault();
+			});
+			
+		},
+		
+		/**
+		 * 
+		 * 投票信息转为下标信息
+		 * @param {Object} voteUserStatus
+		 */
+		vote2index: function(voteUserStatus){
+			
+			this.animateList = [];
+			
+			var animateList = this.animateList;
+			
+			$.each(voteUserStatus,function(key,userItem){
+				if(userItem.voteUid==0){
+					return;
+				}
+				
+				animateList.push({
+					from: userItem.uid,
+					to: userItem.voteUid
+				});
+		    });
+			
+			return this;
+		},
+		
+		/**
+		 * 
+		 * 显示投票动画
+		 * 
+		 */
+		showAnimate: function(uid){
+			
+			var that = this;
+			var desk = $('#page_main .mod_desk');
+			var users = desk.find('.inner .user_item');
+			var showOne = !!uid;
+			
+			animateList = this.animateList || [];
+			
+			desk.stop(true,true);
+			
+			$.each(animateList,function(i,v){
+				
+				var from = users.filter('.user_item_set[uid=' + v.from + ']');
+				var to = users.filter('.user_item_set[uid=' + v.to + ']');
+				var curr;
+				
+				if(from.size() === 0 || to.size() === 0){
+					return;
+				}
+				
+				if(showOne && v.to !== uid){
+					return;
+				}
+				
+				if(!showOne){
+					to.off('click.result');
+					to.on('click.result',function(){
+						that.showAnimate(v.to);
+					});
+				}
+				
+				desk.queue(function(){
+					
+					var min2max = true;
+					
+					min2max = from.index() - to.index();
+					if(min2max < 0){
+						min2max += users.size();
+					}
+					
+					if(min2max > 0 && min2max < users.size() / 2){
+						min2max = true;
+					}else{
+						min2max = false;
+					}
+					
+					curr = from.clone();
+					curr.appendTo(desk);
+					curr.css({
+						'transform': 'scale(0.5)',
+						'-webkit-transform': 'scale(0.5)',
+						'-moz-transform': 'scale(0.5)',
+						'-o-transform': 'scale(0.5)',
+						opacity: 1,
+						zIndex: 99999
+					});
+					//from.hide();
+					curr.animate({
+						top: [to.offset().top - desk.offset().top, min2max ? 'easeInSine' : 'easeOutSine'],
+						left: [to.offset().left - desk.offset().left, min2max ? 'easeOutSine' : 'easeInSine']
+					},600,function(){
+						curr.fadeOut('fast',function(){
+							$(this).remove();
+						});
+						from.show();
+						if(!showOne){
+							desk.dequeue();
+						}
+					});
+					
+					if(showOne){
+						desk.dequeue();
+					}
+				});
+				
+			});
 			
 		}
 		
