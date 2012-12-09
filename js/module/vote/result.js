@@ -96,6 +96,20 @@ define(function(require,exports,module){
 				}
 				
 				desk.queue(function(){
+					
+					var min2max = true;
+					
+					min2max = from.index() - to.index();
+					if(min2max < 0){
+						min2max += users.size();
+					}
+					
+					if(min2max > 0 && min2max < users.size() / 2){
+						min2max = true;
+					}else{
+						min2max = false;
+					}
+					
 					curr = from.clone();
 					curr.appendTo(desk);
 					curr.css({
@@ -108,10 +122,12 @@ define(function(require,exports,module){
 					});
 					//from.hide();
 					curr.animate({
-						top: [to.offset().top - desk.offset().top,from.index() > to.index() ? 'easeInSine' : 'easeOutSine'],
-						left: [to.offset().left - desk.offset().left,from.index() > to.index() ? 'easeOutSine' : 'easeInSine']
+						top: [to.offset().top - desk.offset().top, min2max ? 'easeInSine' : 'easeOutSine'],
+						left: [to.offset().left - desk.offset().left, min2max ? 'easeOutSine' : 'easeInSine']
 					},600,function(){
-						curr.remove();
+						curr.fadeOut('fast',function(){
+							$(this).remove();
+						});
 						from.show();
 						desk.dequeue();
 					});
