@@ -183,10 +183,10 @@ function userInit(){
         gameStageNext();
     });
     $("#link_guess_cancel").click(function(){
-        $("#popupGuess").hide();
+        $("#popupGuess").popup('close');
     });
     $("#link_guess_confirm").click(function(){
-        $("#popupGuess").hide();
+        $("#popupGuess").popup('close');
         guessWordCorrect();
     });
     $("#link_option_confirm").click(function(){
