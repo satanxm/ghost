@@ -174,7 +174,7 @@ a:visited{color:#fff;}
 #popupStage .ui-content {padding: 15px !important;text-align: center;}
 #popupStage .ui-content a{width:70px;}
 
-.word_area{position:absolute;bottom:-5px;cursor:pointer;right:-55px;opacity:0.8;line-height:16px;text-shadow:none;font-size:12px;padding:0 5px;border-radius:6px;}
+.word_area{position:absolute;bottom:5px;cursor:pointer;right:-55px;opacity:0.8;line-height:16px;text-shadow:none;font-size:12px;padding:0 5px;border-radius:6px;}
 .word_area p{margin:0;}
 .word_area p span{color:#e30;}
 
@@ -233,7 +233,7 @@ a:visited{color:#fff;}
 #deskImage{width:333px;height:333px;max-width:333px!important;}
 
 #page_rank {}
-#page_rank .lisk_rank li{padding:0 0 0 15px;margin:0;}
+#page_rank .lisk_rank li{padding:0 0 0 15px;margin:0;position:relative;}
 .lisk_rank .user_avatar{display:block;width:40px;height:40px;margin-right:10px;float:left;margin-top:5px;}
 .lisk_rank .user_avatar img{width:40px;height:40px;}
 .lisk_rank .score{display:inline-block;color:#610;}
