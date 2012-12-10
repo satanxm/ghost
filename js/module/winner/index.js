@@ -101,14 +101,15 @@ define.pack("./winner",["./tmpl","ghost.v1/api/centerTips"],function(require,exp
 		displayResult: function(){
             
 			var data = {
-				userlist: userList
+				userlist: userList,
+				words: words || {}
 			};
 			
 			var str = tmpl.gameResult(data);
 			
 			var rank = $('#page_rank');
 			
-			rank.find('ul').html(str);
+			rank.html(str);
 			
 			window.location = '#page_rank';
 			
@@ -146,6 +147,25 @@ return __p.join("");
 },
 
 'gameResult': function(data){
+
+var __p=[],_p=function(s){__p.push(s)};
+__p.push('<div data-role="header" data-position="inline" data-theme="a" role="banner">\r\n\
+	<h1 class="ui-title" tabindex="0" role="heading" aria-level="1">积分</h1>\r\n\
+	<a href="#page_desk" data-icon="gear" class="ui-btn-right" data-theme="a">返回</a>\r\n\
+</div>\r\n\
+<ul data-role="listview" data-split-icon="gear" data-split-theme="d" class="ui-listview lisk_rank">');
+_p(tmpl.gameResultLi(data));
+__p.push('</ul>\r\n\
+<div>人的词：');
+_p(data.words.human);
+__p.push('&nbsp;&nbsp;鬼的词：');
+_p(data.words.ghost);
+__p.push('</div>');
+
+return __p.join("");
+},
+
+'gameResultLi': function(data){
 
 var __p=[],_p=function(s){__p.push(s)};
 

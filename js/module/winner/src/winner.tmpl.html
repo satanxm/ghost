@@ -7,6 +7,17 @@
 </script>
 
 <script id="gameResult" type="text/html" nowith="yes">
+<div data-role="header" data-position="inline" data-theme="a" role="banner">
+	<h1 class="ui-title" tabindex="0" role="heading" aria-level="1">积分</h1>
+	<a href="#page_desk" data-icon="gear" class="ui-btn-right" data-theme="a">返回</a>
+</div>
+<ul data-role="listview" data-split-icon="gear" data-split-theme="d" class="ui-listview lisk_rank">
+	<%=tmpl.gameResultLi(data)%>
+</ul>
+<div>人的词：<%=data.words.human%>&nbsp;&nbsp;鬼的词：<%=data.words.ghost%></div>
+</script>
+
+<script id="gameResultLi" type="text/html" nowith="yes">
 <%
 	var list = data.userlist,
 		roleMap = {

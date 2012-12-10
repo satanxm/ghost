@@ -58,14 +58,15 @@ define(function(require,exports,module){
 		displayResult: function(){
             
 			var data = {
-				userlist: userList
+				userlist: userList,
+				words: words || {}
 			};
 			
 			var str = tmpl.gameResult(data);
 			
 			var rank = $('#page_rank');
 			
-			rank.find('ul').html(str);
+			rank.html(str);
 			
 			window.location = '#page_rank';
 			
