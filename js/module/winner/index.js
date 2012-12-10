@@ -157,9 +157,9 @@ __p.push('<div data-role="header" data-position="inline" data-theme="a" role="ba
 _p(tmpl.gameResultLi(data));
 __p.push('</ul>\r\n\
 <div>人的词：');
-_p(data.words.human);
+_p(data.words.human || data.words.wordHuman);
 __p.push('&nbsp;&nbsp;鬼的词：');
-_p(data.words.ghost);
+_p(data.words.ghost || data.words.wordGhost);
 __p.push('</div>');
 
 return __p.join("");
