@@ -192,10 +192,10 @@ function userInit(){
         gameStageNext();
     });
     $("#link_guess_cancel").click(function(){
-        $("#popupGuess").popup('close');
+        $("#popupGuess").hide();
     });
     $("#link_guess_confirm").click(function(){
-        $("#popupGuess").popup('close');
+        $("#popupGuess").hide();
         guessWordCorrect();
     });
     $("#link_option_confirm").click(function(){
@@ -750,7 +750,7 @@ function userDead(content){
             $("#popupGuess .guess_tip_ghost").show();
             $("#link_guess_confirm").show();
         }
-        $("#popupGuess").popup('open');
+        $("#popupGuess").show();
     }
 }
 

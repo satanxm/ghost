@@ -156,7 +156,7 @@ __p.push('<div data-role="header" data-position="inline" data-theme="a" role="ba
 <ul data-role="listview" data-split-icon="gear" data-split-theme="d" class="ui-listview lisk_rank">');
 _p(tmpl.gameResultLi(data));
 __p.push('</ul>\r\n\
-<div>人的词：');
+<div style="line-height: 3;text-align: center;font-weight: bold;">人的词：');
 _p(data.words.human || data.words.wordHuman);
 __p.push('&nbsp;&nbsp;鬼的词：');
 _p(data.words.ghost || data.words.wordGhost);
